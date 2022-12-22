@@ -6,26 +6,30 @@ namespace ProjectTank
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        public SpriteFont arial24;
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 800;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -45,7 +49,9 @@ namespace ProjectTank
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            spriteBatch.DrawString(arial24, "Your game here!", new Vector2(300, 300), Color.Red);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
