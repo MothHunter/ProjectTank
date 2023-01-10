@@ -52,7 +52,7 @@ namespace ProjectTank
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.DrawString(arial24, testString, new Vector2(300, 300), Color.Red);
+            spriteBatch.DrawString(arial24, "Hello, Tanks!", new Vector2(300, 300), Color.Red);
             spriteBatch.End();
             base.Draw(gameTime);
         }
