@@ -59,22 +59,24 @@ namespace ProjectTank
                 speed = Math.Max(speed - acceleration, -maxSpeed/2);
             }
             else if (speed < 0){
-                speed = Math.Max(speed + acceleration * 0.35f, 0);
+                speed = Math.Min(speed + acceleration * 0.35f, 0);
             }
-            else
+            else if (speed > 0)
             {
-                speed = Math.Min(speed - acceleration * 0.35f, 0);
+                speed = Math.Max(speed - acceleration * 0.35f, 0);
             }
             if (input.GetKeyDown(Keys.A))
             {
-                rotation = (rotation + turnRate) % (2 * (float)Math.PI);
+                rotation = (rotation - turnRate) % (2 * (float)Math.PI);
             }
             if (input.GetKeyDown(Keys.D))
             {
-                rotation = (rotation - turnRate) % (2 * (float)Math.PI);
+                rotation = (rotation + turnRate) % (2 * (float)Math.PI);
             }
-
-            position += new Vector2((float)Math.Cos(rotation) * speed, (float)Math.Sin(rotation) * speed);
+            if (speed != 0)
+            {
+                position += new Vector2((float)Math.Cos(rotation) * speed, (float)Math.Sin(rotation) * speed);
+            }
         }
 
         public void getHit(Projectile projectile)
