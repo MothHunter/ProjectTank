@@ -9,6 +9,7 @@ namespace ProjectTank
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         public SpriteFont arial24;
+        Tank testTank;
 
 
         public Game1()
@@ -25,6 +26,7 @@ namespace ProjectTank
         {
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
+            testTank = new Tank(new Vector2(200, 200), Content.Load<Texture2D>(@"graphics/tank1"));
             base.Initialize();
         }
 
@@ -42,7 +44,7 @@ namespace ProjectTank
             InputController.GetInstance().Update();
             // TODO: Add your update logic here
 
-
+            testTank.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -53,6 +55,7 @@ namespace ProjectTank
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.DrawString(arial24, "Hello, Tanks!", new Vector2(300, 300), Color.Red);
+            testTank.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }
