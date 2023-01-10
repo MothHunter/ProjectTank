@@ -54,10 +54,13 @@ namespace ProjectTank
         /// </summary>
         /// <returns></returns>
         public String GetChar()
+            
         {
             if (currentKeyboardState.GetPressedKeys().Length > 0 && 
-                currentKeyboardState.GetPressedKeys()[0].ToString().Length == 1) 
+                currentKeyboardState.GetPressedKeys()[0].ToString().Length == 1
+                && !previousKeyboardState.IsKeyDown(currentKeyboardState.GetPressedKeys()[0]))
             {
+                
                 return currentKeyboardState.GetPressedKeys()[0].ToString();
             }
             return null;
