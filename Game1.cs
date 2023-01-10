@@ -10,6 +10,8 @@ namespace ProjectTank
         private SpriteBatch spriteBatch;
         public SpriteFont arial24;
 
+        private string testString = "";
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -38,8 +40,10 @@ namespace ProjectTank
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            InputController.GetInstance().Update();
             // TODO: Add your update logic here
+
+            testString += InputController.GetInstance().GetChar();
 
             base.Update(gameTime);
         }
@@ -50,7 +54,7 @@ namespace ProjectTank
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.DrawString(arial24, "Your game here!", new Vector2(300, 300), Color.Red);
+            spriteBatch.DrawString(arial24, testString, new Vector2(300, 300), Color.Red);
             spriteBatch.End();
             base.Draw(gameTime);
         }

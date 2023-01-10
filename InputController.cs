@@ -13,9 +13,16 @@ namespace ProjectTank
         private KeyboardState previousKeyboardState;
 
         private MouseState currentMouseState;
-        private MouseState prviousMouseState;
+        private MouseState previousMouseState;
 
         private static InputController instance;
+
+        public InputController()
+        {
+            currentKeyboardState = Keyboard.GetState();
+            currentMouseState = Mouse.GetState();
+        }
+
         public static InputController GetInstance()
         {
             if (instance == null)
@@ -23,13 +30,13 @@ namespace ProjectTank
             return instance;
         }
 
-        public void Update(KeyboardState kState, MouseState mState)
+        public void Update()
         {
             previousKeyboardState = currentKeyboardState;
-            prviousMouseState = currentMouseState;
+            previousMouseState = currentMouseState;
 
-            currentKeyboardState = kState;
-            currentMouseState = mState;
+            currentKeyboardState = Keyboard.GetState();
+            currentMouseState = Mouse.GetState();
         }
 
         public bool GetKeyDown(Keys key)
@@ -42,5 +49,29 @@ namespace ProjectTank
             return (!previousKeyboardState.IsKeyDown(key) && currentKeyboardState.IsKeyDown(key));            
         }
 
+        /// <summary>
+        /// Method <c>GetChar</c> returns the first currently pressed char or null if none are pressed
+        /// </summary>
+        /// <returns></returns>
+        public String GetChar()
+        {
+            if (currentKeyboardState.GetPressedKeys().Length > 0 && 
+                currentKeyboardState.GetPressedKeys()[0].ToString().Length == 1) 
+            {
+                return currentKeyboardState.GetPressedKeys()[0].ToString();
+            }
+            return null;
+        }
+
+        public bool GetLeftClick()
+        {
+            return (previousMouseState.LeftButton != ButtonState.Pressed &&
+                currentMouseState.LeftButton == ButtonState.Pressed);
+        }
+        public bool GetRightClick()
+        {
+            return (previousMouseState.RightButton != ButtonState.Pressed &&
+                currentMouseState.RightButton == ButtonState.Pressed);
+        }
     }
 }
