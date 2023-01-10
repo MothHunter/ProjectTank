@@ -10,7 +10,6 @@ namespace ProjectTank
         private SpriteBatch spriteBatch;
         public SpriteFont arial24;
 
-        private string testString = "";
 
         public Game1()
         {
@@ -43,7 +42,6 @@ namespace ProjectTank
             InputController.GetInstance().Update();
             // TODO: Add your update logic here
 
-            testString += InputController.GetInstance().GetChar();
 
             base.Update(gameTime);
         }
