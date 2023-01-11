@@ -75,7 +75,7 @@ namespace ProjectTank
             }
             if (speed != 0)
             {
-                position += new Vector2((float)Math.Cos(rotation) * speed, (float)Math.Sin(rotation) * speed);
+                position += Utility.radToV2(rotation) * speed;
             }
         }
 
