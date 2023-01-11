@@ -31,6 +31,7 @@ namespace ProjectTank
         public void Update(float rotation, Vector2 center)
         {
             this.rotation = rotation;
+            this.center = center;
         }
 
         public bool Contains(Vector2 position)
@@ -57,7 +58,14 @@ namespace ProjectTank
             float b2Y1 = box2.GetCenter().Y - box2.GetHeight() / 2;
             float b2Y2 = box2.GetCenter().Y + box2.GetHeight() / 2;
 
-            
+
+            if (((b1Y1 > b2Y1 && b1Y1 < b2Y2) || (b1Y2 > b2Y1 && b1Y2 < b2Y2)) &&
+               ((b1X1 > b2X1 && b1X1 < b2X2) || (b1X2 > b2X1 && b1X2 < b2X2)))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

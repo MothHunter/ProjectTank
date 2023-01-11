@@ -12,8 +12,10 @@ namespace ProjectTank
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         public SpriteFont arial24;
-        Tank testTank;
         public static ContentManager contentManager;
+
+        Tank testTank;
+        // CollisionBox testBox;
 
 
         public Game1()
@@ -33,6 +35,8 @@ namespace ProjectTank
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis));
             base.Initialize();
+
+            // testBox = new CollisionBox(new Vector2(0, 0), 0f, 100f, 100f);
         }
 
         protected override void LoadContent()
@@ -51,6 +55,8 @@ namespace ProjectTank
 
             testTank.Update(gameTime);
             base.Update(gameTime);
+
+            // if(testBox.Collides(testTank.GetCollisionBox())) Debug.WriteLine("Collision!!");
         }
 
         protected override void Draw(GameTime gameTime)
