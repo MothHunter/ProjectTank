@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Diagnostics;
 
 namespace ProjectTank
 {
@@ -10,12 +13,14 @@ namespace ProjectTank
         private SpriteBatch spriteBatch;
         public SpriteFont arial24;
         Tank testTank;
+        public static ContentManager contentManager;
 
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            contentManager = Content;
             IsMouseVisible = true;
 
             graphics.PreferredBackBufferWidth = 1200;
@@ -26,7 +31,7 @@ namespace ProjectTank
         {
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
-            testTank = new Tank(new Vector2(200, 200), Content.Load<Texture2D>(@"graphics/tank1"));
+            testTank = new Tank(new Vector2(200, 200), AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis));
             base.Initialize();
         }
 

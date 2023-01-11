@@ -20,5 +20,10 @@ namespace ProjectTank
         {
             return new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
         }
+
+        public static float V2ToRad(Vector2 vector2)
+        {
+            return (float)Math.Atan2(vector2.Y, vector2.X);
+        }
     }
 }
