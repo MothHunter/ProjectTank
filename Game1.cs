@@ -33,7 +33,7 @@ namespace ProjectTank
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), Content.Load<Texture2D>(@"graphics/tank1"));
-            background = new Map(Content.Load<Texture2D>(@"graphics/grass"));
+            background = new Map(Content.Load<Texture2D>(@"graphics/grass32"));
             //levelBorder = new Level(new Vector2(0, 0), Content.Load<Texture2D>(@"graphics/brick"));
             base.Initialize();
         }
@@ -63,13 +63,7 @@ namespace ProjectTank
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             //testBackground.Draw(spriteBatch);
-            for (int i = 32; i < 1184; i += 32)
-            {
-                for(int j = 32;j<768; j+=32)
-                {
-                    spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/grass32"), new Rectangle(i, j, 32, 32), Color.White);
-                }
-            }
+            background.Draw(spriteBatch);
             for (int i = 0; i < 2016; i = i + 32)
             {
                 if(i >= 1200)

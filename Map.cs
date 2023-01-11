@@ -26,7 +26,13 @@ namespace ProjectTank
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, new Rectangle(32, 32, 1184, 768), Color.White);
+            for (int i = 32; i < 1184; i += 32)
+            {
+                for (int j = 32; j < 768; j += 32)
+                {
+                    spriteBatch.Draw(sprite, new Rectangle(i, j, 32, 32), Color.White);
+                }
+            }
         }
         
         public void Update(GameTime gameTime)
