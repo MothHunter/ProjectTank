@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Windows.Forms.VisualStyles;
 
 namespace ProjectTank
 {
@@ -10,6 +11,8 @@ namespace ProjectTank
         private SpriteBatch spriteBatch;
         public SpriteFont arial24;
         Tank testTank;
+        Level testBackground;
+        Level levelBorder;
 
 
         public Game1()
@@ -17,6 +20,7 @@ namespace ProjectTank
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
 
             graphics.PreferredBackBufferWidth = 1200;
             graphics.PreferredBackBufferHeight = 800;
@@ -27,6 +31,8 @@ namespace ProjectTank
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), Content.Load<Texture2D>(@"graphics/tank1"));
+            testBackground = new Level(new Vector2(0, 0), Content.Load<Texture2D>(@"graphics/grass"));
+            //levelBorder = new Level(new Vector2(0, 0), Content.Load<Texture2D>(@"graphics/brick"));
             base.Initialize();
         }
 
@@ -54,8 +60,22 @@ namespace ProjectTank
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.DrawString(arial24, "Hello, Tanks!", new Vector2(300, 300), Color.Red);
+            //testBackground.Draw(spriteBatch);
+            spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/grass"), new Rectangle(50, 50, 1100, 700), Color.White);
+            for (int i = 0; i < 2000; i = i + 50)
+            {
+                if(i >= 1200)
+                {
+                    spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/sBrick"), new Rectangle(0, i - 1200, 50, 50), Color.White);
+                    spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/sBrick"), new Rectangle(1150, i -1200, 50, 50), Color.White);
+                }
+                spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/sBrick"), new Rectangle(i, 750, 50, 50), Color.White);
+                spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/sBrick"), new Rectangle(i, 0, 50, 50), Color.White);
+
+            }
+            spriteBatch.DrawString(arial24, "Level Border", new Vector2(500, 10), Color.Black);
             testTank.Draw(spriteBatch);
+            
             spriteBatch.End();
             base.Draw(gameTime);
         }
