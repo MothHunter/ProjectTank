@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.ComponentModel.Design.Serialization;
 using System.Security.Cryptography;
 using System.Windows.Forms.VisualStyles;
 
@@ -12,9 +13,8 @@ namespace ProjectTank
         private SpriteBatch spriteBatch;
         public SpriteFont arial24;
         Tank testTank;
-        Level testBackground;
-        Level levelBorder;
-        Map background;
+        Map map;
+        Texture2D obstacle;
 
 
         public Game1()
@@ -22,7 +22,7 @@ namespace ProjectTank
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            
+            Mouse.SetCursor(MouseCursor.Crosshair);
 
             graphics.PreferredBackBufferWidth = 1216;   //32*38
             graphics.PreferredBackBufferHeight = 800;   //32*25
@@ -33,8 +33,8 @@ namespace ProjectTank
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), Content.Load<Texture2D>(@"graphics/tank1"));
-            background = new Map(Content.Load<Texture2D>(@"graphics/grass"));
-            //levelBorder = new Level(new Vector2(0, 0), Content.Load<Texture2D>(@"graphics/brick"));
+            map = new Map(Content.Load<Texture2D>(@"graphics/grass32"), Content.Load<Texture2D>(@"graphics/brick32"));   //TODO: Move to Level for easy implement of different skins
+            obstacle = Content.Load<Texture2D>(@"graphics/castle96");
             base.Initialize();
         }
 
@@ -62,27 +62,8 @@ namespace ProjectTank
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            //testBackground.Draw(spriteBatch);
-            for (int i = 32; i < 1184; i += 32)
-            {
-                for(int j = 32;j<768; j+=32)
-                {
-                    spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/grass32"), new Rectangle(i, j, 32, 32), Color.White);
-                }
-            }
-            for (int i = 0; i < 2016; i = i + 32)
-            {
-                if(i >= 1200)
-                {
-                    spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/brick32"), new Rectangle(0, i - 1216, 32, 32), Color.White);
-                    spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/brick32"), new Rectangle(1184, i - 1216, 32, 32), Color.White);
-                }
-
-                spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/brick32"), new Rectangle(i, 768, 32, 32), Color.White);
-                spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/brick32"), new Rectangle(i, 0, 32, 32), Color.White);
-
-            }
-            spriteBatch.DrawString(arial24, "Level Border", new Vector2(500, 5), Color.Black);
+            map.Draw(spriteBatch);
+            spriteBatch.Draw(obstacle, new Rectangle(416, 416, 96, 96), Color.White);
             testTank.Draw(spriteBatch);
             
             spriteBatch.End();
