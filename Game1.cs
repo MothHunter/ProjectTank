@@ -13,6 +13,7 @@ namespace ProjectTank
         Tank testTank;
         Level testBackground;
         Level levelBorder;
+        Map background;
 
 
         public Game1()
@@ -22,7 +23,7 @@ namespace ProjectTank
             IsMouseVisible = true;
             
 
-            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferWidth = 1216;
             graphics.PreferredBackBufferHeight = 800;
         }
 
@@ -31,7 +32,7 @@ namespace ProjectTank
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), Content.Load<Texture2D>(@"graphics/tank1"));
-            testBackground = new Level(new Vector2(0, 0), Content.Load<Texture2D>(@"graphics/grass"));
+            background = new Map(Content.Load<Texture2D>(@"graphics/grass"));
             //levelBorder = new Level(new Vector2(0, 0), Content.Load<Texture2D>(@"graphics/brick"));
             base.Initialize();
         }
@@ -61,7 +62,8 @@ namespace ProjectTank
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             //testBackground.Draw(spriteBatch);
-            spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/grass"), new Rectangle(50, 50, 1100, 700), Color.White);
+            //spriteBatch.Draw(Content.Load<Texture2D>(@"graphics/grass"), new Rectangle(50, 50, 1100, 700), Color.White);
+            background.Draw(spriteBatch);
             for (int i = 0; i < 2000; i = i + 50)
             {
                 if(i >= 1200)
