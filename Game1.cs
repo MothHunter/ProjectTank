@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Diagnostics;
 using System.ComponentModel.Design.Serialization;
 using System.Security.Cryptography;
 using System.Windows.Forms.VisualStyles;
@@ -12,7 +15,10 @@ namespace ProjectTank
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         public SpriteFont arial24;
+        public static ContentManager contentManager;
+
         Tank testTank;
+        // CollisionBox testBox;
         Map map;
         Texture2D obstacle;
 
@@ -21,6 +27,7 @@ namespace ProjectTank
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            contentManager = Content;
             IsMouseVisible = true;
             Mouse.SetCursor(MouseCursor.Crosshair);
 
@@ -32,10 +39,13 @@ namespace ProjectTank
         {
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
+            testTank = new Tank(new Vector2(200, 200), AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis));
             testTank = new Tank(new Vector2(200, 200), Content.Load<Texture2D>(@"graphics/tank1"));
             map = new Map(Content.Load<Texture2D>(@"graphics/grass32"), Content.Load<Texture2D>(@"graphics/brick32"));   //TODO: Move to Level for easy implement of different skins
             obstacle = Content.Load<Texture2D>(@"graphics/castle96");
             base.Initialize();
+
+            // testBox = new CollisionBox(new Vector2(0, 0), 0f, 100f, 100f);
         }
 
         protected override void LoadContent()
@@ -54,6 +64,8 @@ namespace ProjectTank
 
             testTank.Update(gameTime);
             base.Update(gameTime);
+
+            // if(testBox.Collides(testTank.GetCollisionBox())) Debug.WriteLine("Collision!!");
         }
 
         protected override void Draw(GameTime gameTime)

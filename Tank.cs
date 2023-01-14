@@ -19,6 +19,8 @@ namespace ProjectTank
         float turnRate = 0.05f;
         float rotation = 0f;
         int hitpoints = 100;
+        float hightTank = 20;
+        float widthTank = 20;
 
         float fireCooldown = 0.8f;
 
@@ -30,11 +32,14 @@ namespace ProjectTank
 
         Turret turreet = new Turret();
 
+        CollisionBox tankCollision;
+
         public Tank(Vector2 position, Texture2D sprite)
         {
             this.position = position;
             this.sprite = sprite;
             drawOffset = new Vector2(sprite.Width / 2, sprite.Height / 2);
+            this.tankCollision = new CollisionBox(position, rotation, widthTank, hightTank);
         }
     
 
@@ -75,8 +80,10 @@ namespace ProjectTank
             }
             if (speed != 0)
             {
-                position += new Vector2((float)Math.Cos(rotation) * speed, (float)Math.Sin(rotation) * speed);
+                position += Utility.radToV2(rotation) * speed;
             }
+            tankCollision.Update(rotation, position);
+
         }
 
         public void getHit(Projectile projectile)
@@ -87,6 +94,11 @@ namespace ProjectTank
         public void getInput()
         {
 
+        }
+
+        public CollisionBox GetCollisionBox()
+        {
+            return tankCollision;
         }
     }
 }
