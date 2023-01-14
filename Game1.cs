@@ -41,7 +41,7 @@ namespace ProjectTank
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis));
             testTank = new Tank(new Vector2(200, 200), Content.Load<Texture2D>(@"graphics/tank1"));
-            map = new Map(Content.Load<Texture2D>(@"graphics/grass32"), Content.Load<Texture2D>(@"graphics/brick32"));   //TODO: Move to Level for easy implement of different skins
+            map = new Map(Content.Load<Texture2D>(@"graphics/grass32wB"), Content.Load<Texture2D>(@"graphics/brick32"));   //TODO: Move to Level for easy implement of different skins
             obstacle = Content.Load<Texture2D>(@"graphics/castle96");
             base.Initialize();
 
