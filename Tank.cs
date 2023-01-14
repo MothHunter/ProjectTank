@@ -53,7 +53,7 @@ namespace ProjectTank
         public void Update(GameTime gameTime)
         {
             InputController input = InputController.GetInstance();
-            if (input.GetKeyDown(Keys.W))
+            if (input.GetKeyDown(Keys.W) && !tankCollision.Collides(obstacle.GetCollisionBox()))
             {
                 //Speed up
                 speed = Math.Min(speed + acceleration, maxSpeed);
