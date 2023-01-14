@@ -20,7 +20,8 @@ namespace ProjectTank
         Tank testTank;
         // CollisionBox testBox;
         Map map;
-        Texture2D obstacle;
+        Obstacle obstacle;
+        Level level;
 
 
         public Game1()
@@ -41,7 +42,8 @@ namespace ProjectTank
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis));
             map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.GrassBorder), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
-            obstacle = AssetController.GetInstance().getTexture2D(graphicsAssets.Castle);
+            obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100);
+            level = new Level(map, obstacle, new Vector2(0, 0), testTank);
             base.Initialize();
 
             // testBox = new CollisionBox(new Vector2(0, 0), 0f, 100f, 100f);
@@ -73,10 +75,7 @@ namespace ProjectTank
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            map.Draw(spriteBatch);
-            spriteBatch.Draw(obstacle, new Rectangle(416, 416, 96, 96), Color.White);
-            testTank.Draw(spriteBatch);
-            
+            level.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -13,7 +13,33 @@ namespace ProjectTank
 {
     internal class Level
     {
-        int Width;
+        Map map;
+        Obstacle obstacle;
+        Vector2 startPosition;
+        Tank tank;
+
+        public Level(Map map, Obstacle obstacle, Vector2 startPosition, Tank tank)
+        {
+            this.map = map;
+            this.obstacle = obstacle;
+            this.startPosition = startPosition;
+            this.tank = tank;
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            map.Draw(spriteBatch);
+            obstacle.Draw(spriteBatch);
+            tank.Draw(spriteBatch);
+
+        }
+
+        public void Update(GameTime gameTime)
+        {
+
+        }
+
+        /*int Width;
         int Height;
         float rotation = 0f;
         Vector2 position;
@@ -35,5 +61,6 @@ namespace ProjectTank
                
 
         }
+        */
     }
 }

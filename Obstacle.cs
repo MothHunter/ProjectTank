@@ -15,6 +15,7 @@ namespace ProjectTank
 	{
 		Texture2D sprite;
 		Vector2 position;
+		CollisionBox collisionBox;
 
 		bool destructible;
 		int health;
