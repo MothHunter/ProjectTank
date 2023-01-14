@@ -23,7 +23,7 @@ namespace ProjectTank
         float widthTank = 20;
 
         float fireCooldown = 0.8f;
-
+        Obstacle obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100);
         Texture2D sprite;
         Vector2 drawOffset;
         Vector2 position;
@@ -81,6 +81,9 @@ namespace ProjectTank
             if (speed != 0)
             {
                 position += Utility.radToV2(rotation) * speed;
+            }
+            if (tankCollision.Collides(obstacle.GetCollisionBox())){
+                speed = 0;
             }
             tankCollision.Update(rotation, position);
 

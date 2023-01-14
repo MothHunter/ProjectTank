@@ -27,7 +27,14 @@ namespace ProjectTank
 			this.sprite = sprite;
 			this.destructible = destructible;
 			this.health = health;
-		}
+			this.collisionBox = new CollisionBox(new Vector2(592, 378), 0f, 96, 96);
+
+        }
+
+		//collisionBox = new CollisionBox(new Vector2(592, 378), 0f, 96, 96)
+
+		public CollisionBox GetCollisionBox() { return collisionBox; }
+
 
 
 		public void Draw(SpriteBatch spriteBatch)
