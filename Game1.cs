@@ -40,9 +40,8 @@ namespace ProjectTank
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis));
-            testTank = new Tank(new Vector2(200, 200), Content.Load<Texture2D>(@"graphics/tank1"));
-            map = new Map(Content.Load<Texture2D>(@"graphics/grass32wB"), Content.Load<Texture2D>(@"graphics/brick32"));   //TODO: Move to Level for easy implement of different skins
-            obstacle = Content.Load<Texture2D>(@"graphics/castle96");
+            map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.GrassBorder), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
+            obstacle = AssetController.GetInstance().getTexture2D(graphicsAssets.Castle);
             base.Initialize();
 
             // testBox = new CollisionBox(new Vector2(0, 0), 0f, 100f, 100f);

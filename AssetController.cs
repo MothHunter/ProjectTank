@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ProjectTank
 {
-    public enum graphicsAssets { Tank1Chassis, Tank1Turret, StandardProjectile}
+    public enum graphicsAssets { Tank1Chassis, Tank1Turret, StandardProjectile, Grass, GrassBorder, Brick, Castle}
     internal class AssetController
     {
         private Dictionary<graphicsAssets, Texture2D> graphics;
@@ -17,6 +17,10 @@ namespace ProjectTank
         {
             graphics = new Dictionary<graphicsAssets, Texture2D>();
             graphics.Add(graphicsAssets.Tank1Chassis, Game1.contentManager.Load<Texture2D>(@"graphics/tank1"));
+            graphics.Add(graphicsAssets.Brick, Game1.contentManager.Load<Texture2D>(@"graphics/brick32"));
+            graphics.Add(graphicsAssets.Castle, Game1.contentManager.Load<Texture2D>(@"graphics/Castle96"));
+            graphics.Add(graphicsAssets.Grass, Game1.contentManager.Load<Texture2D>(@"graphics/grass32"));
+            graphics.Add(graphicsAssets.GrassBorder, Game1.contentManager.Load<Texture2D>(@"graphics/grass32wB"));
         }
         public static AssetController GetInstance()
         {
