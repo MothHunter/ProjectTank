@@ -53,7 +53,7 @@ namespace ProjectTank
         public void Update(GameTime gameTime)
         {
             InputController input = InputController.GetInstance();
-            if (input.GetKeyDown(Keys.W) && !tankCollision.Collides(obstacle.GetCollisionBox()))
+            if (input.GetKeyDown(Keys.W)) //&& !tankCollision.Collides(obstacle.GetCollisionBox()))
             {
                 //Speed up
                 speed = Math.Min(speed + acceleration, maxSpeed);
@@ -80,12 +80,22 @@ namespace ProjectTank
             }
             if (speed != 0)
             {
+                Vector2 positionOld = position;
                 position += Utility.radToV2(rotation) * speed;
+                tankCollision.Update(rotation, position);
+                if (tankCollision.Collides(obstacle.GetCollisionBox()))
+                {
+                    position = positionOld;
+                    tankCollision.Update(rotation, positionOld);
+                    speed = 0;
+                }
             }
-            if (tankCollision.Collides(obstacle.GetCollisionBox())){
-                speed = 0;
-            }
-            tankCollision.Update(rotation, position);
+            //if (tankCollision.Collides(obstacle.GetCollisionBox())){
+                
+            //    position -= Utility.radToV2(rotation) * speed;
+            //    speed = 0;
+           // }
+            
 
         }
 
