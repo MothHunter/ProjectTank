@@ -73,7 +73,9 @@ namespace ProjectTank
 		public void Destroy()
 		{
 			Game1.destructible.Remove(this.collisionBox);
-		}
+			//sprite = AssetController.GetInstance().getTexture2D(graphicsAssets.adTest32);
+
+        }
 	}
 
 

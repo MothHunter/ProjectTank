@@ -97,6 +97,7 @@ namespace ProjectTank
                 {
                     if (tankCollision.Collides(Game1.destructible[i]))
                     {
+                        Game1.destructible.RemoveAt(i);
                         position = positionOld;
                         tankCollision.Update(rotation, positionOld);
                         speed = 0;

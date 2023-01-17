@@ -20,6 +20,18 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/File.spritefont;fonts/arial24.spritefont
 
+#begin graphics/adTest32.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:graphics/adTest32.png
+
 #begin graphics/brick32.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -44,7 +56,7 @@
 /processorParam:TextureFormat=Color
 /build:graphics/Castle96.png
 
-#begin graphics/destructibletest.png
+#begin graphics/dTest32.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -54,7 +66,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:graphics/destructibletest.png
+/build:graphics/dTest32.png
 
 #begin graphics/grass32.png
 /importer:TextureImporter
