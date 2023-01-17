@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using static ProjectTank.Game1;
+
 namespace ProjectTank
 {
     internal class Tank
@@ -23,7 +25,6 @@ namespace ProjectTank
         float widthTank = 20;
 
         float fireCooldown = 0.8f;
-        Obstacle obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100);
         Texture2D sprite;
         Vector2 drawOffset;
         Vector2 position;
@@ -53,7 +54,7 @@ namespace ProjectTank
         public void Update(GameTime gameTime)
         {
             InputController input = InputController.GetInstance();
-            if (input.GetKeyDown(Keys.W)) //&& !tankCollision.Collides(obstacle.GetCollisionBox()))
+            if (input.GetKeyDown(Keys.W))
             {
                 //Speed up
                 speed = Math.Min(speed + acceleration, maxSpeed);
@@ -83,20 +84,26 @@ namespace ProjectTank
                 Vector2 positionOld = position;
                 position += Utility.radToV2(rotation) * speed;
                 tankCollision.Update(rotation, position);
-                if (tankCollision.Collides(obstacle.GetCollisionBox()))
+                for (int i = 0; i < Game1.indestructible.Count; i++)
                 {
-                    position = positionOld;
-                    tankCollision.Update(rotation, positionOld);
-                    speed = 0;
+                    if (tankCollision.Collides(Game1.indestructible[i]))
+                    {
+                        position = positionOld;
+                        tankCollision.Update(rotation, positionOld);
+                        speed = 0;
+                    }
                 }
-            }
-            //if (tankCollision.Collides(obstacle.GetCollisionBox())){
-                
-            //    position -= Utility.radToV2(rotation) * speed;
-            //    speed = 0;
-           // }
-            
+                for (int i = 0; i < Game1.destructible.Count; i++)
+                {
+                    if (tankCollision.Collides(Game1.destructible[i]))
+                    {
+                        position = positionOld;
+                        tankCollision.Update(rotation, positionOld);
+                        speed = 0;
+                    }
+                }
 
+            }
         }
 
         public void getHit(Projectile projectile)

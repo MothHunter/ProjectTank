@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using static ProjectTank.Game1;
+
 namespace ProjectTank
 {
 	internal class Obstacle
@@ -19,19 +21,30 @@ namespace ProjectTank
 
 		bool destructible;
 		int health;
+		int width;
+		int height;
+		Vector2 center;
 		bool destroyed;
 
-		public Obstacle(Vector2 position, Texture2D sprite, bool destructible, int health)
+		public Obstacle(Vector2 position, Texture2D sprite, bool destructible, int health, int width, int height, Vector2 center)
 		{
 			this.position = position;
 			this.sprite = sprite;
 			this.destructible = destructible;
 			this.health = health;
-			this.collisionBox = new CollisionBox(new Vector2(592, 378), 0f, 96, 96);
-
+			this.width = width;
+			this.height = height;
+			this.center = center;
+			this.collisionBox = new CollisionBox(center, 0f, width, height);
+			if (destructible)
+			{
+				Game1.destructible.Add(collisionBox);
+			}
+			else 
+			{
+				Game1.indestructible.Add(collisionBox); 
+			}
         }
-
-		//collisionBox = new CollisionBox(new Vector2(592, 378), 0f, 96, 96)
 
 		public CollisionBox GetCollisionBox() { return collisionBox; }
 
@@ -59,7 +72,7 @@ namespace ProjectTank
 		}
 		public void Destroy()
 		{
-			//Remove = true;
+			Game1.destructible.Remove(this.collisionBox);
 		}
 	}
 

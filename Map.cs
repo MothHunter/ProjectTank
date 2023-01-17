@@ -9,21 +9,34 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using static ProjectTank.Game1;
+
 namespace ProjectTank
 {
     internal class Map
     {
         Texture2D sprite;
         Texture2D border;
-        Vector2 position;
-        Vector2 dimension;
 
-        
+        CollisionBox top = new CollisionBox(new Vector2(608, 16), 0f, 1216, 32);
+        CollisionBox bottom = new CollisionBox(new Vector2(608, 784), 0f, 1216, 32);
+        CollisionBox left = new CollisionBox(new Vector2(16, 400), 0f, 32, 800);
+        CollisionBox right = new CollisionBox(new Vector2(1200, 400), 0f, 32, 800);
+
+
         public Map(Texture2D sprite,Texture2D border)
         {
             this.sprite = sprite;
             this.border = border;
+            addToList();
+        }
 
+        public void addToList()
+        {
+            Game1.indestructible.Add(top);
+            Game1.indestructible.Add(bottom);
+            Game1.indestructible.Add(left);
+            Game1.indestructible.Add(right);
         }
 
         public void Draw(SpriteBatch spriteBatch)

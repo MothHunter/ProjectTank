@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProjectTank
 {
-    internal class CollisionBox
+    public class CollisionBox
     {
         private float rotation;
         private Vector2 center;
