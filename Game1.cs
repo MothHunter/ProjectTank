@@ -19,13 +19,9 @@ namespace ProjectTank
         public static ContentManager contentManager;
 
         Tank testTank;
-        // CollisionBox testBox;
-        Map map;
         Obstacle obstacle;
         Obstacle obstacle2;
         Level level;
-        public static List<CollisionBox> indestructible = new List<CollisionBox>();
-        public static List<CollisionBox> destructible = new List<CollisionBox>();
 
 
         public Game1()
@@ -45,11 +41,11 @@ namespace ProjectTank
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis));
-            map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.GrassBorder), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
-            obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100, 96, 96, new Vector2(592,368));
+            //map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.GrassBorder), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
+            //obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100, 96, 96, new Vector2(592,368));
             //Destructible obstacle
             //obstacle2 = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dTest32), true, 1, 32, 32, new Vector2(592,368));
-            level = new Level(map, obstacle, new Vector2(0, 0), testTank);
+            level = new Level(new Vector2(0, 0), testTank);
 
 
             base.Initialize();

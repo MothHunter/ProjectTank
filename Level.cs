@@ -18,11 +18,15 @@ namespace ProjectTank
         Vector2 startPosition;
         Tank tank;
 
-        public Level(Map map, Obstacle obstacle, Vector2 startPosition, Tank tank)
+        public Level(int number, Vector2 startPosition, Tank tank)
         {
-            this.map = map;
-            this.obstacle = obstacle;
+            if(number == 1)
+            {
+                this.obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100, 96, 96, new Vector2(592, 368));            
+                this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.GrassBorder), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
             this.startPosition = startPosition;
+
+            }
             this.tank = tank;
         }
 
