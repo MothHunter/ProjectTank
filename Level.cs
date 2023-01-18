@@ -95,6 +95,17 @@ namespace ProjectTank
                         }
                     }
                 }
+                foreach (AiTank aiTank in aitanks)
+                {
+                    if (aiTank.GetCollisionBox().Contains(projectile.getPosition()))
+                    {
+                        aiTank.getHit(projectile);
+                    }
+                }
+                if (tank.GetCollisionBox().Contains(projectile.getPosition()))
+                {
+                    tank.getHit(projectile);
+                }
                 if (projectile.GetRemainingBounces() < 0)
                 {
                     removeProjectiles.Add(projectile);
@@ -106,6 +117,7 @@ namespace ProjectTank
             {
                 projectiles.Remove(p);
             }
+
         }
     }
 }
