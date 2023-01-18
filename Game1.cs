@@ -39,7 +39,6 @@ namespace ProjectTank
         {
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
-            testTank = new Tank(new Vector2(200, 200), AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis));
             level = new Level(1, testTank);
             if(level.getDone())
             {
@@ -72,22 +71,22 @@ namespace ProjectTank
 
 
 
-            foreach(Projectile projectile in projectiles)
-            {
-                projectile.update();
-                foreach(CollisionBox collisionBox in indestructible)
-                {
-                    if (collisionBox.Contains(projectile.getPosition()))
-                    {
-                        projectile.Reflect(collisionBox);
-                    }
-                }
-                foreach (CollisionBox collisionBox in destructible)
-                {
-                    collisionBox.Contains(projectile.getPosition());
-                }
+            //foreach(Projectile projectile in projectiles)
+            //{
+            //    projectile.update();
+            //    foreach(CollisionBox collisionBox in indestructible)
+            //    {
+            //        if (collisionBox.Contains(projectile.getPosition()))
+            //        {
+            //            projectile.Reflect(collisionBox);
+            //        }
+            //    }
+            //    foreach (CollisionBox collisionBox in destructible)
+            //    {
+            //        collisionBox.Contains(projectile.getPosition());
+            //    }
 
-            }
+            //}
 
             // if(testBox.Collides(testTank.GetCollisionBox())) Debug.WriteLine("Collision!!");
         }

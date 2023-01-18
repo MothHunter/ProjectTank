@@ -48,7 +48,7 @@ namespace ProjectTank
                 obstacles[i].Draw(spriteBatch);
             }
             
-            tank.Draw(spriteBatch);
+            //tank.Draw(spriteBatch);
 
         }
 
