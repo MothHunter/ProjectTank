@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using static ProjectTank.Game1;
+using static ProjectTank.Level;
 
 namespace ProjectTank
 {
@@ -87,26 +87,15 @@ namespace ProjectTank
                 Vector2 positionOld = position;
                 position += Utility.radToV2(rotation) * speed;
                 tankCollision.Update(rotation, position);
-                for (int i = 0; i < Game1.indestructible.Count; i++)
+                for (int i = 0; i < Level.obstacles.Count; i++)
                 {
-                    if (tankCollision.Collides(Game1.indestructible[i]))
+                    if (tankCollision.Collides(Level.obstacles[i].GetCollisionBox()))
                     {
                         position = positionOld;
                         tankCollision.Update(rotation, positionOld);
                         speed = 0;
                     }
                 }
-                for (int i = 0; i < Game1.destructible.Count; i++)
-                {
-                    if (tankCollision.Collides(Game1.destructible[i]))
-                    {
-                        Game1.destructible.RemoveAt(i);
-                        position = positionOld;
-                        tankCollision.Update(rotation, positionOld);
-                        speed = 0;
-                    }
-                }
-
             }
 
             // handle inputs from mouse
