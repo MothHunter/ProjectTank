@@ -24,7 +24,7 @@ namespace ProjectTank
             if(number == 1)
             {
                 obstacles.Add(new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100, 96, 96, new Vector2(592, 368)));            
-                this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.GrassBorder), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
+                this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
                 this.startPosition = new Vector2(0,0);
                 //Destructible //this.obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dTest32), true, 1, 32, 32, new Vector2(560,336));
             }

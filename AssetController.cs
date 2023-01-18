@@ -22,10 +22,8 @@ namespace ProjectTank
             graphics.Add(graphicsAssets.Grass, Game1.contentManager.Load<Texture2D>(@"graphics/grass32"));
             graphics.Add(graphicsAssets.GrassBorder, Game1.contentManager.Load<Texture2D>(@"graphics/grass32wB"));
             graphics.Add(graphicsAssets.Brick, Game1.contentManager.Load<Texture2D>(@"graphics/brick32"));
-            graphics.Add(graphicsAssets.Castle, Game1.contentManager.Load<Texture2D>(@"graphics/Castle96"));
-           
-            
-            graphics.Add(graphicsAssets.dBrick, Game1.contentManager.Load<Texture2D>(@"graphics/dBrick"));
+            graphics.Add(graphicsAssets.Castle, Game1.contentManager.Load<Texture2D>(@"graphics/Castle96"));    
+            graphics.Add(graphicsAssets.dBrick, Game1.contentManager.Load<Texture2D>(@"graphics/dBrick64"));
             graphics.Add(graphicsAssets.Brick64, Game1.contentManager.Load<Texture2D>(@"graphics/brick64"));
             graphics.Add(graphicsAssets.dBrickHalf, Game1.contentManager.Load<Texture2D>(@"graphics/dbrick64_half"));
             graphics.Add(graphicsAssets.dBrickDestroyed, Game1.contentManager.Load<Texture2D>(@"graphics/dbrick64destroyed"));
