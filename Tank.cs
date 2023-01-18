@@ -84,26 +84,15 @@ namespace ProjectTank
                 Vector2 positionOld = position;
                 position += Utility.radToV2(rotation) * speed;
                 tankCollision.Update(rotation, position);
-                for (int i = 0; i < Game1.indestructible.Count; i++)
+                for (int i = 0; i < Game1.obstacles.Count; i++)
                 {
-                    if (tankCollision.Collides(Game1.indestructible[i]))
+                    if (tankCollision.Collides(Game1.obstacles[i].GetCollisionBox()))
                     {
                         position = positionOld;
                         tankCollision.Update(rotation, positionOld);
                         speed = 0;
                     }
                 }
-                for (int i = 0; i < Game1.destructible.Count; i++)
-                {
-                    if (tankCollision.Collides(Game1.destructible[i]))
-                    {
-                        Game1.destructible.RemoveAt(i);
-                        position = positionOld;
-                        tankCollision.Update(rotation, positionOld);
-                        speed = 0;
-                    }
-                }
-
             }
         }
 

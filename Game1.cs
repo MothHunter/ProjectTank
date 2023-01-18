@@ -19,14 +19,12 @@ namespace ProjectTank
         public static ContentManager contentManager;
 
         Tank testTank;
-        // CollisionBox testBox;
         Map map;
         Obstacle obstacle;
         Obstacle obstacle2;
         Level level;
-        public static List<CollisionBox> indestructible = new List<CollisionBox>();
-        public static List<CollisionBox> destructible = new List<CollisionBox>();
 
+        public static List<Obstacle> obstacles = new List<Obstacle>();
 
         public Game1()
         {
