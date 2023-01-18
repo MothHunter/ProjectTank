@@ -20,7 +20,8 @@ namespace ProjectTank
         float acceleration = 0.15f;
         float turnRate = 0.05f;
         float rotation = 0f;
-        int hitpoints = 100;
+        int currentHP;
+        int maxHP;
         float hightTank = 20;
         float widthTank = 20;
 
@@ -42,6 +43,8 @@ namespace ProjectTank
             drawOffset = new Vector2(sprite.Width / 2, sprite.Height / 2);
             this.tankCollision = new CollisionBox(position, rotation, widthTank, hightTank);
             this.turret = new Turret(position, turretSprite, rotation);
+            maxHP = 100;
+            currentHP = maxHP;
         }
     
 
@@ -51,6 +54,18 @@ namespace ProjectTank
         {
             spriteBatch.Draw(sprite, position, null, Color.White, rotation, drawOffset, new Vector2(1,1), SpriteEffects.None, 1.0f);
             turret.Draw(spriteBatch);
+
+            // draw health bar
+            Texture2D pixel = AssetController.GetInstance().getTexture2D(graphicsAssets.Pixel);
+            Rectangle frame = new Rectangle((int)(position.X - (sprite.Width / 2) - 16), (int)(position.Y - sprite.Width / 2),
+                                            8, sprite.Height);
+            Rectangle life = new Rectangle((int)(position.X - (sprite.Width / 2) - 15), (int)((position.Y - sprite.Width / 2) + 1),
+                                            6, sprite.Height - 2);
+            Rectangle spentLife = new Rectangle((int)(position.X - (sprite.Width / 2) - 15), (int)((position.Y - sprite.Width / 2) + 1),
+                                            6, (sprite.Height - 2) * (maxHP - currentHP) / maxHP);
+            spriteBatch.Draw(pixel, frame, Color.Black);
+            spriteBatch.Draw(pixel, life, Color.Green);
+            spriteBatch.Draw(pixel, spentLife, Color.Red);
         }
 
         public void Update(GameTime gameTime)
@@ -119,8 +134,8 @@ namespace ProjectTank
 
         public void getHit(Projectile projectile)
         {
-            hitpoints -= projectile.GetDamage();
-            if (hitpoints <= 0)
+            currentHP -= projectile.GetDamage();
+            if (currentHP <= 0)
             {
                 isAlive = false;
             }

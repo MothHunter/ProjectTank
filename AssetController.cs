@@ -8,7 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ProjectTank
 {
-    public enum graphicsAssets { Tank1Chassis, Tank1Turret, StandardProjectile, Grass, GrassBorder, Brick, Castle, Dirt, dBrick, Brick64, dBrickHalf,dBrickDestroyed }
+    public enum graphicsAssets { Tank1Chassis, Tank1Turret, StandardProjectile, Grass, GrassBorder, Brick, Castle, Dirt, dBrick,
+                                Brick64, dBrickHalf, dBrickDestroyed, Pixel }
     internal class AssetController
     {
         private Dictionary<graphicsAssets, Texture2D> graphics;
@@ -30,6 +31,7 @@ namespace ProjectTank
             graphics.Add(graphicsAssets.Dirt, Game1.contentManager.Load<Texture2D>(@"graphics/dirt32"));
             graphics.Add(graphicsAssets.Tank1Turret, Game1.contentManager.Load<Texture2D>(@"graphics/turret1"));
             graphics.Add(graphicsAssets.StandardProjectile, Game1.contentManager.Load<Texture2D>(@"graphics/projectile1"));
+            graphics.Add(graphicsAssets.Pixel, Game1.contentManager.Load<Texture2D>(@"graphics/whitePixel"));
         }
         public static AssetController GetInstance()
         {
