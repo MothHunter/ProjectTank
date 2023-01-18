@@ -15,6 +15,7 @@ namespace ProjectTank
     {
         Map map;
         public static List<Obstacle> obstacles = new List<Obstacle>();
+        public static List<Projectile> projectiles = new List<Projectile>();
         Vector2 startPosition;
         Tank tank;
         bool done;
@@ -48,13 +49,38 @@ namespace ProjectTank
                 obstacles[i].Draw(spriteBatch);
             }
             
-            //tank.Draw(spriteBatch);
+            tank.Draw(spriteBatch);
+
+            foreach (Projectile projectile in projectiles)
+            {
+                projectile.Draw(spriteBatch);
+            }
 
         }
 
         public void Update(GameTime gameTime)
         {
-            
+            tank.Update(gameTime);
+            foreach (Projectile projectile in projectiles)
+            {
+                projectile.update();
+                foreach (Obstacle obstacle in obstacles)
+                {
+                    if (obstacle.GetCollisionBox().Contains(projectile.getPosition()))
+                    {
+                        if (obstacle.IsDestructible() && !obstacle.IsDestroyed())
+                        {
+                            obstacle.OnHit(projectile.GetDamage());
+                            projectiles.Remove(projectile);
+                        }
+                        else if (obstacle.IsDestructible())
+                        {
+                            projectile.Reflect(obstacle.GetCollisionBox());
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

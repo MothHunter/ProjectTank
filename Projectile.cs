@@ -50,6 +50,11 @@ namespace ProjectTank
 
         public void Reflect(CollisionBox box)
         {
+            if (remainingBounces <= 0)
+            {
+                Level.projectiles.Remove(this);
+                return;
+            }
 
             remainingBounces -= 1;
 

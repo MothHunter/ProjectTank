@@ -114,7 +114,7 @@ namespace ProjectTank
         {
             Texture2D projectileSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.StandardProjectile);
             Vector2 offset = Utility.radToV2(turret.GetRotation()) * 16;
-            Game1.projectiles.Add(new Projectile(position + offset, projectileSprite, turret.GetRotation(), 10f));
+            Level.projectiles.Add(new Projectile(position + offset, projectileSprite, turret.GetRotation(), 10f));
         }
 
         public void getHit(Projectile projectile)

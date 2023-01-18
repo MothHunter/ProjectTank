@@ -20,7 +20,6 @@ namespace ProjectTank
 
         Tank testTank;
         Level level;
-        public static List<Projectile> projectiles = new List<Projectile>();
 
 
         public Game1()
@@ -39,14 +38,14 @@ namespace ProjectTank
         {
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
+            Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
+            Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
+            testTank = new Tank(new Vector2(200, 200), tankSprite, turretSprite);
             level = new Level(1, testTank);
             if(level.getDone())
             {
                 level = new Level(2, testTank);
             }
-            Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
-            Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
-            testTank = new Tank(new Vector2(200, 200), tankSprite, turretSprite);
             
 
             base.Initialize();
@@ -65,30 +64,8 @@ namespace ProjectTank
                 Exit();
             InputController.GetInstance().Update();
             // TODO: Add your update logic here
-
-            testTank.Update(gameTime);
+            level.Update(gameTime);
             base.Update(gameTime);
-
-
-
-            //foreach(Projectile projectile in projectiles)
-            //{
-            //    projectile.update();
-            //    foreach(CollisionBox collisionBox in indestructible)
-            //    {
-            //        if (collisionBox.Contains(projectile.getPosition()))
-            //        {
-            //            projectile.Reflect(collisionBox);
-            //        }
-            //    }
-            //    foreach (CollisionBox collisionBox in destructible)
-            //    {
-            //        collisionBox.Contains(projectile.getPosition());
-            //    }
-
-            //}
-
-            // if(testBox.Collides(testTank.GetCollisionBox())) Debug.WriteLine("Collision!!");
         }
 
         protected override void Draw(GameTime gameTime)
@@ -98,10 +75,6 @@ namespace ProjectTank
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             level.Draw(spriteBatch);
-            foreach (Projectile projectile in projectiles)
-            {
-                projectile.Draw(spriteBatch);
-            }
             spriteBatch.End();
             base.Draw(gameTime);
         }

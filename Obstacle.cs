@@ -50,7 +50,9 @@ namespace ProjectTank
 
 		public CollisionBox GetCollisionBox() { return collisionBox; }
 
+		public bool IsDestructible() { return destructible; }
 
+		public bool IsDestroyed() { return destroyed; }
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
