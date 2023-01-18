@@ -37,11 +37,11 @@ namespace ProjectTank
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis));
-            //level = new Level(1, testTank);
-            //if(level.getDone())
-            //{
+            level = new Level(1, testTank);
+            if(level.getDone())
+            {
                 level = new Level(2, testTank);
-            //}
+            }
             base.Initialize();
         }
 
