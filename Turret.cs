@@ -17,6 +17,7 @@ namespace ProjectTank
         Vector2 position;
         float rotation = 0f;
 
+
         public Turret(Vector2 position, Texture2D sprite, float rotation)
         {
             this.position = position;
