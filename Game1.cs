@@ -23,6 +23,7 @@ namespace ProjectTank
         Obstacle obstacle2;
         Level level;
 
+        public static List<Obstacle> obstacles = new List<Obstacle>();
 
         public Game1()
         {

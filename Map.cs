@@ -33,10 +33,10 @@ namespace ProjectTank
 
         public void addToList()
         {
-            Game1.indestructible.Add(top);
-            Game1.indestructible.Add(bottom);
-            Game1.indestructible.Add(left);
-            Game1.indestructible.Add(right);
+            Obstacle temp =new Obstacle(top);
+            temp =new Obstacle(bottom);
+            temp =new Obstacle(left);
+            temp =new Obstacle(right);
         }
 
         public void Draw(SpriteBatch spriteBatch)

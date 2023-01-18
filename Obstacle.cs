@@ -13,7 +13,7 @@ using static ProjectTank.Game1;
 
 namespace ProjectTank
 {
-	internal class Obstacle
+	public class Obstacle
 	{
 		Texture2D sprite;
 		Vector2 position;
@@ -36,15 +36,16 @@ namespace ProjectTank
 			this.height = height;
 			this.center = center;
 			this.collisionBox = new CollisionBox(center, 0f, width, height);
-			if (destructible)
-			{
-				Game1.destructible.Add(collisionBox);
-			}
-			else 
-			{
-				Game1.indestructible.Add(collisionBox); 
-			}
-        }
+			Game1.obstacles.Add(this);
+		}
+
+		public Obstacle(CollisionBox border)
+		{
+			this.collisionBox = border;
+			this.destructible = false;
+			Game1.obstacles.Add(this);
+		}
+
 
 		public CollisionBox GetCollisionBox() { return collisionBox; }
 
@@ -72,7 +73,7 @@ namespace ProjectTank
 		}
 		public void Destroy()
 		{
-			Game1.destructible.Remove(this.collisionBox);
+			Game1.obstacles.Remove(this);
 			//sprite = AssetController.GetInstance().getTexture2D(graphicsAssets.adTest32);
 
         }
