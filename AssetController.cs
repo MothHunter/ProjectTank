@@ -23,6 +23,8 @@ namespace ProjectTank
             graphics.Add(graphicsAssets.GrassBorder, Game1.contentManager.Load<Texture2D>(@"graphics/grass32wB"));
             graphics.Add(graphicsAssets.dTest32, Game1.contentManager.Load<Texture2D>(@"graphics/dTest32"));
             graphics.Add(graphicsAssets.adTest32, Game1.contentManager.Load<Texture2D>(@"graphics/adTest32"));
+            graphics.Add(graphicsAssets.Tank1Turret, Game1.contentManager.Load<Texture2D>(@"graphics/turret1"));
+            graphics.Add(graphicsAssets.StandardProjectile, Game1.contentManager.Load<Texture2D>(@"graphics/projectile1"));
         }
         public static AssetController GetInstance()
         {

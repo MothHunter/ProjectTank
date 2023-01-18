@@ -16,8 +16,8 @@ namespace ProjectTank
     internal class Tank
     {
         float speed = 0;
-        float maxSpeed = 10f;
-        float acceleration = 0.5f;
+        float maxSpeed = 6f;
+        float acceleration = 0.15f;
         float turnRate = 0.05f;
         float rotation = 0f;
         int hitpoints = 100;
@@ -31,16 +31,17 @@ namespace ProjectTank
 
         bool isAlive = true;
 
-        Turret turreet = new Turret();
+        Turret turret;
 
         CollisionBox tankCollision;
 
-        public Tank(Vector2 position, Texture2D sprite)
+        public Tank(Vector2 position, Texture2D tankSprite, Texture2D turretSprite)
         {
             this.position = position;
-            this.sprite = sprite;
+            this.sprite = tankSprite;
             drawOffset = new Vector2(sprite.Width / 2, sprite.Height / 2);
             this.tankCollision = new CollisionBox(position, rotation, widthTank, hightTank);
+            this.turret = new Turret(position, turretSprite, rotation);
         }
     
 
@@ -49,10 +50,12 @@ namespace ProjectTank
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, position, null, Color.White, rotation, drawOffset, new Vector2(1,1), SpriteEffects.None, 1.0f);
+            turret.Draw(spriteBatch);
         }
 
         public void Update(GameTime gameTime)
         {
+            // handle inputs from keyboard
             InputController input = InputController.GetInstance();
             if (input.GetKeyDown(Keys.W))
             {
@@ -105,11 +108,33 @@ namespace ProjectTank
                 }
 
             }
+
+            // handle inputs from mouse
+            float turretRotation = turret.GetRotation();
+
+            turret.Update(position, Utility.V2ToRad(input.GetCursorPosition() - position));
+
+            if (input.GetLeftClick())
+            {
+                ShootStandard();
+            }
+
+        }
+
+        private void ShootStandard()
+        {
+            Texture2D projectileSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.StandardProjectile);
+            Vector2 offset = Utility.radToV2(turret.GetRotation()) * 16;
+            Game1.projectiles.Add(new Projectile(position + offset, projectileSprite, turret.GetRotation(), 10f));
         }
 
         public void getHit(Projectile projectile)
         {
-
+            hitpoints -= projectile.GetDamage();
+            if (hitpoints <= 0)
+            {
+                isAlive = false;
+            }
         }
         
         public void getInput()

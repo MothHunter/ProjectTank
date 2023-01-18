@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,11 @@ namespace ProjectTank
         {
             return (previousMouseState.RightButton != ButtonState.Pressed &&
                 currentMouseState.RightButton == ButtonState.Pressed);
+        }
+
+        public Vector2 GetCursorPosition()
+        {
+            return new Vector2(currentMouseState.X, currentMouseState.Y);
         }
     }
 }
