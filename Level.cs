@@ -16,6 +16,8 @@ namespace ProjectTank
         Map map;
         public static List<Obstacle> obstacles = new List<Obstacle>();
         public static List<Projectile> projectiles = new List<Projectile>();
+        public static List<AiTank> aitanks = new List<AiTank>();
+
         Vector2 startPosition;
         Tank tank;
         bool done;
@@ -27,6 +29,11 @@ namespace ProjectTank
                 obstacles.Add(new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100, 96, 96, new Vector2(592, 368)));            
                 this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
                 this.startPosition = new Vector2(0,0);
+
+                Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
+                Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
+
+                aitanks.Add(new AiTank1(new Vector2(1000, 700), tankSprite, turretSprite));
                 //Destructible //this.obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dTest32), true, 1, 32, 32, new Vector2(560,336));
             }
             if(number == 2)
@@ -55,12 +62,20 @@ namespace ProjectTank
             {
                 projectile.Draw(spriteBatch);
             }
+            foreach(AiTank aitank in aitanks)
+            {
+                aitank.Draw(spriteBatch);
+            }
 
         }
 
         public void Update(GameTime gameTime)
         {
             tank.Update(gameTime);
+            foreach(AiTank aiTank in aitanks)
+            {
+                aiTank.Update(gameTime);
+            }
             List<Projectile> removeProjectiles = new List<Projectile>();
             foreach (Projectile projectile in projectiles)
             {
