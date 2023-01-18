@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using static ProjectTank.Game1;
+using static ProjectTank.Level;
 
 namespace ProjectTank
 {
@@ -35,15 +35,16 @@ namespace ProjectTank
 			this.width = width;
 			this.height = height;
 			this.center = center;
+			this.destroyed = false;
 			this.collisionBox = new CollisionBox(center, 0f, width, height);
-			Game1.obstacles.Add(this);
+			Level.obstacles.Add(this);
 		}
 
 		public Obstacle(CollisionBox border)
 		{
 			this.collisionBox = border;
 			this.destructible = false;
-			Game1.obstacles.Add(this);
+			Level.obstacles.Add(this);
 		}
 
 
@@ -53,7 +54,11 @@ namespace ProjectTank
 
 		public void Draw(SpriteBatch spriteBatch)
 		{
-			spriteBatch.Draw(sprite, position, Color.White);
+			if(sprite != null) 
+			{
+                spriteBatch.Draw(sprite, position, Color.White);
+            }
+			
 		}
 
 		public void Update(GameTime gameTime)
@@ -73,7 +78,7 @@ namespace ProjectTank
 		}
 		public void Destroy()
 		{
-			Game1.obstacles.Remove(this);
+			Level.obstacles.Remove(this);
 			//sprite = AssetController.GetInstance().getTexture2D(graphicsAssets.adTest32);
 
         }

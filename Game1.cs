@@ -19,12 +19,7 @@ namespace ProjectTank
         public static ContentManager contentManager;
 
         Tank testTank;
-        Obstacle obstacle;
-        Obstacle obstacle2;
         Level level;
-
-        public static List<Obstacle> obstacles = new List<Obstacle>();
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -42,16 +37,12 @@ namespace ProjectTank
             // TODO: Add your initialization logic here
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             testTank = new Tank(new Vector2(200, 200), AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis));
-            //map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.GrassBorder), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
-            //obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100, 96, 96, new Vector2(592,368));
-            //Destructible obstacle
-            //obstacle2 = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dTest32), true, 1, 32, 32, new Vector2(592,368));
-            level = new Level(new Vector2(0, 0), testTank);
-
-
+            //level = new Level(1, testTank);
+            //if(level.getDone())
+            //{
+                level = new Level(2, testTank);
+            //}
             base.Initialize();
-
-            // testBox = new CollisionBox(new Vector2(0, 0), 0f, 100f, 100f);
         }
 
         protected override void LoadContent()
@@ -70,8 +61,6 @@ namespace ProjectTank
 
             testTank.Update(gameTime);
             base.Update(gameTime);
-
-            // if(testBox.Collides(testTank.GetCollisionBox())) Debug.WriteLine("Collision!!");
         }
 
         protected override void Draw(GameTime gameTime)
