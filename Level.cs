@@ -61,6 +61,7 @@ namespace ProjectTank
         public void Update(GameTime gameTime)
         {
             tank.Update(gameTime);
+            List<Projectile> removeProjectiles = new List<Projectile>();
             foreach (Projectile projectile in projectiles)
             {
                 projectile.update();
@@ -71,16 +72,25 @@ namespace ProjectTank
                         if (obstacle.IsDestructible() && !obstacle.IsDestroyed())
                         {
                             obstacle.OnHit(projectile.GetDamage());
-                            projectiles.Remove(projectile);
+                            removeProjectiles.Add(projectile);
                         }
-                        else if (obstacle.IsDestructible())
+                        else if (!obstacle.IsDestructible())
                         {
                             projectile.Reflect(obstacle.GetCollisionBox());
                         }
                     }
                 }
+                if (projectile.GetRemainingBounces() < 0)
+                {
+                    removeProjectiles.Add(projectile);
+                }
             }
 
+            // remove expired projectiles
+            foreach(Projectile p in removeProjectiles)
+            {
+                projectiles.Remove(p);
+            }
         }
     }
 }

@@ -48,14 +48,10 @@ namespace ProjectTank
             return damage;
         }
 
+        public int GetRemainingBounces() { return remainingBounces; }
+
         public void Reflect(CollisionBox box)
         {
-            if (remainingBounces <= 0)
-            {
-                Level.projectiles.Remove(this);
-                return;
-            }
-
             remainingBounces -= 1;
 
             // find out which side the shot collided with
