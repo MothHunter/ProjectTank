@@ -18,6 +18,8 @@ namespace ProjectTank
             currentHP = maxHP;
         }
 
+        public int GetCurrentHP() { return currentHP; }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
@@ -28,6 +30,7 @@ namespace ProjectTank
                                             8, sprite.Height);
             Rectangle life = new Rectangle((int)(position.X - (sprite.Width / 2) - 15), (int)((position.Y - sprite.Width / 2) + 1),
                                             6, sprite.Height - 2);
+            if(currentHP < 0) { currentHP= 0; }
             Rectangle spentLife = new Rectangle((int)(position.X - (sprite.Width / 2) - 15), (int)((position.Y - sprite.Width / 2) + 1),
                                             6, (sprite.Height - 2) * Math.Min(maxHP - currentHP, maxHP) / maxHP);
             spriteBatch.Draw(pixel, frame, Color.Black);

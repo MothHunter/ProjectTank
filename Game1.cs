@@ -18,8 +18,13 @@ namespace ProjectTank
         public SpriteFont arial24;
         public static ContentManager contentManager;
 
-        Tank testTank;
+        PlayerTank testTank;
         Level level;
+        public static int projectileCount = 0;
+        int points = 10000;
+        TimeSpan timeSum;
+        float seconds;
+        bool paused = false;
 
 
         public Game1()
@@ -60,12 +65,27 @@ namespace ProjectTank
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
             InputController.GetInstance().Update();
-            // TODO: Add your update logic here
-            level.Update(gameTime);
-            base.Update(gameTime);
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                paused = true;
+            }
+            if(paused) {
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
+                {
+                    Exit();
+                }
+                else if((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Space))){
+                    paused = false;
+                }
+            }
+            if(!paused) {
+                
+                // TODO: Add your update logic here
+                level.Update(gameTime);
+                base.Update(gameTime); 
+            }
+            
         }
 
         protected override void Draw(GameTime gameTime)
@@ -74,8 +94,20 @@ namespace ProjectTank
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            level.Draw(spriteBatch);
+           
+            level.Draw(spriteBatch); 
+            if (paused)
+            {
+                spriteBatch.DrawString(arial24, "Press Enter to Exit, Space to continue", new Vector2(400, 300), Color.Black);
+            }
             spriteBatch.End();
+
+            //Points -> Move to right space
+            timeSum = gameTime.TotalGameTime;
+            seconds = timeSum.Seconds;
+            points -= (int)(seconds * 20) + (projectileCount * 5) + (100 - testTank.GetCurrentHP() * 10);
+            
+            
             base.Draw(gameTime);
         }
     }

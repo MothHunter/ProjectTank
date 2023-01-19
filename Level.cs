@@ -26,7 +26,10 @@ namespace ProjectTank
         {
             if(number == 1)
             {
-                obstacles.Add(new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100, 96, 96, new Vector2(592, 368)));            
+                obstacles.Add(new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), null, null, false, 100, 96, 96, new Vector2(592, 368)));
+                obstacles.Add(new Obstacle(new Vector2(800, 150), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickHalf), null, AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed), true, 20, 64, 64, new Vector2(832, 182)));
+                obstacles.Add(new Obstacle(new Vector2(400, 550), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrick), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickHalf), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed), true, 60, 64, 64, new Vector2(432, 582)));
+
                 this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
                 this.startPosition = new Vector2(0,0);
 
@@ -39,7 +42,7 @@ namespace ProjectTank
             }
             if(number == 2)
             {
-                obstacles.Add(new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), false, 100, 96, 96, new Vector2(592, 368)));
+                obstacles.Add(new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrick), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed),null , true, 20, 96, 96, new Vector2(592, 368)));
                 this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Dirt), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
                 this.startPosition = new Vector2(0, 0);
 
@@ -81,21 +84,21 @@ namespace ProjectTank
             foreach (Projectile projectile in projectiles)
             {
                 projectile.update();
-                foreach (Obstacle obstacle in obstacles)
-                {
-                    if (obstacle.GetCollisionBox().Contains(projectile.getPosition()))
+                    foreach (Obstacle obstacle in obstacles)
                     {
-                        if (obstacle.IsDestructible() && !obstacle.IsDestroyed())
+                        if (obstacle.GetCollisionBox().Contains(projectile.getPosition()))
                         {
-                            obstacle.OnHit(projectile.GetDamage());
-                            removeProjectiles.Add(projectile);
-                        }
-                        else if (!obstacle.IsDestructible())
-                        {
-                            projectile.Reflect(obstacle.GetCollisionBox());
+                            if (obstacle.IsDestructible() && !obstacle.IsDestroyed())
+                            {
+                                obstacle.OnHit(projectile.GetDamage());
+                                removeProjectiles.Add(projectile);
+                            }
+                            else if (!obstacle.IsDestructible())
+                            {
+                                projectile.Reflect(obstacle.GetCollisionBox());
+                            }
                         }
                     }
-                }
                 foreach (AiTank aiTank in aitanks)
                 {
                     if (aiTank.GetCollisionBox().Contains(projectile.getPosition()))
