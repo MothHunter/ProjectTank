@@ -20,8 +20,8 @@ namespace ProjectTank
         protected float rotation = 0f;
         protected int currentHP;
         protected int maxHP;
-        protected float hightTank = 20;
-        protected float widthTank = 20;
+        protected float hightTank = 30;
+        protected float widthTank = 30;
 
         protected float fireCooldown = 0.8f;
         protected float fireCooldownCountdown = 0f;
