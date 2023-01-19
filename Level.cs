@@ -33,7 +33,8 @@ namespace ProjectTank
                 Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
                 Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
 
-                aitanks.Add(new AiTank2(new Vector2(1000, 700), tankSprite, turretSprite));
+                aitanks.Add(new AiTank1(new Vector2(1000, 700), tankSprite, turretSprite));
+                aitanks.Add(new AiTank2(new Vector2(800, 700), tankSprite, turretSprite));
                 //Destructible //this.obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dTest32), true, 1, 32, 32, new Vector2(560,336));
             }
             if(number == 2)
