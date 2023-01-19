@@ -29,14 +29,14 @@ namespace ProjectTank
             Rectangle life = new Rectangle((int)(position.X - (sprite.Width / 2) - 15), (int)((position.Y - sprite.Width / 2) + 1),
                                             6, sprite.Height - 2);
             Rectangle spentLife = new Rectangle((int)(position.X - (sprite.Width / 2) - 15), (int)((position.Y - sprite.Width / 2) + 1),
-                                            6, (sprite.Height - 2) * (maxHP - currentHP) / maxHP);
+                                            6, (sprite.Height - 2) * Math.Min(maxHP - currentHP, maxHP) / maxHP);
             spriteBatch.Draw(pixel, frame, Color.Black);
             spriteBatch.Draw(pixel, life, Color.Green);
             spriteBatch.Draw(pixel, spentLife, Color.Red);
         }
 
 
-        public override void getInput()
+        public override void getInput(GameTime gameTime)
         {
 
             // handle inputs from keyboard
@@ -44,49 +44,31 @@ namespace ProjectTank
             if (input.GetKeyDown(Keys.W))
             {
                 //Speed up
-                speed = Math.Min(speed + acceleration, maxSpeed);
+                SpeedUp();
             }
             else if (input.GetKeyDown(Keys.S))
             {
-                //slow down
-                speed = Math.Max(speed - acceleration, -maxSpeed / 2);
+                //slow down / go backwards
+                Reverse();
             }
-            else if (speed < 0)
+            else
             {
-                speed = Math.Min(speed + acceleration * 0.35f, 0);
+                // no speed input => tank rolls to a halt
+                Roll();
             }
-            else if (speed > 0)
-            {
-                speed = Math.Max(speed - acceleration * 0.35f, 0);
-            }
+
             if (input.GetKeyDown(Keys.A))
             {
-                rotation = (rotation - turnRate) % (2 * (float)Math.PI);
+                RotateLeft();
             }
             if (input.GetKeyDown(Keys.D))
             {
-                rotation = (rotation + turnRate) % (2 * (float)Math.PI);
+                RotationRight();
             }
-            if (speed != 0)
-            {
-                Vector2 positionOld = position;
-                position += Utility.radToV2(rotation) * speed;
-                tankCollision.Update(rotation, position);
-                for (int i = 0; i < Level.obstacles.Count; i++)
-                {
-                    if (tankCollision.Collides(Level.obstacles[i].GetCollisionBox()))
-                    {
-                        position = positionOld;
-                        tankCollision.Update(rotation, positionOld);
-                        speed = 0;
-                    }
-                }
-            }
+
 
             // handle inputs from mouse
-            float turretRotation = turret.GetRotation();
-
-            turret.Update(position, Utility.V2ToRad(input.GetCursorPosition() - position));
+            RotateTurret(input.GetCursorPosition());
 
             if (input.GetLeftClick())
             {

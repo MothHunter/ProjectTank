@@ -26,6 +26,7 @@ namespace ProjectTank
         protected float widthTank = 20;
 
         protected float fireCooldown = 0.8f;
+        protected float fireCooldownCountdown = 0f;
         protected Texture2D sprite;
         protected Vector2 drawOffset;
         protected Vector2 position;
@@ -51,18 +52,100 @@ namespace ProjectTank
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, Color.White, rotation, drawOffset, new Vector2(1,1), SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(sprite, position, null, isAlive?Color.White:Color.Black, rotation, drawOffset, new Vector2(1,1), SpriteEffects.None, 1.0f);
             turret.Draw(spriteBatch);
         }
 
         public void Update(GameTime gameTime)
         {
-            getInput();
+            if (!isAlive)
+            {
+                return;
+            }
+            if (fireCooldownCountdown > 0)
+            {
+                fireCooldownCountdown -= gameTime.ElapsedGameTime.Milliseconds / 1000f;
+            }
+            getInput(gameTime);
+            if (speed != 0)
+            {                
+                Vector2 positionOld = position;
+                position += Utility.radToV2(rotation) * speed;
+                tankCollision.Update(rotation, position);
+                for (int i = 0; i < Level.obstacles.Count; i++)
+                {
+                    if (tankCollision.Collides(Level.obstacles[i].GetCollisionBox()))
+                    {
+                        position = positionOld;
+                        tankCollision.Update(rotation, positionOld);
+                        speed = 0;
+                    }
+                }
+                foreach (Tank otherTank in Level.aitanks)
+                {
+                    if (otherTank != this)
+                    {
+                        if (tankCollision.Collides(otherTank.GetCollisionBox()))
+                        {
+                            position = positionOld;
+                            tankCollision.Update(rotation, positionOld);
+                            speed = 0;
+                        }
+                    }
+                }
+            }
 
+            // turret Update needs to be called twice (in GetInput and here); refactor?
+            turret.Update(position, turret.GetRotation());
+        }
+
+        public void SpeedUp()
+        {
+            speed = Math.Min(speed + acceleration, maxSpeed);
+        }
+
+        public void Reverse()
+        {
+            speed = Math.Max(speed - acceleration, -maxSpeed / 2);
+        }
+
+        // no forward or reverse input => tank slowly comes to a halt
+        public void Roll()
+        {
+            if (speed < 0)
+            {
+                speed = Math.Min(speed + acceleration * 0.35f, 0);
+            }
+            else if (speed > 0)
+            {
+                speed = Math.Max(speed - acceleration * 0.35f, 0);
+            }
+        }
+
+        public void RotateLeft()
+        {
+            rotation = (rotation - turnRate) % (2 * (float)Math.PI);
+        }
+
+
+        public void RotationRight()
+        {
+            rotation = (rotation + turnRate) % (2 * (float)Math.PI);
+        }
+
+        public void RotateTurret(Vector2 target)
+        {
+            float turretRotation = turret.GetRotation();
+            turret.Update(position, Utility.V2ToRad(target - position));
         }
 
         protected virtual void ShootStandard()
         {
+            if (fireCooldownCountdown > 0)
+            {
+                return;
+            }
+            fireCooldownCountdown = fireCooldown;
             Texture2D projectileSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.StandardProjectile);
             Vector2 offset = Utility.radToV2(turret.GetRotation()) * 16;
             Level.projectiles.Add(new Projectile(position + offset, projectileSprite, turret.GetRotation(), 10f));
@@ -74,14 +157,17 @@ namespace ProjectTank
             if (currentHP <= 0)
             {
                 isAlive = false;
+                turret.Die();
             }
         }
 
-        public abstract void getInput();
+        public abstract void getInput(GameTime gameTime);
 
         public CollisionBox GetCollisionBox()
         {
             return tankCollision;
         }
+
+        public Vector2 GetPosition() { return position; }
     }
 }

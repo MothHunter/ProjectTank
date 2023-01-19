@@ -37,7 +37,6 @@ namespace ProjectTank
 			this.center = center;
 			this.destroyed = false;
 			this.collisionBox = new CollisionBox(center, 0f, width, height);
-			Level.obstacles.Add(this);
 		}
 
 		public Obstacle(CollisionBox border)

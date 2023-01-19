@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace ProjectTank
 {
-    internal class AiTank1 : AiTank
+    internal class AiTank2 : AiTank
     {
-        public AiTank1(Vector2 position, Texture2D tankSprite, Texture2D turretSprite) : base(position, tankSprite, turretSprite)
+        public AiTank2(Vector2 position, Texture2D tankSprite, Texture2D turretSprite) : base(position, tankSprite, turretSprite)
         {
-            maxHP = 150;
+            maxSpeed = 3f;
+            maxHP = 100;
             currentHP = maxHP;
             fireCooldown = 1.6f;
-            maxSpeed = 0f;
         }
     }
 }

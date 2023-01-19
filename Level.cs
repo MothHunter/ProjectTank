@@ -19,7 +19,7 @@ namespace ProjectTank
         public static List<AiTank> aitanks = new List<AiTank>();
 
         Vector2 startPosition;
-        Tank tank;
+        public static Tank tank;
         bool done;
 
         public Level(int number, Tank tank)
@@ -33,7 +33,7 @@ namespace ProjectTank
                 Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
                 Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
 
-                aitanks.Add(new AiTank1(new Vector2(1000, 700), tankSprite, turretSprite));
+                aitanks.Add(new AiTank2(new Vector2(1000, 700), tankSprite, turretSprite));
                 //Destructible //this.obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dTest32), true, 1, 32, 32, new Vector2(560,336));
             }
             if(number == 2)
@@ -43,7 +43,7 @@ namespace ProjectTank
                 this.startPosition = new Vector2(0, 0);
 
             }
-            this.tank = tank;
+            Level.tank = tank;
             this.done = false;
         }
 
@@ -100,11 +100,13 @@ namespace ProjectTank
                     if (aiTank.GetCollisionBox().Contains(projectile.getPosition()))
                     {
                         aiTank.getHit(projectile);
+                        removeProjectiles.Add(projectile);
                     }
                 }
                 if (tank.GetCollisionBox().Contains(projectile.getPosition()))
                 {
                     tank.getHit(projectile);
+                    removeProjectiles.Add(projectile);
                 }
                 if (projectile.GetRemainingBounces() < 0)
                 {
