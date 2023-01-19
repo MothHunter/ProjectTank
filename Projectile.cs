@@ -15,7 +15,7 @@ namespace ProjectTank
 
         float rotation;
         float speed;
-        int damage = 100;
+        int damage = 35;
         int remainingBounces = 1;
         Vector2 position;
 

@@ -100,11 +100,13 @@ namespace ProjectTank
                     if (aiTank.GetCollisionBox().Contains(projectile.getPosition()))
                     {
                         aiTank.getHit(projectile);
+                        removeProjectiles.Add(projectile);
                     }
                 }
                 if (tank.GetCollisionBox().Contains(projectile.getPosition()))
                 {
                     tank.getHit(projectile);
+                    removeProjectiles.Add(projectile);
                 }
                 if (projectile.GetRemainingBounces() < 0)
                 {
