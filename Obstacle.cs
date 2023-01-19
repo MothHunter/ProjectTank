@@ -16,7 +16,9 @@ namespace ProjectTank
 	public class Obstacle
 	{
 		Texture2D sprite;
-		Vector2 position;
+		Texture2D hitSprite;
+        Texture2D destroyedSprite;
+        Vector2 position;
 		CollisionBox collisionBox;
 
 		bool destructible;
@@ -26,10 +28,12 @@ namespace ProjectTank
 		Vector2 center;
 		bool destroyed;
 
-		public Obstacle(Vector2 position, Texture2D sprite, bool destructible, int health, int width, int height, Vector2 center)
+		public Obstacle(Vector2 position, Texture2D sprite, Texture2D hitSprite, Texture2D destroyedSprite, bool destructible, int health, int width, int height, Vector2 center)
 		{
 			this.position = position;
 			this.sprite = sprite;
+			this.hitSprite = hitSprite;
+			this.destroyedSprite = destroyedSprite;
 			this.destructible = destructible;
 			this.health = health;
 			this.width = width;
@@ -37,7 +41,6 @@ namespace ProjectTank
 			this.center = center;
 			this.destroyed = false;
 			this.collisionBox = new CollisionBox(center, 0f, width, height);
-			Level.obstacles.Add(this);
 		}
 
 		public Obstacle(CollisionBox border)
@@ -72,16 +75,17 @@ namespace ProjectTank
 			if (!destroyed)
 			{
 				health -= damage;
+				sprite = hitSprite;
 				if (health < 0)
 				{
 					Destroy();
+					sprite = destroyedSprite;
 				}
 			}
 		}
 		public void Destroy()
 		{
-			Level.obstacles.Remove(this);
-			//sprite = AssetController.GetInstance().getTexture2D(graphicsAssets.adTest32);
+			this.collisionBox = new CollisionBox(new Vector2(1,1),0f,1,1);
 
         }
 	}

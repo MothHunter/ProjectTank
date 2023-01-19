@@ -66,7 +66,7 @@ namespace ProjectTank
             Vector2 currentVector = Utility.radToV2(rotation);
 
             // set position back a bit so the shot does not go into the object first
-            position -= Utility.radToV2(rotation) * (speed / 2f);
+            position -= Utility.radToV2(rotation) * (speed/2f);
 
             if (xDistance < yDistance)
             {
