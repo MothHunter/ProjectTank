@@ -48,6 +48,8 @@ namespace ProjectTank
                 obstacles.Add(new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrick), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed),null , true, 20, 96, 96, new Vector2(592, 368)));
                 this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Dirt), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
                 this.startPosition = new Vector2(0, 0);
+                aitanks.Add(new AiTank1(new Vector2(1000, 700)));
+                aitanks.Add(new AiTank2(new Vector2(800, 700)));
 
             }
             Level.tank = tank;

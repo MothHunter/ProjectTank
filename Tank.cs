@@ -29,7 +29,7 @@ namespace ProjectTank
         protected Vector2 drawOffset;
         protected Vector2 position;
 
-        protected bool isAlive = true;
+        public bool isAlive = true;
 
         protected Turret turret;
 
@@ -44,6 +44,7 @@ namespace ProjectTank
             this.turret = new Turret(position, turretSprite, rotation);
 
         }
+
 
 
 
@@ -155,6 +156,10 @@ namespace ProjectTank
             currentHP -= damage;
             if (currentHP <= 0)
             {
+                if (isAlive)
+                {
+                    Level.dead += 1;
+                }
                 isAlive = false;
                 turret.Die();
             }
