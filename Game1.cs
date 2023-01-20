@@ -25,6 +25,8 @@ namespace ProjectTank
         TimeSpan timeSum;
         float seconds;
         bool paused = false;
+        bool finished = false;
+        int levelcount = 1;
 
 
         public Game1()
@@ -46,13 +48,10 @@ namespace ProjectTank
             Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
             Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
             testTank = new PlayerTank(new Vector2(200, 200), tankSprite, turretSprite);
-            level = new Level(1, testTank);
-            if(level.getDone())
-            {
-                level = new Level(2, testTank);
+            if(levelcount < 3) { 
+                level = new Level(levelcount, testTank);
             }
             
-
             base.Initialize();
         }
 
@@ -70,18 +69,53 @@ namespace ProjectTank
             {
                 paused = true;
             }
-            if(paused) {
+            if (paused)
+            {
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
                 {
                     Exit();
                 }
-                else if((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Space))){
+                else if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Space)))
+                {
                     paused = false;
                 }
             }
-            if(!paused) {
-                
+            if (finished)
+            {
+                if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Space)))
+                {
+                    points = 10000;
+                    finished = false;
+                }
+            }
+            if(!paused && !finished) {
+
                 // TODO: Add your update logic here
+                
+                
+                if (Level.aitanks.Count == Level.dead || !Level.tank.isAlive)
+                {
+                    finished = true;
+
+                    timeSum = gameTime.TotalGameTime;
+                    seconds = timeSum.Seconds;
+                    points -= (int)(seconds * 10) - (projectileCount * 25) - (100 - testTank.GetCurrentHP() * 50) + ( Level.aitanks.Count * 100);
+
+                    Level.aitanks.Clear();
+                    Level.obstacles.Clear();
+                    Level.projectiles.Clear();
+                    Level.dead = 0;
+                    if (Level.aitanks.Count == Level.dead)
+                    {
+                        levelcount += 1;
+                    }
+                    else
+                    {
+                        levelcount = 1;
+                    }
+                    Initialize();              
+                    
+                }
                 level.Update(gameTime);
                 base.Update(gameTime); 
             }
@@ -94,18 +128,18 @@ namespace ProjectTank
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-           
-            level.Draw(spriteBatch); 
-            if (paused)
+            level.Draw(spriteBatch);
+            if (paused || finished)
             {
                 spriteBatch.DrawString(arial24, "Press Enter to Exit, Space to continue", new Vector2(400, 300), Color.Black);
+                spriteBatch.DrawString(arial24,"Points: " + points, new Vector2(500,400), Color.Black);
+
             }
-            spriteBatch.End();
+                spriteBatch.End();
+                
 
             //Points -> Move to right space
-            timeSum = gameTime.TotalGameTime;
-            seconds = timeSum.Seconds;
-            points -= (int)(seconds * 20) + (projectileCount * 5) + (100 - testTank.GetCurrentHP() * 10);
+            
             
             
             base.Draw(gameTime);
