@@ -8,7 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ProjectTank
 {
-    public enum graphicsAssets { Tank1Chassis, Tank1Turret, StandardProjectile, Grass, GrassBorder, Brick, Castle, Dirt, dBrick,
+    public enum graphicsAssets { Tank1Chassis, Tank1Turret, Tank2Chassis, Tank2Turret, 
+                                Tank3Chassis, Tank3Turret, Tank4Chassis, Tank4Turret, 
+                                StandardProjectile, Grass, GrassBorder, Brick, Castle, Dirt, dBrick,
                                 Brick64, dBrickHalf, dBrickDestroyed, Pixel }
     internal class AssetController
     {
@@ -17,9 +19,18 @@ namespace ProjectTank
         private AssetController()
         {
             graphics = new Dictionary<graphicsAssets, Texture2D>();
+
+            // tank graphics
             graphics.Add(graphicsAssets.Tank1Chassis, Game1.contentManager.Load<Texture2D>(@"graphics/tank1"));
+            graphics.Add(graphicsAssets.Tank1Turret, Game1.contentManager.Load<Texture2D>(@"graphics/turret1"));
+            graphics.Add(graphicsAssets.Tank2Chassis, Game1.contentManager.Load<Texture2D>(@"graphics/tank2"));
+            graphics.Add(graphicsAssets.Tank2Turret, Game1.contentManager.Load<Texture2D>(@"graphics/turret2"));
+            graphics.Add(graphicsAssets.Tank3Chassis, Game1.contentManager.Load<Texture2D>(@"graphics/tank3"));
+            graphics.Add(graphicsAssets.Tank3Turret, Game1.contentManager.Load<Texture2D>(@"graphics/turret3"));
+            graphics.Add(graphicsAssets.Tank4Chassis, Game1.contentManager.Load<Texture2D>(@"graphics/tank4"));
+            graphics.Add(graphicsAssets.Tank4Turret, Game1.contentManager.Load<Texture2D>(@"graphics/turret4"));
 
-
+            // map graphics
             graphics.Add(graphicsAssets.Grass, Game1.contentManager.Load<Texture2D>(@"graphics/grass32"));
             graphics.Add(graphicsAssets.GrassBorder, Game1.contentManager.Load<Texture2D>(@"graphics/grass32wB"));
             graphics.Add(graphicsAssets.Brick, Game1.contentManager.Load<Texture2D>(@"graphics/brick32"));
@@ -29,8 +40,9 @@ namespace ProjectTank
             graphics.Add(graphicsAssets.dBrickHalf, Game1.contentManager.Load<Texture2D>(@"graphics/dbrick64_half"));
             graphics.Add(graphicsAssets.dBrickDestroyed, Game1.contentManager.Load<Texture2D>(@"graphics/dbrick64destroyed"));
             graphics.Add(graphicsAssets.Dirt, Game1.contentManager.Load<Texture2D>(@"graphics/dirt32"));
-            graphics.Add(graphicsAssets.Tank1Turret, Game1.contentManager.Load<Texture2D>(@"graphics/turret1"));
             graphics.Add(graphicsAssets.StandardProjectile, Game1.contentManager.Load<Texture2D>(@"graphics/projectile1"));
+            
+            // UI graphics
             graphics.Add(graphicsAssets.Pixel, Game1.contentManager.Load<Texture2D>(@"graphics/whitePixel"));
         }
         public static AssetController GetInstance()

@@ -10,7 +10,9 @@ namespace ProjectTank
 {
     internal class AiTank2 : AiTank
     {
-        public AiTank2(Vector2 position, Texture2D tankSprite, Texture2D turretSprite) : base(position, tankSprite, turretSprite)
+        public AiTank2(Vector2 position, Texture2D tankSprite, Texture2D turretSprite) : 
+            base(position, AssetController.GetInstance().getTexture2D(graphicsAssets.Tank3Chassis),
+                AssetController.GetInstance().getTexture2D(graphicsAssets.Tank3Turret))
         {
             maxSpeed = 3f;
             maxHP = 100;
