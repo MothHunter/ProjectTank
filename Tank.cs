@@ -145,13 +145,14 @@ namespace ProjectTank
             fireCooldownCountdown = fireCooldown;
             Texture2D projectileSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.StandardProjectile);
             Vector2 offset = Utility.radToV2(turret.GetRotation()) * 16;
-            Level.projectiles.Add(new Projectile(position + offset, projectileSprite, turret.GetRotation(), 10f));
+            Level.projectiles.Add(new Projectile(position + offset, projectileSprite, turret.GetRotation()));
             Game1.projectileCount++;
         }
 
-        public void getHit(Projectile projectile)
+
+        public void getHit(int damage)
         {
-            currentHP -= projectile.GetDamage();
+            currentHP -= damage;
             if (currentHP <= 0)
             {
                 isAlive = false;

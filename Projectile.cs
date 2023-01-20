@@ -14,7 +14,7 @@ namespace ProjectTank
     {
 
         float rotation;
-        float speed;
+        float speed = 10f;
         int damage = 50;
         int remainingBounces = 1;
         Vector2 position;
@@ -22,14 +22,26 @@ namespace ProjectTank
         Texture2D sprite;
         Vector2 drawOffset;
 
-        public Projectile(Vector2 position, Texture2D sprite, float rotation, float speed)
+        public Projectile(Vector2 position, Texture2D sprite, float rotation)
+        {
+            this.position = position;
+            this.sprite = sprite;
+            this.rotation = rotation;
+            this.drawOffset = new Vector2(sprite.Width / 2, sprite.Height / 2);
+        }
+
+        public Projectile(Vector2 position, Texture2D sprite, float rotation, float speed, 
+                        int maxBounce, int damage)
         {
             this.position = position;
             this.sprite = sprite;
             this.rotation = rotation;
             this.speed = speed;
+            remainingBounces= maxBounce;
+            this.damage = damage;
             this.drawOffset = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
+
         public void update()
         {
             position += Utility.radToV2(rotation) * speed;

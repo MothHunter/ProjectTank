@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.VisualBasic.Devices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,6 +12,7 @@ namespace ProjectTank
 {
     internal class PlayerTank : Tank
     {
+        public int availableSpecialShots = 2;
         public PlayerTank(Vector2 position, Texture2D tankSprite, Texture2D turretSprite) : base(position, tankSprite, turretSprite)
         {
             maxHP = 100;
@@ -77,6 +78,25 @@ namespace ProjectTank
             {
                 ShootStandard();
             }
+            if (input.GetRightClick())
+            {
+                ShootSpecial();
+            }
+        }
+
+        protected void ShootSpecial()
+        {
+            // no special shots available
+            if (availableSpecialShots <= 0) { return; }
+            // fire cooldown not ready
+            if (fireCooldownCountdown > 0)  { return; }
+
+
+            fireCooldownCountdown = 2f;
+            Vector2 offset = Utility.radToV2(turret.GetRotation()) * 16;
+            Vector2 target = InputController.GetInstance().GetCursorPosition();
+            SpecialShot shot = new SpecialShot(turret.GetRotation(), 10f, 50, position + offset, target);
+            Level.specialShot = shot;
         }
     }
 }

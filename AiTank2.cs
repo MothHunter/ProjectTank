@@ -19,5 +19,6 @@ namespace ProjectTank
             currentHP = maxHP;
             fireCooldown = 1.6f;
         }
+
     }
 }

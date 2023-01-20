@@ -17,6 +17,7 @@ namespace ProjectTank
         public static List<Obstacle> obstacles = new List<Obstacle>();
         public static List<Projectile> projectiles = new List<Projectile>();
         public static List<AiTank> aitanks = new List<AiTank>();
+        public static SpecialShot specialShot; // only one can exist at a time
 
         Vector2 startPosition;
         public static Tank tank;
@@ -38,6 +39,8 @@ namespace ProjectTank
 
                 aitanks.Add(new AiTank1(new Vector2(1000, 700)));
                 aitanks.Add(new AiTank2(new Vector2(800, 700)));
+                aitanks.Add(new AiTank3(new Vector2(1000, 200)));
+                aitanks.Add(new AiTank4(new Vector2(200, 700)));
                 //Destructible //this.obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dTest32), true, 1, 32, 32, new Vector2(560,336));
             }
             if(number == 2)
@@ -70,6 +73,10 @@ namespace ProjectTank
             {
                 aitank.Draw(spriteBatch);
             }
+            if (specialShot != null)
+            {
+                specialShot.Draw(spriteBatch);
+            }
 
         }
 
@@ -84,38 +91,42 @@ namespace ProjectTank
             foreach (Projectile projectile in projectiles)
             {
                 projectile.update();
-                    foreach (Obstacle obstacle in obstacles)
+                foreach (Obstacle obstacle in obstacles)
+                {
+                    if (obstacle.GetCollisionBox().Contains(projectile.getPosition()))
                     {
-                        if (obstacle.GetCollisionBox().Contains(projectile.getPosition()))
+                        if (obstacle.IsDestructible() && !obstacle.IsDestroyed())
                         {
-                            if (obstacle.IsDestructible() && !obstacle.IsDestroyed())
-                            {
-                                obstacle.OnHit(projectile.GetDamage());
-                                removeProjectiles.Add(projectile);
-                            }
-                            else if (!obstacle.IsDestructible())
-                            {
-                                projectile.Reflect(obstacle.GetCollisionBox());
-                            }
+                            obstacle.OnHit(projectile.GetDamage());
+                            removeProjectiles.Add(projectile);
+                        }
+                        else if (!obstacle.IsDestructible())
+                        {
+                            projectile.Reflect(obstacle.GetCollisionBox());
                         }
                     }
+                }
                 foreach (AiTank aiTank in aitanks)
                 {
                     if (aiTank.GetCollisionBox().Contains(projectile.getPosition()))
                     {
-                        aiTank.getHit(projectile);
+                        aiTank.getHit(projectile.GetDamage());
                         removeProjectiles.Add(projectile);
                     }
                 }
                 if (tank.GetCollisionBox().Contains(projectile.getPosition()))
                 {
-                    tank.getHit(projectile);
+                    tank.getHit(projectile.GetDamage());
                     removeProjectiles.Add(projectile);
                 }
                 if (projectile.GetRemainingBounces() < 0)
                 {
                     removeProjectiles.Add(projectile);
                 }
+            }
+            if (specialShot != null)
+            {
+                specialShot.Update(gameTime);
             }
 
             // remove expired projectiles
