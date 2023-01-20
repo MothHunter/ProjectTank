@@ -22,11 +22,13 @@ namespace ProjectTank
         Vector2 startPosition;
         public static Tank tank;
         bool done;
+        public static int dead = 0; // counts dead ai tanks
 
         public Level(int number, Tank tank)
         {
             if(number == 1)
             {
+                dead = 0;
                 obstacles.Add(new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.Castle), null, null, false, 100, 96, 96, new Vector2(592, 368)));
                 obstacles.Add(new Obstacle(new Vector2(800, 150), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickHalf), null, AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed), true, 20, 64, 64, new Vector2(832, 182)));
                 obstacles.Add(new Obstacle(new Vector2(400, 550), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrick), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickHalf), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed), true, 60, 64, 64, new Vector2(432, 582)));
@@ -45,6 +47,7 @@ namespace ProjectTank
             }
             if(number == 2)
             {
+                dead = 0;
                 obstacles.Add(new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrick), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed),null , true, 20, 96, 96, new Vector2(592, 368)));
                 this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Dirt), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
                 this.startPosition = new Vector2(0, 0);
