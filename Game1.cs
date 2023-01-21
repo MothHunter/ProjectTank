@@ -26,7 +26,9 @@ namespace ProjectTank
         float seconds;
         bool paused = false;
         bool finished = false;
-        bool end = false;
+        bool beaten = false;
+        bool end = true;
+        bool won = false;
         int levelcount = 1;
         
         CollisionBox Button1 = new CollisionBox(new Vector2(608, 432), 0f, 448, 96);
@@ -144,10 +146,10 @@ namespace ProjectTank
                     buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
                     if (InputController.GetInstance().GetLeftClick())
                     {
+                        points = 0;
                         end = false;
-                        levelcount = 1;
+                        
                     }
-
                 }
                 else if (Button2.Contains(InputController.GetInstance().GetCursorPosition()))
                 {
@@ -172,7 +174,10 @@ namespace ProjectTank
 
                     if (Level.aitanks.Count == Level.dead || !Level.tank.isAlive)
                     {
-                        finished = true;
+                        if (levelcount != 3)
+                        {
+                            finished = true;
+                        }
                         if (levelcount == 1) { points = 0; }
                         timeSum = gameTime.TotalGameTime;
                         seconds = timeSum.Seconds;
@@ -193,14 +198,19 @@ namespace ProjectTank
                     Level.dead = 0;
                     if (levelcount == 3 && Level.tank.isAlive)
                     {
+                        
+                        end = true;
+                        beaten = true;
                         levelcount = 1;
                     }
                     else if (Level.tank.isAlive)
                     {
                         levelcount += 1;
+                        won = true;
                     }
                     else
                     {
+                        won = false;
                         levelcount = 1;
                     }
                     Initialize();              
@@ -232,8 +242,28 @@ namespace ProjectTank
                 }
                 if (finished)
                 {
-                    spriteBatch.DrawString(arial24, "Next Level", new Vector2(544, 416), Color.Red);
+                    if (won)
+                    {
+                        spriteBatch.DrawString(arial24, "You Beat The Level!", new Vector2(464, 200), Color.White);
+                        spriteBatch.DrawString(arial24, "Next Level", new Vector2(544, 416), Color.Red);
+                    }
+                    else
+                    {
+                        spriteBatch.DrawString(arial24, "You Died!", new Vector2(528, 200), Color.White);
+                        spriteBatch.DrawString(arial24, "New Game", new Vector2(544, 416), Color.Red);
+                    }
+                    
                     spriteBatch.DrawString(arial24, "Exit", new Vector2(576, 544), Color.Red);
+                }
+                if (end)
+                {
+                    
+                    spriteBatch.DrawString(arial24, "New Game", new Vector2(544, 416), Color.Red);
+                    spriteBatch.DrawString(arial24, "Exit", new Vector2(576, 544), Color.Red);
+                    if (beaten)
+                    {
+                        spriteBatch.DrawString(arial24, "Congratulations!", new Vector2(464, 200), Color.White);
+                    }
                 }
 
             }
