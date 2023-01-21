@@ -210,6 +210,7 @@ namespace ProjectTank
                     }
                     else
                     {
+                        finished = true;
                         won = false;
                         levelcount = 1;
                     }
