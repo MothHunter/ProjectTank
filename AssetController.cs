@@ -35,7 +35,7 @@ namespace ProjectTank
             graphics.Add(graphicsAssets.Explosion, Game1.contentManager.Load<Texture2D>(@"graphics/explosion"));
 
             // map graphics
-            graphics.Add(graphicsAssets.Grass, Game1.contentManager.Load<Texture2D>(@"graphics /grass32"));
+            graphics.Add(graphicsAssets.Grass, Game1.contentManager.Load<Texture2D>(@"graphics/grass32"));
             graphics.Add(graphicsAssets.GrassBorder, Game1.contentManager.Load<Texture2D>(@"graphics/grass32wB"));
             graphics.Add(graphicsAssets.Brick, Game1.contentManager.Load<Texture2D>(@"graphics/brick32"));
             graphics.Add(graphicsAssets.Castle, Game1.contentManager.Load<Texture2D>(@"graphics/Castle96"));    

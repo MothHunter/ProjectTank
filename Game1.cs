@@ -21,12 +21,12 @@ namespace ProjectTank
         PlayerTank testTank;
         Level level;
         public static int projectileCount = 0;
-        int points = 10000;
+        int points = 0;
         TimeSpan timeSum;
         float seconds;
         bool paused = false;
         bool finished = false;
-        int levelcount = 3;
+        int levelcount = 1;
 
 
         public Game1()
@@ -51,7 +51,7 @@ namespace ProjectTank
             if(levelcount <= 3) { 
                 level = new Level(levelcount, testTank);
             }
-            
+
             base.Initialize();
         }
 
@@ -84,7 +84,6 @@ namespace ProjectTank
             {
                 if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Space)))
                 {
-                    points = 10000;
                     finished = false;
                 }
             }
@@ -96,7 +95,7 @@ namespace ProjectTank
                 if (Level.aitanks.Count == Level.dead || !Level.tank.isAlive)
                 {
                     finished = true;
-
+                    if (levelcount == 1) { points = 0; }
                     timeSum = gameTime.TotalGameTime;
                     seconds = timeSum.Seconds;
                     // points -= (int)(seconds * 10) - (projectileCount * 25) - ((100 - testTank.GetCurrentHP()) * 50) + ( Level.aitanks.Count * 100);
@@ -107,7 +106,7 @@ namespace ProjectTank
                         enemyCurrHP += aitank.GetCurrentHP();
                         enemyMaxHP += aitank.GetMaxHP();
                     }
-                    points = Math.Max((Level.tank.GetCurrentHP() * 10) - (projectileCount * 4) - (int)(seconds * 5) - (enemyMaxHP - enemyCurrHP * 10), 0);
+                    points += Math.Max(Math.Max((Level.tank.GetCurrentHP() * 10), 0) - (projectileCount * 2) - (int)(seconds) + (enemyMaxHP - enemyCurrHP * 20), 0);
                     // TODO: point speichern wenn lvl abgeschlossen
 
                     Level.aitanks.Clear();
