@@ -10,7 +10,8 @@ namespace ProjectTank
 {
     public enum graphicsAssets { Tank1Chassis, Tank1Turret, Tank2Chassis, Tank2Turret, 
                                 Tank3Chassis, Tank3Turret, Tank4Chassis, Tank4Turret, 
-                                StandardProjectile, SpecialShot, Grass, GrassBorder, Brick, Castle, Dirt, dBrick,
+                                StandardProjectile, SpecialShot, Explosion,
+                                Grass, GrassBorder, Brick, Castle, Dirt, dBrick,
                                 Brick64, dBrickHalf, dBrickDestroyed, Pixel }
     internal class AssetController
     {
@@ -31,9 +32,10 @@ namespace ProjectTank
             graphics.Add(graphicsAssets.Tank4Turret, Game1.contentManager.Load<Texture2D>(@"graphics/turret4"));
             graphics.Add(graphicsAssets.StandardProjectile, Game1.contentManager.Load<Texture2D>(@"graphics/projectile1"));
             graphics.Add(graphicsAssets.SpecialShot, Game1.contentManager.Load<Texture2D>(@"graphics/specialShot"));
+            graphics.Add(graphicsAssets.Explosion, Game1.contentManager.Load<Texture2D>(@"graphics/explosion"));
 
             // map graphics
-            graphics.Add(graphicsAssets.Grass, Game1.contentManager.Load<Texture2D>(@"graphics/grass32"));
+            graphics.Add(graphicsAssets.Grass, Game1.contentManager.Load<Texture2D>(@"graphics /grass32"));
             graphics.Add(graphicsAssets.GrassBorder, Game1.contentManager.Load<Texture2D>(@"graphics/grass32wB"));
             graphics.Add(graphicsAssets.Brick, Game1.contentManager.Load<Texture2D>(@"graphics/brick32"));
             graphics.Add(graphicsAssets.Castle, Game1.contentManager.Load<Texture2D>(@"graphics/Castle96"));    
