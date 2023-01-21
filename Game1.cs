@@ -187,29 +187,28 @@ namespace ProjectTank
                         points += Math.Max(Math.Max((Level.tank.GetCurrentHP() * 10), 0) - (projectileCount * 2) - (int)(seconds) + (enemyMaxHP - enemyCurrHP * 20), 0);
                         // TODO: point speichern wenn lvl abgeschlossen
 
-                        Level.aitanks.Clear();
-                        Level.obstacles.Clear();
-                        Level.projectiles.Clear();
-                        Level.dead = 0;
-                        if (Level.tank.isAlive)
-                        {
-                            levelcount += 1;
-                        }
-                        else
-                        {
-                            levelcount = 1;
-                        }
-                        Initialize();
-
-                    }
-                    if (levelcount == 4 && Level.tank.isAlive)
+                    Level.aitanks.Clear();
+                    Level.obstacles.Clear();
+                    Level.projectiles.Clear();
+                    Level.dead = 0;
+                    if (levelcount == 3 && Level.tank.isAlive)
                     {
-                        end = true;
+                        levelcount = 1;
                     }
-                    level.Update(gameTime);
-                    base.Update(gameTime);
+                    else if (Level.tank.isAlive)
+                    {
+                        levelcount += 1;
+                    }
+                    else
+                    {
+                        levelcount = 1;
+                    }
+                    Initialize();              
+                    
                 }
-
+                level.Update(gameTime);
+                base.Update(gameTime); 
+            }
             
         }
 

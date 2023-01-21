@@ -12,7 +12,7 @@ namespace ProjectTank
                                 Tank3Chassis, Tank3Turret, Tank4Chassis, Tank4Turret, 
                                 StandardProjectile, SpecialShot, Explosion,
                                 Grass, GrassBorder, Brick, Castle, Dirt, dBrick,
-                                Brick64, dBrickHalf, dBrickDestroyed, Pixel, menuBackground, DarkGrey, LightGrey}
+                                Brick64, dBrickHalf, dBrickDestroyed, Pixel, menuBackground, DarkGrey, LightGrey, IconSpecialShot}
     internal class AssetController
     {
         private Dictionary<graphicsAssets, Texture2D> graphics;
@@ -50,6 +50,8 @@ namespace ProjectTank
             graphics.Add(graphicsAssets.menuBackground, Game1.contentManager.Load<Texture2D>(@"graphics/menuBackground"));
             graphics.Add(graphicsAssets.DarkGrey, Game1.contentManager.Load<Texture2D>(@"graphics/dark_grey"));
             graphics.Add(graphicsAssets.LightGrey, Game1.contentManager.Load<Texture2D>(@"graphics/light"));
+
+            graphics.Add(graphicsAssets.IconSpecialShot, Game1.contentManager.Load<Texture2D>(@"graphics/iconSpecialShot"));
 
         }
         public static AssetController GetInstance()
