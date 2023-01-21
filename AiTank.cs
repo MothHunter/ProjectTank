@@ -72,5 +72,18 @@ namespace ProjectTank
             }
             
         }
+        public override void getHit(int damage)
+        {
+            currentHP -= damage;
+            if (currentHP <= 0)
+            {
+                if (isAlive)
+                {
+                    Level.dead += 1;
+                }
+                isAlive = false;
+                turret.Die();
+            }
+        }
     }
 }
