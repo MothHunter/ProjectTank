@@ -17,6 +17,7 @@ namespace ProjectTank
         public static List<Obstacle> obstacles = new List<Obstacle>();
         public static List<Projectile> projectiles = new List<Projectile>();
         public static List<AiTank> aitanks = new List<AiTank>();
+        public static List<GraphicsEffect> graphicsEffects = new List<GraphicsEffect>();
         public static SpecialShot specialShot; // only one can exist at a time
 
         public static Tank tank;
@@ -151,6 +152,11 @@ namespace ProjectTank
                 specialShot.Draw(spriteBatch);
             }
 
+            // draw graphics effects
+            foreach(GraphicsEffect graphicsEffect in graphicsEffects)
+            {
+                graphicsEffect.Draw(spriteBatch);
+            }
         }
 
         public void Update(GameTime gameTime)
@@ -208,6 +214,18 @@ namespace ProjectTank
                 projectiles.Remove(p);
             }
 
+            // update graphics effects
+            for (int i = graphicsEffects.Count() - 1; i >= 0; i--)
+            {
+                if (graphicsEffects[i].GetRemainingLifetime() <= 0)
+                {
+                    graphicsEffects.RemoveAt(i);
+                }
+                else
+                {
+                    graphicsEffects[i].Update(gameTime);
+                }
+            }
         }
     }
 }
