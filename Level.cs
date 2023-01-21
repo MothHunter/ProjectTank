@@ -19,7 +19,6 @@ namespace ProjectTank
         public static List<AiTank> aitanks = new List<AiTank>();
         public static SpecialShot specialShot; // only one can exist at a time
 
-        Vector2 startPosition;
         public static Tank tank;
         bool done;
         public static int dead = 0; // counts dead ai tanks
@@ -36,11 +35,10 @@ namespace ProjectTank
             {
                 dead = 0;
                 obstacles.Add(new Obstacle(new Vector2(544, 320), castle, null, null, false, 100, 96, 96, new Vector2(592, 368)));
-                obstacles.Add(new Obstacle(new Vector2(800, 150), dBrick, dBrickHalf, dBrickDestroyed, true, 20, 64, 64, new Vector2(832, 182)));
+                obstacles.Add(new Obstacle(new Vector2(800, 150), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(832, 182)));
                 obstacles.Add(new Obstacle(new Vector2(400, 550), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(432, 582)));
 
                 this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
-                this.startPosition = new Vector2(0,0);
 
                 Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
                 Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
@@ -52,28 +50,27 @@ namespace ProjectTank
             if(number == 2)
             {
                 dead = 0;
-                //obstacles.Add(new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrick), AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed),null , true, 20, 96, 96, new Vector2(592, 368)));
+                
                 obstacles.Add(new Obstacle(new Vector2(544, 384), Brick64, null, null, false, 100, 64, 64, new Vector2(576, 416)));
                 obstacles.Add(new Obstacle(new Vector2(608, 352), Brick64, null, null, false, 100, 64, 64, new Vector2(640, 384)));
 
-                obstacles.Add(new Obstacle(new Vector2(480, 416), dBrick, dBrickHalf, dBrickDestroyed, true, 100, 64, 64, new Vector2(512, 448)));
-                obstacles.Add(new Obstacle(new Vector2(416, 448), dBrick, dBrickHalf, dBrickDestroyed, true, 100, 64, 64, new Vector2(448, 480)));
-                obstacles.Add(new Obstacle(new Vector2(352, 480), dBrick, dBrickHalf, dBrickDestroyed, true, 100, 64, 64, new Vector2(684, 512)));
-                obstacles.Add(new Obstacle(new Vector2(288, 512), dBrick, dBrickHalf, dBrickDestroyed, true, 100, 64, 64, new Vector2(320, 544)));
-                obstacles.Add(new Obstacle(new Vector2(224, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 100, 64, 64, new Vector2(256, 576)));
+                obstacles.Add(new Obstacle(new Vector2(480, 416), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(512, 448)));
+                obstacles.Add(new Obstacle(new Vector2(416, 448), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(448, 480)));
+                obstacles.Add(new Obstacle(new Vector2(352, 480), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(684, 512)));
+                obstacles.Add(new Obstacle(new Vector2(288, 512), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(320, 544)));
+                obstacles.Add(new Obstacle(new Vector2(224, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(256, 576)));
 
-                obstacles.Add(new Obstacle(new Vector2(672, 320), dBrick, dBrickHalf, dBrickDestroyed, true, 100, 64, 64, new Vector2(704, 352)));
-                obstacles.Add(new Obstacle(new Vector2(736, 288), dBrick, dBrickHalf, dBrickDestroyed, true, 100, 64, 64, new Vector2(768, 320)));
-                obstacles.Add(new Obstacle(new Vector2(800, 256), dBrick, dBrickHalf, dBrickDestroyed, true, 100, 64, 64, new Vector2(832, 288)));
-                obstacles.Add(new Obstacle(new Vector2(864, 224), dBrick, dBrickHalf, dBrickDestroyed, true, 100, 64, 64, new Vector2(896, 256)));
-                obstacles.Add(new Obstacle(new Vector2(928, 192), dBrick, dBrickHalf, dBrickDestroyed, true, 100, 64, 64, new Vector2(960, 224)));
+                obstacles.Add(new Obstacle(new Vector2(672, 320), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(704, 352)));
+                obstacles.Add(new Obstacle(new Vector2(736, 288), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(768, 320)));
+                obstacles.Add(new Obstacle(new Vector2(800, 256), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(832, 288)));
+                obstacles.Add(new Obstacle(new Vector2(864, 224), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(896, 256)));
+                obstacles.Add(new Obstacle(new Vector2(928, 192), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(960, 224)));
 
-                this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.GrassBorder), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));
-                this.startPosition = new Vector2(0, 0);
+                this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));
                 
-                aitanks.Add(new AiTank1(new Vector2(1000, 700)));
-                aitanks.Add(new AiTank2(new Vector2(800, 700)));
+                aitanks.Add(new AiTank1(new Vector2(1000, 650)));
                 aitanks.Add(new AiTank2(new Vector2(900, 700)));
+                aitanks.Add(new AiTank2(new Vector2(1100, 600)));
 
             }
             if(number == 3)
@@ -104,14 +101,27 @@ namespace ProjectTank
                         obstacles.Add(new Obstacle(new Vector2(i, 416), Brick64, null, null, false, 100, 64, 64, new Vector2(i + 32, 448)));
                     }
                 }
+                obstacles.Add(new Obstacle(new Vector2(224, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(256, 576)));
+                obstacles.Add(new Obstacle(new Vector2(288, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(320, 576)));
+                obstacles.Add(new Obstacle(new Vector2(352, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(384, 576)));
+                obstacles.Add(new Obstacle(new Vector2(608, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(640, 576)));
+                obstacles.Add(new Obstacle(new Vector2(672, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(704, 576)));
 
-                this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.GrassBorder), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));
-                this.startPosition = new Vector2(0, 0);
+                obstacles.Add(new Obstacle(new Vector2(416, 416), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(448, 448)));
+                obstacles.Add(new Obstacle(new Vector2(480, 416), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(512, 448)));
 
-                aitanks.Add(new AiTank1(new Vector2(1000, 700)));
-                aitanks.Add(new AiTank2(new Vector2(800, 700)));
-                aitanks.Add(new AiTank3(new Vector2(1000, 200)));
-                aitanks.Add(new AiTank4(new Vector2(200, 700)));
+                obstacles.Add(new Obstacle(new Vector2(800, 352), dBrick, dBrickHalf, dBrickDestroyed, true, 64, 64, 64, new Vector2(832, 384)));
+                obstacles.Add(new Obstacle(new Vector2(800, 288), Brick64, null, null, false, 100, 64, 64, new Vector2(832, 320)));
+
+                this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));
+
+                aitanks.Add(new AiTank1(new Vector2(1120, 96)));
+                aitanks.Add(new AiTank2(new Vector2(288, 320)));
+                aitanks.Add(new AiTank2(new Vector2(928, 512)));
+                aitanks.Add(new AiTank3(new Vector2(576, 320)));
+                aitanks.Add(new AiTank3(new Vector2(96, 736)));
+                aitanks.Add(new AiTank4(new Vector2(1120, 704)));
+
             }
             Level.tank = tank;
             this.done = false;
