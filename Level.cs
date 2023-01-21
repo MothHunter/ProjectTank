@@ -45,9 +45,9 @@ namespace ProjectTank
                 Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
 
                 aitanks.Add(new AiTank1(new Vector2(1000, 700)));
-
-                //Destructible //this.obstacle = new Obstacle(new Vector2(544, 320), AssetController.GetInstance().getTexture2D(graphicsAssets.dTest32), true, 1, 32, 32, new Vector2(560,336));
+                aitanks.Add(new AiTank1(new Vector2(900, 600)));
             }
+
             if(number == 2)
             {
                 dead = 0;
@@ -211,9 +211,6 @@ namespace ProjectTank
             // remove expired projectiles
             foreach(Projectile p in removeProjectiles)
             {
-                GraphicsEffect graphicsEffect = new GraphicsEffect(AssetController.GetInstance().getTexture2D(graphicsAssets.Explosion),
-                                    p.getPosition(), 0.4f, 1.02f, new Vector2(8, 8));
-                Level.graphicsEffects.Add(graphicsEffect);
                 projectiles.Remove(p);
             }
 
