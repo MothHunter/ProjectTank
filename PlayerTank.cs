@@ -89,7 +89,7 @@ namespace ProjectTank
             if (shotSpecialShots >= Level.dead) { return; }
             // fire cooldown not ready
             if (fireCooldownCountdown > 0)  { return; }
-
+            shotSpecialShots += 1;
 
             fireCooldownCountdown = 2f;
             Vector2 offset = Utility.radToV2(turret.GetRotation()) * 16;
