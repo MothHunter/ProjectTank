@@ -47,7 +47,7 @@ namespace ProjectTank
             arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
             Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
             Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
-            testTank = new PlayerTank(new Vector2(200, 200), tankSprite, turretSprite);
+            testTank = new PlayerTank(new Vector2(100, 100), tankSprite, turretSprite);
             if(levelcount <= 3) { 
                 level = new Level(levelcount, testTank);
             }

@@ -129,6 +129,9 @@ namespace ProjectTank
             }
 
             Level.specialShot = null;
+            GraphicsEffect graphicsEffect = new GraphicsEffect(AssetController.GetInstance().getTexture2D(graphicsAssets.Explosion),
+                                                position, 0.7f, 1.01f, new Vector2(32, 32));
+            Level.graphicsEffects.Add(graphicsEffect);
         }
     }
 }
