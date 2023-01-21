@@ -19,7 +19,6 @@ namespace ProjectTank
             currentHP = maxHP;
         }
 
-        public int GetCurrentHP() { return currentHP; }
 
         public override void Draw(SpriteBatch spriteBatch)
         {

@@ -173,5 +173,9 @@ namespace ProjectTank
         }
 
         public Vector2 GetPosition() { return position; }
+
+        public int GetMaxHP() { return maxHP; }
+        public int GetCurrentHP() { return currentHP; }
+
     }
 }
