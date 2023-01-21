@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,16 +88,21 @@ namespace ProjectTank
             List<Tank> hitTanks = new List<Tank>();
 
             points.Add(position);
+
+            // add 8 points around position for collision control
             for (int i = 0; i < 8; i++)
             {
-                points.Add(Utility.radToV2((float)Math.PI * 2) * i / 8f);
+                // create normalized direction vectors
+                Vector2 direction = Utility.radToV2((float)Math.PI * 2 * (i / 8f));
+                // create points around "position" in "direction" at distance of "explosionRadius"
+                points.Add(position + (direction * expRadius));
             }
 
             foreach (Vector2 point in points)
             {
                 foreach (Obstacle obstacle in Level.obstacles)
                 {
-                    if (obstacle.GetCollisionBox().Contains(position))
+                    if (obstacle.GetCollisionBox().Contains(point))
                     {
                         if (!obstacle.IsDestroyed())
                         {
@@ -106,12 +112,12 @@ namespace ProjectTank
                 }
                 foreach (AiTank aiTank in Level.aitanks)
                 {
-                    if (aiTank.GetCollisionBox().Contains(position))
+                    if (aiTank.GetCollisionBox().Contains(point))
                     {
                         hitTanks.Add(aiTank);
                     }
                 }
-                if (Level.tank.GetCollisionBox().Contains(position))
+                if (Level.tank.GetCollisionBox().Contains(point))
                 {
                     hitTanks.Add(Level.tank);
                 }
@@ -130,7 +136,7 @@ namespace ProjectTank
 
             Level.specialShot = null;
             GraphicsEffect graphicsEffect = new GraphicsEffect(AssetController.GetInstance().getTexture2D(graphicsAssets.Explosion),
-                                                position, 0.7f, 1.01f, new Vector2(32, 32));
+                                                position, 0.7f, 1.02f, new Vector2(32, 32));
             Level.graphicsEffects.Add(graphicsEffect);
         }
     }
