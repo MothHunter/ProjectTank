@@ -12,7 +12,7 @@ namespace ProjectTank
 {
     internal class PlayerTank : Tank
     {
-        public int availableSpecialShots = 2;
+        public int shotSpecialShots = 0;
         public PlayerTank(Vector2 position, Texture2D tankSprite, Texture2D turretSprite) : base(position, tankSprite, turretSprite)
         {
             maxHP = 100;
@@ -86,7 +86,7 @@ namespace ProjectTank
         protected void ShootSpecial()
         {
             // no special shots available
-            if (availableSpecialShots <= 0) { return; }
+            if (shotSpecialShots >= Level.dead) { return; }
             // fire cooldown not ready
             if (fireCooldownCountdown > 0)  { return; }
 
