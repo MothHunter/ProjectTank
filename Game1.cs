@@ -113,7 +113,11 @@ namespace ProjectTank
                     Level.obstacles.Clear();
                     Level.projectiles.Clear();
                     Level.dead = 0;
-                    if (Level.tank.isAlive)
+                    if (levelcount == 3 && Level.tank.isAlive)
+                    {
+                        levelcount = 1;
+                    }
+                    else if (Level.tank.isAlive)
                     {
                         levelcount += 1;
                     }
