@@ -150,20 +150,8 @@ namespace ProjectTank
             Game1.projectileCount++;
         }
 
+        public abstract void getHit(int damage);
 
-        public void getHit(int damage)
-        {
-            currentHP -= damage;
-            if (currentHP <= 0)
-            {
-                if (isAlive)
-                {
-                    Level.dead += 1;
-                }
-                isAlive = false;
-                turret.Die();
-            }
-        }
 
         public abstract void getInput(GameTime gameTime);
 

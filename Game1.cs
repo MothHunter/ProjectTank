@@ -26,7 +26,7 @@ namespace ProjectTank
         float seconds;
         bool paused = false;
         bool finished = false;
-        int levelcount = 1;
+        int levelcount = 3;
 
 
         public Game1()
@@ -48,7 +48,7 @@ namespace ProjectTank
             Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
             Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
             testTank = new PlayerTank(new Vector2(200, 200), tankSprite, turretSprite);
-            if(levelcount < 3) { 
+            if(levelcount <= 3) { 
                 level = new Level(levelcount, testTank);
             }
             
@@ -100,19 +100,21 @@ namespace ProjectTank
                     timeSum = gameTime.TotalGameTime;
                     seconds = timeSum.Seconds;
                     // points -= (int)(seconds * 10) - (projectileCount * 25) - ((100 - testTank.GetCurrentHP()) * 50) + ( Level.aitanks.Count * 100);
-                    int enemyHP = 0;
+                    int enemyCurrHP = 0;
+                    int enemyMaxHP = 0;
                     foreach(Tank aitank in Level.aitanks)
                     {
-                        enemyHP *= aitank.GetCurrentHP();
+                        enemyCurrHP += aitank.GetCurrentHP();
+                        enemyMaxHP += aitank.GetMaxHP();
                     }
-                    points = Math.Max((Level.tank.GetCurrentHP() * 10) - (projectileCount * 4) - (int)(seconds * 5) - (enemyHP * 3), 0);
+                    points = Math.Max((Level.tank.GetCurrentHP() * 10) - (projectileCount * 4) - (int)(seconds * 5) - (enemyMaxHP - enemyCurrHP * 10), 0);
                     // TODO: point speichern wenn lvl abgeschlossen
 
                     Level.aitanks.Clear();
                     Level.obstacles.Clear();
                     Level.projectiles.Clear();
                     Level.dead = 0;
-                    if (!Level.tank.isAlive)
+                    if (Level.tank.isAlive)
                     {
                         levelcount += 1;
                     }
