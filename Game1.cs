@@ -26,7 +26,7 @@ namespace ProjectTank
         float seconds;
         bool paused = false;
         bool finished = false;
-        int levelcount = 1;
+        int levelcount = 3;
 
 
         public Game1()
@@ -48,7 +48,7 @@ namespace ProjectTank
             Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
             Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
             testTank = new PlayerTank(new Vector2(200, 200), tankSprite, turretSprite);
-            if(levelcount < 3) { 
+            if(levelcount <= 3) { 
                 level = new Level(levelcount, testTank);
             }
             
@@ -105,7 +105,7 @@ namespace ProjectTank
                     Level.obstacles.Clear();
                     Level.projectiles.Clear();
                     Level.dead = 0;
-                    if (Level.aitanks.Count == Level.dead)
+                    if (Level.tank.isAlive)
                     {
                         levelcount += 1;
                     }
