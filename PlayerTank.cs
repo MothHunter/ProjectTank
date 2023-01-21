@@ -97,5 +97,15 @@ namespace ProjectTank
             SpecialShot shot = new SpecialShot(turret.GetRotation(), 10f, 50, position + offset, target);
             Level.specialShot = shot;
         }
+        public override void getHit(int damage)
+        {
+            currentHP -= damage;
+            if (currentHP <= 0)
+            {
+                isAlive = false;
+                turret.Die();
+                // TODO: zu endscreen weiterleiten
+            }
+        }
     }
 }
