@@ -36,6 +36,11 @@ namespace ProjectTank
             spriteBatch.Draw(pixel, frame, Color.Black);
             spriteBatch.Draw(pixel, life, Color.Green);
             spriteBatch.Draw(pixel, spentLife, Color.Red);
+            if(shotSpecialShots < Level.dead)
+            {
+                Texture2D icon = AssetController.GetInstance().getTexture2D(graphicsAssets.IconSpecialShot);
+                spriteBatch.Draw(icon, new Rectangle(1134, 34, 48, 48), Color.White);
+            }
         }
 
 
