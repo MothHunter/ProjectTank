@@ -13,15 +13,21 @@ namespace ProjectTank
     public class Projectile
     {
 
-        float rotation;
-        float speed = 10f;
-        int damage = 50;
-        int remainingBounces = 1;
-        Vector2 position;
+        float rotation; // direction in which the projectile travels
+        float speed = 10f; // speed at which the projectile travels
+        int damage = 50; // damage the projectile does on impact
+        int remainingBounces = 1; // remaining bounces off of indestructable objects
+        Vector2 position; // current position of the projectile
 
-        Texture2D sprite;
-        Vector2 drawOffset;
+        Texture2D sprite; // graphic
+        Vector2 drawOffset; // offset
 
+        /// <summary>
+        /// Constructor 1 used for the standard shot
+        /// </summary>
+        /// <param name="position">position of the projectile</param>
+        /// <param name="sprite">the graphic for projectile</param>
+        /// <param name="rotation">the direction the projectile travels</param>
         public Projectile(Vector2 position, Texture2D sprite, float rotation)
         {
             this.position = position;
@@ -30,6 +36,15 @@ namespace ProjectTank
             this.drawOffset = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
+        /// <summary>
+        /// constructor 2 used for "shotgun shot"
+        /// </summary>
+        /// <param name="position">position of the projectile</param>
+        /// <param name="sprite">graphic</param>
+        /// <param name="rotation">direction the projectile travels to</param>
+        /// <param name="speed">speed at which the projectile is traveling</param>
+        /// <param name="maxBounce">maximum bounces off of indestructable objects</param>
+        /// <param name="damage">damage the projectile does on impact</param>
         public Projectile(Vector2 position, Texture2D sprite, float rotation, float speed, 
                         int maxBounce, int damage)
         {
@@ -41,29 +56,49 @@ namespace ProjectTank
             this.damage = damage;
             this.drawOffset = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
-
+        /// <summary>
+        /// updates the position of the bullet by adding the speed multiplied by the rotation to the position
+        /// </summary>
         public void update()
         {
             position += Utility.radToV2(rotation) * speed;
         }
-
+        /// <summary>
+        /// draws the projectile
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, position, null, Color.White, rotation, drawOffset, new Vector2(1, 1), SpriteEffects.None, 1.0f);
         }
+        /// <summary>
+        /// returns the current posiotion of the projectile as a Vector2
+        /// </summary>
+        /// <returns>the current position of the projectile</returns>
         public Vector2 getPosition()
         {
             return position;
         }
+        /// <summary>
+        /// returns the damage the bullet does as a int
+        /// </summary>
+        /// <returns>damage as int</returns>
         public int GetDamage()
         {
             return damage;
         }
-
+        /// <summary>
+        /// returns the remaining bounces the bullet has off of undestructable objects before exploding
+        /// </summary>
+        /// <returns>remaining bounces</returns>
         public int GetRemainingBounces() { return remainingBounces; }
-
+        /// <summary>
+        /// given a collisionBox the function bounces the projectile off of the collisionbox changing its rotation
+        /// </summary>
+        /// <param name="box">the collisionbox the projectile is reflected off of</param>
         public void Reflect(CollisionBox box)
         {
+            // lowers the bounces remaining by 1
             remainingBounces -= 1;
 
             // find out which side the shot collided with
@@ -87,6 +122,7 @@ namespace ProjectTank
             }
             else
             {
+                // the shot was closer to an horizontally edge than to a vertical edge => reflect vertical
                 rotation = Utility.V2ToRad(new Vector2(currentVector.X, - currentVector.Y));
             }
         }

@@ -10,6 +10,9 @@ namespace ProjectTank
 {
     internal class InputController
     {
+        // state variables for keyboard and mouse in the current and previous frame
+        // previous frame states are used to distinguish between initial key/button press
+        // and holding down a key/button
         private KeyboardState currentKeyboardState;
         private KeyboardState previousKeyboardState;
 
@@ -22,6 +25,8 @@ namespace ProjectTank
         {
             currentKeyboardState = Keyboard.GetState();
             currentMouseState = Mouse.GetState();
+            previousKeyboardState = currentKeyboardState;
+            previousMouseState = currentMouseState;
         }
 
         public static InputController GetInstance()
@@ -40,11 +45,23 @@ namespace ProjectTank
             currentMouseState = Mouse.GetState();
         }
 
+        /// <summary>
+        /// Returns whether a key is currently down; independednt of previous state
+        /// </summary>
+        /// <param name="key">The key to check</param>
+        /// <returns>true if key is down, false otherwise</returns>
         public bool GetKeyDown(Keys key)
         {
             return currentKeyboardState.IsKeyDown(key);
         }
 
+        /// <summary>
+        /// Returns whether a key press has occured in this frame; only evaluates to true once
+        /// until the key gets released again
+        /// </summary>
+        /// <param name="key">The key to check</param>
+        /// <returns>true if the key has been pressed this frame, false if it is up or was 
+        /// already down in the previous frame</returns>
         public bool GetKeyPressed(Keys key)
         {
             return (!previousKeyboardState.IsKeyDown(key) && currentKeyboardState.IsKeyDown(key));            
@@ -53,7 +70,7 @@ namespace ProjectTank
         /// <summary>
         /// Method <c>GetChar</c> returns the first currently pressed char or null if none are pressed
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The char as a String</returns>
         public String GetChar()
             
         {
@@ -67,17 +84,32 @@ namespace ProjectTank
             return null;
         }
 
+        /// <summary>
+        /// Returns whether the left mouse button has been pressed during this frame;
+        /// only evaluates to true once until the button gets released again
+        /// </summary>
+        /// <returns></returns>
         public bool GetLeftClick()
         {
             return (previousMouseState.LeftButton != ButtonState.Pressed &&
                 currentMouseState.LeftButton == ButtonState.Pressed);
         }
+
+        /// <summary>
+        /// Returns whether the right mouse button has been pressed during this frame;
+        /// only evaluates to true once until the button gets released again
+        /// </summary>
+        /// <returns></returns>
         public bool GetRightClick()
         {
             return (previousMouseState.RightButton != ButtonState.Pressed &&
                 currentMouseState.RightButton == ButtonState.Pressed);
         }
 
+        /// <summary>
+        /// Returns the coordínates of the mouse cursor
+        /// </summary>
+        /// <returns></returns>
         public Vector2 GetCursorPosition()
         {
             return new Vector2(currentMouseState.X, currentMouseState.Y);

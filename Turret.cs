@@ -12,11 +12,11 @@ namespace ProjectTank
 {
     internal class Turret
     {
-        Texture2D sprite;
-        Vector2 drawOffset;
-        Vector2 position;
-        float rotation = 0f;
-        bool isAlive = true;
+        Texture2D sprite;       // the graphic of the turret
+        Vector2 drawOffset;     // drawoffset for drawing
+        Vector2 position;       // center of the turret
+        float rotation = 0f;    // direction turret is pointing in
+        bool isAlive = true;    // whether turret is still active
 
 
         public Turret(Vector2 position, Texture2D sprite, float rotation)
@@ -27,16 +27,23 @@ namespace ProjectTank
             this.drawOffset = new Vector2(sprite.Width / 2, sprite.Height / 2);
         }
 
+        /// <summary>
+        /// Disables the turret; called by the corresponding tank on its destruction
+        /// </summary>
         public void Die()
         {
             isAlive = false;
-            GraphicsEffect graphicsEffect = new GraphicsEffect(AssetController.GetInstance().getTexture2D(graphicsAssets.Explosion),
+            // create explosion effect on destruction
+            GraphicsEffect graphicsEffect = new GraphicsEffect(AssetController.GetInstance()
+                .getTexture2D(graphicsAssets.Explosion),
                                     position, 0.8f, 1.03f, new Vector2(16, 16));
             Level.graphicsEffects.Add(graphicsEffect);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, isAlive ? Color.White : Color.Black, rotation, drawOffset, new Vector2(1, 1), SpriteEffects.None, 1.0f);
+            // dead turrets are drawn in black
+            spriteBatch.Draw(sprite, position, null, isAlive ? Color.White : Color.Black, 
+                rotation, drawOffset, new Vector2(1, 1), SpriteEffects.None, 1.0f);
         }
 
         public void Update (Vector2 position, float rotate)

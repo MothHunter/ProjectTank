@@ -20,6 +20,13 @@ namespace ProjectTank
         public float GetWidth () { return width; }
         public float GetHeight () { return height; }
 
+        /// <summary>
+        /// constructs a new collision box with the following parameters
+        /// </summary>
+        /// <param name="center">chenter of the box</param>
+        /// <param name="rotation">rotation of the collision box</param>
+        /// <param name="width">width of the collision box</param>
+        /// <param name="height">height of the collision box</param>
         public CollisionBox(Vector2 center, float rotation, float width, float height)
         {
             this.center = center;
@@ -28,6 +35,7 @@ namespace ProjectTank
             this.height = height;
         }
 
+        // updates the rotatoin an position of the collision box
         public void Update(float rotation, Vector2 center)
         {
             this.rotation = rotation;

@@ -21,6 +21,12 @@ namespace ProjectTank
             return new Vector2((float)Math.Cos(radians), (float)Math.Sin(radians));
         }
 
+        /// <summary>
+        /// Method <c>V2ToRad</c> calculates the angle in radians from a vector.
+        /// Takes into account that x-axis is pointing downwards.
+        /// </summary>
+        /// <param name="vector2">the vector</param>
+        /// <returns>angle in radians</returns>
         public static float V2ToRad(Vector2 vector2)
         {
             return (float)Math.Atan2(vector2.Y, vector2.X);

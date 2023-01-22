@@ -32,7 +32,6 @@ namespace ProjectTank
             Texture2D dBrickDestroyed = AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed);
             Texture2D Brick64 = AssetController.GetInstance().getTexture2D(graphicsAssets.Brick64);
 
-            number = 3;
             if (number == 1)
             {
                 dead = 0;

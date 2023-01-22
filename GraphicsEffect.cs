@@ -10,8 +10,8 @@ namespace ProjectTank
 {
     internal class GraphicsEffect
     {
-        Texture2D sprite;
-        Vector2 position;
+        Texture2D sprite;           // the graphic for the effect
+        Vector2 position;           // the position of the effect
         float lifeTime;             // seconds effect exists
         float remainingLifeTime;    // countdown for lieftime
         float sizeChange;           // how much the effect changes size every frame; 1 to remain same size
@@ -19,6 +19,14 @@ namespace ProjectTank
         Vector2 scale;              // scale for drawing; calculated as effect size / sprite size
         Vector2 offset;             // for drawing; how much to offset visuals from position
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="sprite">the graphic</param>
+        /// <param name="position">the position (center) of the effect</param>
+        /// <param name="lifeTime">how long the effect exists</param>
+        /// <param name="sizeChange">how the effect changes size over time (1 for no changes)</param>
+        /// <param name="size">the initial size of the effect</param>
         public GraphicsEffect(Texture2D sprite, Vector2 position, float lifeTime, float sizeChange, Vector2 size)
         {
             this.sprite = sprite;
