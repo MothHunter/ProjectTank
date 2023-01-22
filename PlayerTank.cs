@@ -12,7 +12,7 @@ namespace ProjectTank
 {
     internal class PlayerTank : Tank
     {
-        public int shotSpecialShots = -10; // counts the special shots fired; will be reset every level
+        public int shotSpecialShots = 0; // counts the special shots fired; will be reset every level
         int selectedSpecial = 0;
 
         /// <summary>
@@ -50,6 +50,7 @@ namespace ProjectTank
             spriteBatch.Draw(pixel, spentLife, Color.Red); // draws the red liveLostBar
             if(shotSpecialShots < Level.dead) // checks if there are special shots available and if so draws a special shot icon on screen
             {
+                // not selected special shot is grayed out
                 Texture2D icon = AssetController.GetInstance().getTexture2D(graphicsAssets.IconSpecialShot);
                 spriteBatch.Draw(icon, new Rectangle(1158, 8, 48, 48), selectedSpecial==1?Color.White: Color.Gray);
                 Texture2D icon0 = AssetController.GetInstance().getTexture2D(graphicsAssets.IconSpecialShot0);
