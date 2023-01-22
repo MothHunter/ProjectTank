@@ -1,15 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
-using static ProjectTank.Level;
 
 namespace ProjectTank
 {
@@ -23,9 +13,6 @@ namespace ProjectTank
 
 		bool destructible;
 		int health;
-		int width;
-		int height;
-		Vector2 center;
 		bool destroyed;
 
 		public Obstacle(Vector2 position, Texture2D sprite, Texture2D hitSprite, Texture2D destroyedSprite, bool destructible, int health, int width, int height, Vector2 center)
@@ -36,9 +23,6 @@ namespace ProjectTank
 			this.destroyedSprite = destroyedSprite;
 			this.destructible = destructible;
 			this.health = health;
-			this.width = width;
-			this.height = height;
-			this.center = center;
 			this.destroyed = false;
 			this.collisionBox = new CollisionBox(center, 0f, width, height);
 		}
