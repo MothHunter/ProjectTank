@@ -14,7 +14,7 @@ namespace ProjectTank
             base(position, AssetController.GetInstance().getTexture2D(graphicsAssets.Tank3Chassis),
                 AssetController.GetInstance().getTexture2D(graphicsAssets.Tank3Turret))
         {
-            maxSpeed = 3f;
+            maxSpeed = 1.5f;
             maxHP = 100;
             currentHP = maxHP;
             fireCooldown = 1.6f;

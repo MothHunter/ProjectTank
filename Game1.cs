@@ -195,6 +195,8 @@ namespace ProjectTank
                     Level.aitanks.Clear();
                     Level.obstacles.Clear();
                     Level.projectiles.Clear();
+                    Level.graphicsEffects.Clear();
+                    Level.specialShot = null;
                     Level.dead = 0;
                     if (levelcount == 3 && Level.tank.isAlive)
                     {

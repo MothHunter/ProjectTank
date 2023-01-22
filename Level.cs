@@ -32,6 +32,7 @@ namespace ProjectTank
             Texture2D dBrickDestroyed = AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed);
             Texture2D Brick64 = AssetController.GetInstance().getTexture2D(graphicsAssets.Brick64);
 
+            number = 3;
             if (number == 1)
             {
                 dead = 0;
@@ -115,7 +116,7 @@ namespace ProjectTank
 
                 this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));
 
-                aitanks.Add(new AiTank1(new Vector2(1120, 96)));
+                aitanks.Add(new AiTank1(new Vector2(1120, 64)));
                 aitanks.Add(new AiTank2(new Vector2(288, 320)));
                 aitanks.Add(new AiTank2(new Vector2(928, 512)));
                 aitanks.Add(new AiTank3(new Vector2(576, 320)));
@@ -210,6 +211,9 @@ namespace ProjectTank
             // remove expired projectiles
             foreach(Projectile p in removeProjectiles)
             {
+                GraphicsEffect graphicsEffect = new GraphicsEffect(AssetController.GetInstance().getTexture2D(graphicsAssets.Explosion),
+                                   p.getPosition(), 0.4f, 1.02f, new Vector2(8, 8));
+                Level.graphicsEffects.Add(graphicsEffect);
                 projectiles.Remove(p);
             }
 

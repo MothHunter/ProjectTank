@@ -15,7 +15,7 @@ namespace ProjectTank
     {
         float rotation;
         float speed = 10f;
-        int damage = 50;
+        int damage = 70;
         Vector2 position;
         float expRadius = 32;
         float fuseTime;
@@ -30,7 +30,7 @@ namespace ProjectTank
             this.damage = damage;
             this.position = position;
             // fuse time = distance / (speed in pixel/frame)
-            this.fuseTime = ((target - position).Length() / (speed / 60f));
+            this.fuseTime = ((target - position).Length() / speed);
             this.sprite = AssetController.GetInstance().getTexture2D(graphicsAssets.SpecialShot);
             this.drawOffset = new Vector2(24, 8);
         }
@@ -42,7 +42,7 @@ namespace ProjectTank
         public void Update(GameTime gameTime)
         {
             position += Utility.radToV2(rotation) * speed;
-            fuseTime -= gameTime.ElapsedGameTime.Milliseconds / 1000f;
+            fuseTime--;
 
             if (fuseTime <= 0 )
             {

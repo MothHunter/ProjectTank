@@ -30,6 +30,9 @@ namespace ProjectTank
         public void Die()
         {
             isAlive = false;
+            GraphicsEffect graphicsEffect = new GraphicsEffect(AssetController.GetInstance().getTexture2D(graphicsAssets.Explosion),
+                                    position, 0.8f, 1.03f, new Vector2(16, 16));
+            Level.graphicsEffects.Add(graphicsEffect);
         }
         public void Draw(SpriteBatch spriteBatch)
         {

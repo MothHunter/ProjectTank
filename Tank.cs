@@ -14,7 +14,7 @@ namespace ProjectTank
     internal abstract class Tank
     {
         protected float speed = 0;
-        protected float maxSpeed = 6f;
+        protected float maxSpeed = 4f;
         protected float acceleration = 0.15f;
         protected float turnRate = 0.05f;
         protected float rotation = 0f;
