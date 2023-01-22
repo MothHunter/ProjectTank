@@ -139,13 +139,14 @@ namespace ProjectTank
         public void Draw(SpriteBatch spriteBatch)       
         {
             Map.Draw(spriteBatch);      // Draw Standard Map
+            
 
             // Draw all Obstacles in the List
             foreach (Obstacle obstacle in obstacles)       
             {
                 obstacle.Draw(spriteBatch);
             }
-
+            
             tank.Draw(spriteBatch);     // Draw Player Tank
 
             // Draw all Projectiles in the List
@@ -171,6 +172,17 @@ namespace ProjectTank
             {
                 graphicsEffect.Draw(spriteBatch);
             }
+        }
+
+        // Clearing Lists
+        public static void Clear()
+        {
+            aitanks.Clear();              // clear lists
+            obstacles.Clear();            // clear lists
+            projectiles.Clear();          // clear lists
+            graphicsEffects.Clear();      // clear lists
+            specialShot = null;           // specialShot is empty
+            dead = 0;                     // deadcounter reset
         }
 
         // Updating everything changeable
