@@ -42,6 +42,11 @@ namespace ProjectTank
             this.center = center;
         }
 
+        /// <summary>
+        /// is given a point an checks if this point is inside the collisionbox
+        /// </summary>
+        /// <param name="position">Vector2 of the point to be tested</param>
+        /// <returns>returns true if the point is contained inside the collisionbox otherwise returns false</returns>
         public bool Contains(Vector2 position)
         {
             // note: ignores rotation of the collisionbox!
@@ -53,9 +58,15 @@ namespace ProjectTank
             return false;
         }
 
+        /// <summary>
+        /// checks if this and the given collision box collide
+        /// </summary>
+        /// <param name="box2">the second collisionbox</param>
+        /// <returns>returns true when the two collisionboxes have points in common</returns>
         public bool Collides(CollisionBox box2)
         {
             // note: ignores rotation of both collisionboxes!
+            // calculates the highest and lowest x and y for each box
             float b1X1 = center.X - width / 2;
             float b1X2 = center.X + width / 2;
             float b1Y1 = center.Y - height / 2;
@@ -66,7 +77,7 @@ namespace ProjectTank
             float b2Y1 = box2.GetCenter().Y - box2.GetHeight() / 2;
             float b2Y2 = box2.GetCenter().Y + box2.GetHeight() / 2;
 
-
+            // checks if the points overlap
             if (((b1Y1 > b2Y1 && b1Y1 < b2Y2) || (b1Y2 > b2Y1 && b1Y2 < b2Y2)) &&
                ((b1X1 > b2X1 && b1X1 < b2X2) || (b1X2 > b2X1 && b1X2 < b2X2)))
             {
