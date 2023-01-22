@@ -174,6 +174,17 @@ namespace ProjectTank
             }
         }
 
+        // Clearing Lists
+        public static void Clear()
+        {
+            aitanks.Clear();              // clear lists
+            obstacles.Clear();            // clear lists
+            projectiles.Clear();          // clear lists
+            graphicsEffects.Clear();      // clear lists
+            specialShot = null;           // specialShot is empty
+            dead = 0;                     // deadcounter reset
+        }
+
         // Updating everything changeable
         public void Update(GameTime gameTime)
         {
