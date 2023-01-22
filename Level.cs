@@ -134,81 +134,98 @@ namespace ProjectTank
         }
 
         public bool getDone(){ return done; }       // Getter for bool done;
-        public void Draw(SpriteBatch spriteBatch)       // This function is responsible for drawing the whole level
+
+        // This function is responsible for drawing the whole level
+        public void Draw(SpriteBatch spriteBatch)       
         {
             Map.Draw(spriteBatch);      // Draw Standard Map
             tank.Draw(spriteBatch);     // Draw Player Tank
 
-            foreach (Obstacle obstacle in obstacles)       // Draw all Obstacles in the List
+            // Draw all Obstacles in the List
+            foreach (Obstacle obstacle in obstacles)       
             {
                 obstacle.Draw(spriteBatch);
             }
 
-            foreach (Projectile projectile in projectiles)      // Draw all Projectiles in the List
+            // Draw all Projectiles in the List
+            foreach (Projectile projectile in projectiles)      
             {
                 projectile.Draw(spriteBatch);
             }
 
-            foreach(AiTank aitank in aitanks)
+            // Draw all AiTanks in the List
+            foreach (AiTank aitank in aitanks)       
             {
                 aitank.Draw(spriteBatch);
             }
-            if (specialShot != null)
+            
+            // Draw the Special Shot if one exists
+            if (specialShot != null)        
             {
                 specialShot.Draw(spriteBatch);
             }
 
             // draw graphics effects
-            foreach(GraphicsEffect graphicsEffect in graphicsEffects)
+            foreach(GraphicsEffect graphicsEffect in graphicsEffects)       
             {
                 graphicsEffect.Draw(spriteBatch);
             }
         }
 
+        // Updating everything changeable
         public void Update(GameTime gameTime)
         {
+            // Updating Tanks
             tank.Update(gameTime);
             foreach(AiTank aiTank in aitanks)
             {
                 aiTank.Update(gameTime);
             }
-            List<Projectile> removeProjectiles = new List<Projectile>();
+
+            List<Projectile> removeProjectiles = new List<Projectile>();    // All projectile, hitting a target or expireing are added here
+
+            // Updating Projectiles
             foreach (Projectile projectile in projectiles)
             {
                 projectile.update();
-                foreach (Obstacle obstacle in obstacles)
+
+                foreach (Obstacle obstacle in obstacles)        // Checking Obstacles
                 {
-                    if (obstacle.GetCollisionBox().Contains(projectile.getPosition()))
+                    if (obstacle.GetCollisionBox().Contains(projectile.getPosition()))      // Hit on a obstacle
                     {
-                        if (obstacle.IsDestructible() && !obstacle.IsDestroyed())
+                        if (obstacle.IsDestructible() && !obstacle.IsDestroyed())       // Hit on a destroyable obstacle
                         {
-                            obstacle.OnHit(projectile.GetDamage());
-                            removeProjectiles.Add(projectile);
+                            obstacle.OnHit(projectile.GetDamage());     // Apply Damage
+                            removeProjectiles.Add(projectile);          // Add to remove List
                         }
-                        else if (!obstacle.IsDestructible())
+                        else if (!obstacle.IsDestructible())        // Hit on a non destroyable object 
                         {
-                            projectile.Reflect(obstacle.GetCollisionBox());
+                            projectile.Reflect(obstacle.GetCollisionBox());     // Reflect Bullet
                         }
                     }
                 }
-                foreach (AiTank aiTank in aitanks)
+
+                foreach (AiTank aiTank in aitanks)      // Checking AiTanks
                 {
-                    if (aiTank.GetCollisionBox().Contains(projectile.getPosition()))
+                    if (aiTank.GetCollisionBox().Contains(projectile.getPosition()))    // Hit
                     {
-                        aiTank.getHit(projectile.GetDamage());
-                        removeProjectiles.Add(projectile);
+                        aiTank.getHit(projectile.GetDamage());      // Apply Damage
+                        removeProjectiles.Add(projectile);          // Add to remove List
                     }
                 }
-                if (tank.GetCollisionBox().Contains(projectile.getPosition()))
+
+                if (tank.GetCollisionBox().Contains(projectile.getPosition()))      // Checking Player Tank
                 {
-                    tank.getHit(projectile.GetDamage());
-                    removeProjectiles.Add(projectile);
+                    tank.getHit(projectile.GetDamage());        // Apply Damage
+                    removeProjectiles.Add(projectile);          // Add to remove List
                 }
-                if (projectile.GetRemainingBounces() < 0)
+
+                if (projectile.GetRemainingBounces() < 0)       // if already bounced
                 {
-                    removeProjectiles.Add(projectile);
+                    removeProjectiles.Add(projectile);          // Add to remove List
                 }
             }
+            // Updating Special Shot if exists
             if (specialShot != null)
             {
                 specialShot.Update(gameTime);
