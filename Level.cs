@@ -1,82 +1,83 @@
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace ProjectTank
 {
     internal class Level
     {
-        Map map;
-        public static List<Obstacle> obstacles = new List<Obstacle>();
-        public static List<Projectile> projectiles = new List<Projectile>();
-        public static List<AiTank> aitanks = new List<AiTank>();
-        public static List<GraphicsEffect> graphicsEffects = new List<GraphicsEffect>();
-        public static SpecialShot specialShot; // only one can exist at a time
-
-        public static Tank tank;
-        bool done;
-        public static int dead = 0; // counts dead ai tanks
+        public static List<Obstacle> obstacles = new List<Obstacle>();                      // Consists of all Obstacles in this level, if destroyable or not
+        public static List<Projectile> projectiles = new List<Projectile>();                // All active (flying) Projectils
+        public static List<AiTank> aitanks = new List<AiTank>();                            // All AiTanks
+        public static List<GraphicsEffect> graphicsEffects = new List<GraphicsEffect>();    // All active Graphicseffects
+        public static SpecialShot specialShot;                                              // only one can exist at a time 
+        public static Tank tank;                                                            // Player Tank
+       
+        bool done;                                                                          // Shows if the level was successfully done
+        public static int dead = 0;                                                         // counts dead ai tanks
 
         public Level(int number, Tank tank)
         {
-            Texture2D castle = AssetController.GetInstance().getTexture2D(graphicsAssets.Castle);
+            // Setting Textures used in more than one level          
             Texture2D dBrick = AssetController.GetInstance().getTexture2D(graphicsAssets.dBrick);
             Texture2D dBrickHalf = AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickHalf);
             Texture2D dBrickDestroyed = AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed);
             Texture2D Brick64 = AssetController.GetInstance().getTexture2D(graphicsAssets.Brick64);
 
-            number = 3;
-            if (number == 1)
+            Map.addToList();    // Adding the CollisionBoxes from the Border
+
+            if (number == 1)    // Level 1
             {
-                dead = 0;
+                Texture2D castle = AssetController.GetInstance().getTexture2D(graphicsAssets.Castle);       // Setting the texture only used in this level
+                
+                dead = 0;       // At the start of the Level, no Tanks are dead
+                
+                // Adding Obstacles to the list
                 obstacles.Add(new Obstacle(new Vector2(544, 320), castle, null, null, false, 100, 96, 96, new Vector2(592, 368)));
                 obstacles.Add(new Obstacle(new Vector2(800, 150), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(832, 182)));
                 obstacles.Add(new Obstacle(new Vector2(400, 550), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(432, 582)));
 
-                this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));   //TODO: Move to Level for easy implement of different skins
-
+                // Adding the textures for the tank
                 Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
                 Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
 
+                // Adding AiTank
                 aitanks.Add(new AiTank1(new Vector2(1000, 700)));
             }
 
-            if(number == 2)
+            if(number == 2)     // Level 2
             {
-                dead = 0;
-                
+                dead = 0;       // At the start of the Level, no Tanks are dead
+
+                // Adding non destroyable obstacles
                 obstacles.Add(new Obstacle(new Vector2(544, 384), Brick64, null, null, false, 100, 64, 64, new Vector2(576, 416)));
                 obstacles.Add(new Obstacle(new Vector2(608, 352), Brick64, null, null, false, 100, 64, 64, new Vector2(640, 384)));
 
+                // Adding destroyable obstacles
                 obstacles.Add(new Obstacle(new Vector2(480, 416), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(512, 448)));
                 obstacles.Add(new Obstacle(new Vector2(416, 448), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(448, 480)));
                 obstacles.Add(new Obstacle(new Vector2(352, 480), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(684, 512)));
                 obstacles.Add(new Obstacle(new Vector2(288, 512), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(320, 544)));
                 obstacles.Add(new Obstacle(new Vector2(224, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(256, 576)));
-
                 obstacles.Add(new Obstacle(new Vector2(672, 320), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(704, 352)));
                 obstacles.Add(new Obstacle(new Vector2(736, 288), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(768, 320)));
                 obstacles.Add(new Obstacle(new Vector2(800, 256), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(832, 288)));
                 obstacles.Add(new Obstacle(new Vector2(864, 224), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(896, 256)));
                 obstacles.Add(new Obstacle(new Vector2(928, 192), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(960, 224)));
-
-                this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));
                 
+                // Adding AiTanks
                 aitanks.Add(new AiTank1(new Vector2(1000, 650)));
                 aitanks.Add(new AiTank2(new Vector2(900, 700)));
                 aitanks.Add(new AiTank2(new Vector2(1100, 600)));
 
             }
-            if(number == 3)
+            if(number == 3)     // Level 3
             {
-                dead = 0;
+                dead = 0;       // At the start of the Level, no Tanks are dead
+
+                // First undestroyable walls get initialized
                 for (int i = 32; i <608; i= i+64)
                 {
                     obstacles.Add(new Obstacle(new Vector2(160, i), Brick64, null, null, false, 100, 64, 64, new Vector2(192, i + 32)));
@@ -89,6 +90,8 @@ namespace ProjectTank
                         obstacles.Add(new Obstacle(new Vector2(992, i), Brick64, null, null, false, 100, 64, 64, new Vector2(1024, i + 32)));
                     }
                 }
+
+                // Continuing 
                 for (int i = 416; i < 992; i= i+ 64)
                 {
                     
@@ -102,20 +105,21 @@ namespace ProjectTank
                         obstacles.Add(new Obstacle(new Vector2(i, 416), Brick64, null, null, false, 100, 64, 64, new Vector2(i + 32, 448)));
                     }
                 }
+
+                // Adding destroyable walls
                 obstacles.Add(new Obstacle(new Vector2(224, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(256, 576)));
                 obstacles.Add(new Obstacle(new Vector2(288, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(320, 576)));
                 obstacles.Add(new Obstacle(new Vector2(352, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(384, 576)));
                 obstacles.Add(new Obstacle(new Vector2(608, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(640, 576)));
                 obstacles.Add(new Obstacle(new Vector2(672, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(704, 576)));
-
                 obstacles.Add(new Obstacle(new Vector2(416, 416), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(448, 448)));
                 obstacles.Add(new Obstacle(new Vector2(480, 416), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(512, 448)));
-
                 obstacles.Add(new Obstacle(new Vector2(800, 352), dBrick, dBrickHalf, dBrickDestroyed, true, 64, 64, 64, new Vector2(832, 384)));
+
+                // Adding one last non destroyable wall
                 obstacles.Add(new Obstacle(new Vector2(800, 288), Brick64, null, null, false, 100, 64, 64, new Vector2(832, 320)));
 
-                this.map = new Map(AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/), AssetController.GetInstance().getTexture2D(graphicsAssets.Brick));
-
+                // Adding AiTanks
                 aitanks.Add(new AiTank1(new Vector2(1120, 64)));
                 aitanks.Add(new AiTank2(new Vector2(288, 320)));
                 aitanks.Add(new AiTank2(new Vector2(928, 512)));
@@ -124,25 +128,27 @@ namespace ProjectTank
                 aitanks.Add(new AiTank4(new Vector2(1120, 704)));
 
             }
-            Level.tank = tank;
-            this.done = false;
+
+            Level.tank = tank;      // Player Tank
+            this.done = false;      // At the start the level is not done
         }
 
-        public bool getDone(){ return done; }
-        public void Draw(SpriteBatch spriteBatch)
+        public bool getDone(){ return done; }       // Getter for bool done;
+        public void Draw(SpriteBatch spriteBatch)       // This function is responsible for drawing the whole level
         {
-            map.Draw(spriteBatch);
-            for(int i = 0; i < obstacles.Count; i++)
-            {
-                obstacles[i].Draw(spriteBatch);
-            }
-            
-            tank.Draw(spriteBatch);
+            Map.Draw(spriteBatch);      // Draw Standard Map
+            tank.Draw(spriteBatch);     // Draw Player Tank
 
-            foreach (Projectile projectile in projectiles)
+            foreach (Obstacle obstacle in obstacles)       // Draw all Obstacles in the List
+            {
+                obstacle.Draw(spriteBatch);
+            }
+
+            foreach (Projectile projectile in projectiles)      // Draw all Projectiles in the List
             {
                 projectile.Draw(spriteBatch);
             }
+
             foreach(AiTank aitank in aitanks)
             {
                 aitank.Draw(spriteBatch);

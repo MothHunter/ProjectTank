@@ -1,36 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace ProjectTank
 {
-    internal class Map
+    internal static class Map
     {
-        Texture2D sprite;
-        Texture2D border;
+        static Texture2D sprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Grass/*Border*/);
+        static Texture2D border = AssetController.GetInstance().getTexture2D(graphicsAssets.Brick);
         
         //Border CollisionBoxes
-        CollisionBox top = new CollisionBox(new Vector2(608, 16), 0f, 1216, 32);
-        CollisionBox bottom = new CollisionBox(new Vector2(608, 784), 0f, 1216, 32);
-        CollisionBox left = new CollisionBox(new Vector2(16, 400), 0f, 32, 800);
-        CollisionBox right = new CollisionBox(new Vector2(1200, 400), 0f, 32, 800);
+        static CollisionBox top = new CollisionBox(new Vector2(608, 16), 0f, 1216, 32);
+        static CollisionBox bottom = new CollisionBox(new Vector2(608, 784), 0f, 1216, 32);
+        static CollisionBox left = new CollisionBox(new Vector2(16, 400), 0f, 32, 800);
+        static CollisionBox right = new CollisionBox(new Vector2(1200, 400), 0f, 32, 800);
 
 
-        public Map(Texture2D sprite,Texture2D border)
-        {
-            this.sprite = sprite;
-            this.border = border;
-            addToList();
-        }
-
-        public void addToList()
+        public static void addToList()
         {
             Obstacle temp =new Obstacle(top);
             temp =new Obstacle(bottom);
@@ -38,7 +23,7 @@ namespace ProjectTank
             temp =new Obstacle(right);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public static void Draw(SpriteBatch spriteBatch)
         {
             for (int i = 32; i < 1184; i += 32)
             {
@@ -61,9 +46,5 @@ namespace ProjectTank
             }
         }
         
-        public void Update(GameTime gameTime)
-        {
-
-        }
     }
 }
