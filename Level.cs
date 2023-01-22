@@ -1,11 +1,39 @@
+using System.Collections.Generic;
+using System.Linq;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace ProjectTank
+{
+    internal class Level
+    {
+        public static List<Obstacle> obstacles = new List<Obstacle>();                      // Consists of all Obstacles in this level, if destroyable or not
+        public static List<Projectile> projectiles = new List<Projectile>();                // All active (flying) Projectils
+        public static List<AiTank> aitanks = new List<AiTank>();                            // All AiTanks
+        public static List<GraphicsEffect> graphicsEffects = new List<GraphicsEffect>();    // All active Graphicseffects
+        public static SpecialShot specialShot;                                              // only one can exist at a time 
+        public static Tank tank;                                                            // Player Tank
+
+        bool done;                                                                          // Shows if the level was successfully done
+        public static int dead = 0;                                                         // counts dead ai tanks
+
+        public Level(int number, Tank tank)
+        {
+            // Setting Textures used in more than one level          
+            Texture2D dBrick = AssetController.GetInstance().getTexture2D(graphicsAssets.dBrick);
+            Texture2D dBrickHalf = AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickHalf);
+            Texture2D dBrickDestroyed = AssetController.GetInstance().getTexture2D(graphicsAssets.dBrickDestroyed);
+            Texture2D Brick64 = AssetController.GetInstance().getTexture2D(graphicsAssets.Brick64);
+
             Map.addToList();    // Adding the CollisionBoxes from the Border
 
             if (number == 1)    // Level 1
             {
                 Texture2D castle = AssetController.GetInstance().getTexture2D(graphicsAssets.Castle);       // Setting the texture only used in this level
-                
+
                 dead = 0;       // At the start of the Level, no Tanks are dead
-                
+
                 // Adding Obstacles to the list
                 obstacles.Add(new Obstacle(new Vector2(544, 320), castle, null, null, false, 100, 96, 96, new Vector2(592, 368)));
                 obstacles.Add(new Obstacle(new Vector2(800, 150), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(832, 182)));
@@ -19,7 +47,7 @@
                 aitanks.Add(new AiTank1(new Vector2(1000, 700)));
             }
 
-            if(number == 2)     // Level 2
+            if (number == 2)     // Level 2
             {
                 dead = 0;       // At the start of the Level, no Tanks are dead
 
@@ -38,19 +66,19 @@
                 obstacles.Add(new Obstacle(new Vector2(800, 256), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(832, 288)));
                 obstacles.Add(new Obstacle(new Vector2(864, 224), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(896, 256)));
                 obstacles.Add(new Obstacle(new Vector2(928, 192), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(960, 224)));
-                
+
                 // Adding AiTanks
                 aitanks.Add(new AiTank1(new Vector2(1000, 650)));
                 aitanks.Add(new AiTank2(new Vector2(900, 700)));
                 aitanks.Add(new AiTank2(new Vector2(1100, 600)));
 
             }
-            if(number == 3)     // Level 3
+            if (number == 3)     // Level 3
             {
                 dead = 0;       // At the start of the Level, no Tanks are dead
 
                 // First undestroyable walls get initialized
-                for (int i = 32; i <608; i= i+64)
+                for (int i = 32; i < 608; i = i + 64)
                 {
                     obstacles.Add(new Obstacle(new Vector2(160, i), Brick64, null, null, false, 100, 64, 64, new Vector2(192, i + 32)));
                     if (i >= 160 && i <= 416)
@@ -64,9 +92,9 @@
                 }
 
                 // Continuing 
-                for (int i = 416; i < 992; i= i+ 64)
+                for (int i = 416; i < 992; i = i + 64)
                 {
-                    
+
                     obstacles.Add(new Obstacle(new Vector2(i, 160), Brick64, null, null, false, 100, 64, 64, new Vector2(i + 32, 192)));
                     if (i < 608 || i >= 736)
                     {
@@ -105,42 +133,42 @@
             this.done = false;      // At the start the level is not done
         }
 
-        public bool getDone(){ return done; }       // Getter for bool done;
+        public bool getDone() { return done; }       // Getter for bool done;
 
         // This function is responsible for drawing the whole level
-        public void Draw(SpriteBatch spriteBatch)       
+        public void Draw(SpriteBatch spriteBatch)
         {
             Map.Draw(spriteBatch);      // Draw Standard Map
-            
+
 
             // Draw all Obstacles in the List
-            foreach (Obstacle obstacle in obstacles)       
+            foreach (Obstacle obstacle in obstacles)
             {
                 obstacle.Draw(spriteBatch);
             }
-            
+
             tank.Draw(spriteBatch);     // Draw Player Tank
 
             // Draw all Projectiles in the List
-            foreach (Projectile projectile in projectiles)      
+            foreach (Projectile projectile in projectiles)
             {
                 projectile.Draw(spriteBatch);
             }
 
             // Draw all AiTanks in the List
-            foreach (AiTank aitank in aitanks)       
+            foreach (AiTank aitank in aitanks)
             {
                 aitank.Draw(spriteBatch);
             }
-            
+
             // Draw the Special Shot if one exists
-            if (specialShot != null)        
+            if (specialShot != null)
             {
                 specialShot.Draw(spriteBatch);
             }
 
             // draw graphics effects
-            foreach(GraphicsEffect graphicsEffect in graphicsEffects)       
+            foreach (GraphicsEffect graphicsEffect in graphicsEffects)
             {
                 graphicsEffect.Draw(spriteBatch);
             }
@@ -162,7 +190,7 @@
         {
             // Updating Tanks
             tank.Update(gameTime);
-            foreach(AiTank aiTank in aitanks)
+            foreach (AiTank aiTank in aitanks)
             {
                 aiTank.Update(gameTime);
             }
@@ -188,7 +216,6 @@
                             projectile.Reflect(obstacle.GetCollisionBox());     // Reflect Bullet
                         }
                     }
-
                 }
 
                 foreach (AiTank aiTank in aitanks)      // Checking AiTanks
@@ -218,7 +245,7 @@
             }
 
             // remove expired projectiles
-            foreach(Projectile p in removeProjectiles)
+            foreach (Projectile p in removeProjectiles)
             {
                 GraphicsEffect graphicsEffect = new GraphicsEffect(AssetController.GetInstance().getTexture2D(graphicsAssets.Explosion),
                                    p.getPosition(), 0.4f, 1.02f, new Vector2(8, 8));
