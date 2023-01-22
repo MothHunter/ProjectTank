@@ -216,6 +216,7 @@ namespace ProjectTank
                             projectile.Reflect(obstacle.GetCollisionBox());     // Reflect Bullet
                         }
                     }
+
                 }
 
                 foreach (AiTank aiTank in aitanks)      // Checking AiTanks
