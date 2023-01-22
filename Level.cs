@@ -139,13 +139,14 @@ namespace ProjectTank
         public void Draw(SpriteBatch spriteBatch)       
         {
             Map.Draw(spriteBatch);      // Draw Standard Map
-            tank.Draw(spriteBatch);     // Draw Player Tank
 
             // Draw all Obstacles in the List
             foreach (Obstacle obstacle in obstacles)       
             {
                 obstacle.Draw(spriteBatch);
             }
+
+            tank.Draw(spriteBatch);     // Draw Player Tank
 
             // Draw all Projectiles in the List
             foreach (Projectile projectile in projectiles)      

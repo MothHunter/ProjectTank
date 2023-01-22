@@ -19,7 +19,7 @@ namespace ProjectTank
         public static SpriteFont arial24;
         public static bool paused = false;
         public static bool finished = false;
-        public static bool beaten = true;
+        public static bool beaten = false;
         public static bool end = true;
         public static bool won = false;
         public static bool exit = false;
@@ -28,84 +28,31 @@ namespace ProjectTank
 
         public static void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) // enter Menu if Escape is pressed
             {
                 paused = true;
             }
-            if (paused)
+            if (paused || finished || end)
             {
-                if (Button1.Contains(InputController.GetInstance().GetCursorPosition()))
+                if (Button1.Contains(InputController.GetInstance().GetCursorPosition())) //hover over top button
                 {
                     buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
+                    if (InputController.GetInstance().GetLeftClick()) //click on top button
                     {
-                        paused = false;
+                        if (paused) { paused = false; } // continue Game
+                        if (finished) { finished = false; } // Next Level
+                        if (end) { Game1.points = 0; end = false; } // New Game after winning
                     }
-
                 }
-                else if (Button2.Contains(InputController.GetInstance().GetCursorPosition()))
+                else if (Button2.Contains(InputController.GetInstance().GetCursorPosition())) // hover over bottom button
                 {
                     buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
+                    if (InputController.GetInstance().GetLeftClick()) //click on bottom button
                     {
-                        exit= true;
+                        exit= true; //exit Game
                     }
                 }
-                else
-                {
-                    buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-                    buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-                }
-
-            }
-            if (finished)
-            {
-                if (Button1.Contains(InputController.GetInstance().GetCursorPosition()))
-                {
-                    buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
-                    {
-                        finished = false;
-                    }
-
-                }
-                else if (Button2.Contains(InputController.GetInstance().GetCursorPosition()))
-                {
-                    buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
-                    {
-                        exit = true;
-                    }
-                }
-                else
-                {
-                    buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-                    buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-                }
-
-            }
-
-            if (end)
-            {
-                if (Button1.Contains(InputController.GetInstance().GetCursorPosition()))
-                {
-                    buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
-                    {
-                        Game1.points = 0;
-                        end = false;
-
-                    }
-                }
-                else if (Button2.Contains(InputController.GetInstance().GetCursorPosition()))
-                {
-                    buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
-                    {
-                        exit = true;
-                    }
-                }
-                else
+                else //button stays dark
                 {
                     buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
                     buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
@@ -114,7 +61,7 @@ namespace ProjectTank
         }
         public static void Draw(SpriteBatch spriteBatch)
         {
-            if (paused || finished || end)
+            if (paused || finished || end) //draw Menu with different states
             {
                 spriteBatch.Draw(AssetController.GetInstance().getTexture2D(graphicsAssets.menuBackground), new Rectangle(256, 128, 704, 544), Color.White);
                 spriteBatch.Draw(buttonGraphic1, new Rectangle(384, 384, 448, 96), Color.White);
@@ -122,12 +69,13 @@ namespace ProjectTank
                 spriteBatch.DrawString(arial24, "Points: " + Game1.points, new Vector2(288, 150), Color.White);
                 if (paused)
                 {
+                    spriteBatch.DrawString(arial24, "Paused", new Vector2(544, 250), Color.White);
                     spriteBatch.DrawString(arial24, "Continue Game", new Vector2(500, 416), Color.Red);
                     spriteBatch.DrawString(arial24, "Exit", new Vector2(576, 544), Color.Red);
                 }
                 if (finished)
                 {
-                    if (won)
+                    if (beaten)
                     {
                         spriteBatch.DrawString(arial24, "You Beat The Level!", new Vector2(464, 250), Color.White);
                         spriteBatch.DrawString(arial24, "Next Level", new Vector2(536, 416), Color.Red);
@@ -145,9 +93,13 @@ namespace ProjectTank
 
                     spriteBatch.DrawString(arial24, "New Game", new Vector2(528, 416), Color.Red);
                     spriteBatch.DrawString(arial24, "Exit", new Vector2(576, 544), Color.Red);
-                    if (beaten)
+                    if (won)
                     {
                         spriteBatch.DrawString(arial24, "Congratulations!", new Vector2(496, 250), Color.White);
+                    }
+                    else
+                    {
+                        spriteBatch.DrawString(arial24, "Project Tank", new Vector2(512, 250), Color.White);
                     }
                 }
 

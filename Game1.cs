@@ -94,18 +94,18 @@ namespace ProjectTank
                     {
                         
                         Menu.end = true;
-                        Menu.beaten = true;
+                        Menu.won = true;
                         levelcount = 1;
                     }
                     else if (Level.tank.isAlive)
                     {
                         levelcount += 1;
-                        Menu.won = true;
+                        Menu.beaten = true;
                     }
                     else
                     {
                         Menu.finished = true;
-                        Menu.won = false;
+                        Menu.beaten = false;
                         levelcount = 1;
                     }
                     Initialize();              
