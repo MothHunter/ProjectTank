@@ -16,7 +16,8 @@ namespace ProjectTank
                                 Tank3Chassis, Tank3Turret, Tank4Chassis, Tank4Turret, 
                                 StandardProjectile, SpecialShot, Explosion,
                                 Grass, GrassBorder, Brick, Castle, Dirt, dBrick,
-                                Brick64, dBrickHalf, dBrickDestroyed, Pixel, menuBackground, DarkGrey, LightGrey, IconSpecialShot}
+                                Brick64, dBrickHalf, dBrickDestroyed, Pixel, menuBackground, DarkGrey, 
+                                LightGrey, IconSpecialShot, IconSpecialShot0}
     
     /// <summary>
     /// This is a singleton class responsible for loading game assets and making them available
@@ -70,6 +71,7 @@ namespace ProjectTank
             graphics.Add(graphicsAssets.DarkGrey, Game1.contentManager.Load<Texture2D>(@"graphics/dark_grey"));
             graphics.Add(graphicsAssets.LightGrey, Game1.contentManager.Load<Texture2D>(@"graphics/light"));
             graphics.Add(graphicsAssets.IconSpecialShot, Game1.contentManager.Load<Texture2D>(@"graphics/iconSpecialShot"));
+            graphics.Add(graphicsAssets.IconSpecialShot0, Game1.contentManager.Load<Texture2D>(@"graphics/iconSpecialShot0"));
 
         }
 

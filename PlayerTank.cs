@@ -12,7 +12,8 @@ namespace ProjectTank
 {
     internal class PlayerTank : Tank
     {
-        public int shotSpecialShots = 0; // counts the special shots fired; will be reset every level
+        public int shotSpecialShots = -10; // counts the special shots fired; will be reset every level
+        int selectedSpecial = 0;
 
         /// <summary>
         /// 
@@ -50,7 +51,9 @@ namespace ProjectTank
             if(shotSpecialShots < Level.dead) // checks if there are special shots available and if so draws a special shot icon on screen
             {
                 Texture2D icon = AssetController.GetInstance().getTexture2D(graphicsAssets.IconSpecialShot);
-                spriteBatch.Draw(icon, new Rectangle(1134, 34, 48, 48), Color.White);
+                spriteBatch.Draw(icon, new Rectangle(1158, 8, 48, 48), selectedSpecial==1?Color.White: Color.Gray);
+                Texture2D icon0 = AssetController.GetInstance().getTexture2D(graphicsAssets.IconSpecialShot0);
+                spriteBatch.Draw(icon0, new Rectangle(1108, 8, 48, 48), selectedSpecial == 0 ? Color.White : Color.Gray);
             }
         }
 
@@ -100,6 +103,15 @@ namespace ProjectTank
             {
                 ShootSpecial();
             }
+
+            if (input.GetKeyDown(Keys.Q))
+            {
+                selectedSpecial = 0;
+            }
+            if (input.GetKeyDown(Keys.E))
+            {
+                selectedSpecial = 1;
+            }
         }
 
         // tanks tries to fire a special shot
@@ -108,19 +120,41 @@ namespace ProjectTank
             // checks if a special shot is availabe by comparing the special shots already shot and the enemies dead
             if (shotSpecialShots >= Level.dead) { return; }
             // checks if the firecooldown is ready to fire
-            if (fireCooldownCountdown > 0)  { return; }
+            if (fireCooldownCountdown > 0) { return; }
+
+            if (selectedSpecial == 0)
+            {
+                // get graphic for shot
+                Texture2D projectileSprite = AssetController.GetInstance()
+                    .getTexture2D(graphicsAssets.StandardProjectile);
+
+                // calculate offset for where to create the shot relative to tank position
+                // so that the shot is not created on top of the tank
+                Vector2 offset = Utility.radToV2(turret.GetRotation()) * 16;
+
+                // add shot to list of projectiles managed by the Level class
+                Level.projectiles.Add(new Projectile(position + offset, projectileSprite,
+                    turret.GetRotation(), 10, 0, 35));
+                Level.projectiles.Add(new Projectile(position + offset, projectileSprite,
+                    turret.GetRotation(), 9, 0, 35));
+                Level.projectiles.Add(new Projectile(position + offset, projectileSprite,
+                    turret.GetRotation(), 11, 0, 35));
+            }
+            else
+            {              
+                // the offset is so the shot does not generate inside the tank but at the front of the turret
+                Vector2 offset = Utility.radToV2(turret.GetRotation()) * 16;
+                // gets the position of the mouse
+                Vector2 target = InputController.GetInstance().GetCursorPosition();
+                // creats a new specialshot
+                SpecialShot shot = new SpecialShot(turret.GetRotation(), 10f, 50, position + offset, target);
+                // attatches the shot to the level
+                Level.specialShot = shot;
+            }
             // special shot will be shot so the number of shots shot is updated
             shotSpecialShots += 1;
             // the firecooldown is set because the shot will get shot
             fireCooldownCountdown = 2f;
-            // the offset is so the shot does not generate inside the tank but at the front of the turret
-            Vector2 offset = Utility.radToV2(turret.GetRotation()) * 16;
-            // gets the position of the mouse
-            Vector2 target = InputController.GetInstance().GetCursorPosition();
-            // creats a new specialshot
-            SpecialShot shot = new SpecialShot(turret.GetRotation(), 10f, 50, position + offset, target);
-            // attatches the shot to the level
-            Level.specialShot = shot;
         }
         // if a projectile hits a tank the damage of the tank is given to this methode to update the hitpoints of the tank and let it die if the hp are below or at 0
         public override void getHit(int damage)
