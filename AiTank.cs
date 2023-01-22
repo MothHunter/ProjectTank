@@ -13,6 +13,7 @@ namespace ProjectTank
         Random rng;
         float decisionCooldown = 0;
         String currentAction;
+        bool stuck = false;
         public AiTank(Vector2 position, Texture2D tankSprite, Texture2D turretSprite) : base(position, tankSprite, turretSprite)
         {
             rng= new Random();
@@ -55,14 +56,19 @@ namespace ProjectTank
                 ShootStandard();
             }
 
-            if (maxSpeed > 0) 
+            if (maxSpeed > 0)
             {
-                if (!CheckLineOfSight(position + (Utility.radToV2(rotation) * 80f), true) || speed <= 0.1f)
+                if (speed > 0.15f) { stuck = false; }
+                // we hit something! make a turning decision in the next condition and stick to it(!!)
+                // until you can move again (hence "!stuck" in the condition)
+                if (!stuck && (!CheckLineOfSight(position + (Utility.radToV2(rotation) * 100f), true) || speed <= 0.05f))
                 {
                     // we either have hit a wall or are about to
                     // check if the sides are free
-                    bool left = CheckLineOfSight(position + (Utility.radToV2(rotation - 0.7f) * 40), true);
-                    bool right = CheckLineOfSight(position + (Utility.radToV2(rotation + 0.7f) * 40), true);
+                    if (speed <= 0.05f) { stuck = true; }
+
+                    bool left = CheckLineOfSight(position + (Utility.radToV2(rotation - 0.7f) * 60), true);
+                    bool right = CheckLineOfSight(position + (Utility.radToV2(rotation + 0.7f) * 60), true);
                     if (left && !right)  // left is free, right is not
                     {                        
                         currentAction = "turnLeft";
@@ -82,10 +88,10 @@ namespace ProjectTank
                     }
                     decisionCooldown = 0.3f;
                 }
-                if (decisionCooldown <= 0)
+                if (!stuck && decisionCooldown <= 0)
                 {
                     int decision = rng.Next(3);
-                    decisionCooldown = Math.Max ((float)rng.NextDouble(), 0.4f);
+                    decisionCooldown = (float)(rng.NextDouble() * 0.6) + 0.4f;
                     switch (decision)
                     {
                         case 0:
@@ -121,6 +127,8 @@ namespace ProjectTank
                 //}
 
 
+                SpeedUp(); // we always speed up
+
                 if (currentAction.Equals("turnLeft"))
                 {
                     RotateLeft();
@@ -129,7 +137,6 @@ namespace ProjectTank
                 {
                     RotationRight();
                 }
-                SpeedUp(); // we always speed up
             }
             
         }
