@@ -3,281 +3,132 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Diagnostics;
-using System.ComponentModel.Design.Serialization;
-using System.Security.Cryptography;
-using System.Windows.Forms.VisualStyles;
-using System.Collections.Generic;
 
 namespace ProjectTank
 {
     public class Game1 : Game
     {
+        // Framework
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        public SpriteFont arial24;
         public static ContentManager contentManager;
 
-        PlayerTank testTank;
-        Level level;
-        public static int projectileCount = 0;
-        int points = 0;
-        TimeSpan timeSum;
-        float seconds;
-        bool paused = false;
-        bool finished = false;
-        bool beaten = false;
-        bool end = true;
-        bool won = false;
-        int levelcount = 1;
-        
-        CollisionBox Button1 = new CollisionBox(new Vector2(608, 432), 0f, 448, 96);
-        CollisionBox Button2 = new CollisionBox(new Vector2(608, 580), 0f, 448, 96);
-       
-        Texture2D buttonGraphic1;
-        Texture2D buttonGraphic2;
-
+        public static int points = 0;   // current Points
+        PlayerTank Tank;                // Playable Tank
+        Level level;                    // Level Instance
+        int levelcount = 1;             // changing the level if won or lost
+        int seconds = 0;                // used Time for calculation points
+        int enemyCurrHP = 0;            // for calculating points
+        int enemyMaxHP = 0;             // for calculating points
 
 
         public Game1()
         {
+            // Framework
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             contentManager = Content;
-            IsMouseVisible = true;
-            Mouse.SetCursor(MouseCursor.Crosshair);
 
-            graphics.PreferredBackBufferWidth = 1216;   //32*38
-            graphics.PreferredBackBufferHeight = 800;   //32*25
+            IsMouseVisible = true;                      // Mousecourser shall be visiable
+            Mouse.SetCursor(MouseCursor.Crosshair);     // Setting the Mousecourser to a Crosshair
+
+            graphics.PreferredBackBufferWidth = 1216;   // 32*38 for Resolution
+            graphics.PreferredBackBufferHeight = 800;   // 32*25 for Resolution
         }
-
-    
         
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            arial24 = Content.Load<SpriteFont>(@"fonts/arial24");
-            Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);
+            Menu.arial24 = Content.Load<SpriteFont>(@"fonts/arial24");                                              // initializing the font
+            Texture2D tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);         // initializng graphics for Tank
             Texture2D turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
-            testTank = new PlayerTank(new Vector2(100, 100), tankSprite, turretSprite);
+            Tank = new PlayerTank(new Vector2(100, 100), tankSprite, turretSprite);                                 // creating Tank
             if(levelcount <= 3) { 
-                level = new Level(levelcount, testTank);
+                level = new Level(levelcount, Tank);                                                                // creating Level based on counter                     
             }
            
-
             base.Initialize();
         }
 
+        // Creating a SpriteBatch for Drawing
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
         }
 
+        // Function for Updating everything
         protected override void Update(GameTime gameTime)
         {
             InputController.GetInstance().Update();
-            buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-            buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
+            Menu.Update(gameTime);                                                      // calling Menu Update
+            
+            if (Menu.exit) {Exit();}                                                    // Exit Button
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (!Menu.paused && !Menu.finished && !Menu.end)                            // if game is not paused
             {
-                paused = true;
-            }
-            if (paused)
-            {
-                if (Button1.Contains(InputController.GetInstance().GetCursorPosition()))
+                if (Level.aitanks.Count == Level.dead || !Level.tank.isAlive)           // if all enemy tanks are dead or the player tank is dead
                 {
-                    buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
+                    if (levelcount != 3)                                                // if you beat level 1 or 2
                     {
-                        paused = false;
+                        Menu.finished = true;                                           // set finished for pausing and displaying menu
                     }
 
-                }
-                else if (Button2.Contains(InputController.GetInstance().GetCursorPosition()))
-                {
-                    buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
+                    if (levelcount == 1) { points = 0; }                                // if you start playing - points are set to 0
+                    
+                    seconds = gameTime.TotalGameTime.Seconds; 
+                    
+                    foreach (Tank aitank in Level.aitanks)                              
                     {
-                        Exit();
+                        enemyCurrHP += aitank.GetCurrentHP();
+                        enemyMaxHP += aitank.GetMaxHP();
                     }
-                }
-                else
-                {
-                    buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-                    buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-                }
+                    
+                    points += Math.Max(Math.Max((Level.tank.GetCurrentHP() * 10), 0) - seconds + (enemyMaxHP - enemyCurrHP * 20), 0); // points formula
 
-            }
-            if (finished)
-            {
-                if (Button1.Contains(InputController.GetInstance().GetCursorPosition()))
-                {
-                    buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
-                    {
-                        finished = false;
-                    }
-
-                }
-                else if (Button2.Contains(InputController.GetInstance().GetCursorPosition()))
-                {
-                    buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
-                    {
-                        Exit();
-                    }
-                }
-                else
-                {
-                    buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-                    buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-                }
-
-            }
-        
-            if (end)
-            {
-                if (Button1.Contains(InputController.GetInstance().GetCursorPosition()))
-                {
-                    buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
-                    {
-                        points = 0;
-                        end = false;
-                        
-                    }
-                }
-                else if (Button2.Contains(InputController.GetInstance().GetCursorPosition()))
-                {
-                    buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.LightGrey);
-                    if (InputController.GetInstance().GetLeftClick())
-                    {
-                        Exit();
-                    }
-                }
-                else
-                {
-                    buttonGraphic1 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-                    buttonGraphic2 = AssetController.GetInstance().getTexture2D(graphicsAssets.DarkGrey);
-                }
-            }
-
-            if (!paused && !finished && !end)
-            {
-
-                    // TODO: Add your update logic here
-
-
-                    if (Level.aitanks.Count == Level.dead || !Level.tank.isAlive)
-                    {
-                        if (levelcount != 3)
-                        {
-                            finished = true;
-                        }
-                        if (levelcount == 1) { points = 0; }
-                        timeSum = gameTime.TotalGameTime;
-                        seconds = timeSum.Seconds;
-                        // points -= (int)(seconds * 10) - (projectileCount * 25) - ((100 - testTank.GetCurrentHP()) * 50) + ( Level.aitanks.Count * 100);
-                        int enemyCurrHP = 0;
-                        int enemyMaxHP = 0;
-                        foreach (Tank aitank in Level.aitanks)
-                        {
-                            enemyCurrHP += aitank.GetCurrentHP();
-                            enemyMaxHP += aitank.GetMaxHP();
-                        }
-                        points += Math.Max(Math.Max((Level.tank.GetCurrentHP() * 10), 0) - (projectileCount * 2) - (int)(seconds) + (enemyMaxHP - enemyCurrHP * 20), 0);
-                        // TODO: point speichern wenn lvl abgeschlossen
-
-                    Level.aitanks.Clear();
-                    Level.obstacles.Clear();
-                    Level.projectiles.Clear();
-                    Level.graphicsEffects.Clear();
-                    Level.specialShot = null;
-                    Level.dead = 0;
-                    if (levelcount == 3 && Level.tank.isAlive)
+                    Level.Clear();      // Clearing the Lists for next Level
+                    
+                    if (levelcount == 3 && Level.tank.isAlive) // if last level is beaten
                     {
                         
-                        end = true;
-                        beaten = true;
-                        levelcount = 1;
+                        Menu.end = true;        //show end menu
+                        Menu.won = true;        //show winscreen
+                        levelcount = 1;         //set level to 1 in case the player wants to play again
                     }
-                    else if (Level.tank.isAlive)
+                    
+                    else if (Level.tank.isAlive)    //if other two levels are beaten
                     {
-                        levelcount += 1;
-                        won = true;
+                        levelcount += 1;            //increase level
+                        Menu.beaten = true;         //show level win menu
                     }
-                    else
+                    
+                    else                            //if player dies
                     {
-                        finished = true;
-                        won = false;
-                        levelcount = 1;
+                        Menu.finished = true;       //show losescreen
+                        Menu.beaten = false;
+                        levelcount = 1;             //set level to 1
                     }
+                    
                     Initialize();              
                     
                 }
-                level.Update(gameTime);
-                base.Update(gameTime); 
+                
+                level.Update(gameTime);     // update Level
+                base.Update(gameTime);      // update Game
             }
             
         }
 
+        // Draw Game
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-            spriteBatch.Begin();
-            level.Draw(spriteBatch);
-            if (paused || finished || end)
-            {
-                spriteBatch.Draw(AssetController.GetInstance().getTexture2D(graphicsAssets.menuBackground), new Rectangle(256, 128, 704, 544), Color.White);
-                spriteBatch.Draw(buttonGraphic1, new Rectangle(384, 384, 448, 96), Color.White);
-                spriteBatch.Draw(buttonGraphic2, new Rectangle(384, 512, 448, 96), Color.White);
-                spriteBatch.DrawString(arial24, "Points: " + points, new Vector2(512, 256), Color.White);
-                if (paused)
-                {
-                    spriteBatch.DrawString(arial24, "Continue Game", new Vector2(500, 416), Color.Red);
-                    spriteBatch.DrawString(arial24, "Exit", new Vector2(576, 544), Color.Red);
-                }
-                if (finished)
-                {
-                    if (won)
-                    {
-                        spriteBatch.DrawString(arial24, "You Beat The Level!", new Vector2(464, 200), Color.White);
-                        spriteBatch.DrawString(arial24, "Next Level", new Vector2(544, 416), Color.Red);
-                    }
-                    else
-                    {
-                        spriteBatch.DrawString(arial24, "You Died!", new Vector2(528, 200), Color.White);
-                        spriteBatch.DrawString(arial24, "New Game", new Vector2(544, 416), Color.Red);
-                    }
-                    
-                    spriteBatch.DrawString(arial24, "Exit", new Vector2(576, 544), Color.Red);
-                }
-                if (end)
-                {
-                    
-                    spriteBatch.DrawString(arial24, "New Game", new Vector2(544, 416), Color.Red);
-                    spriteBatch.DrawString(arial24, "Exit", new Vector2(576, 544), Color.Red);
-                    if (beaten)
-                    {
-                        spriteBatch.DrawString(arial24, "Congratulations!", new Vector2(464, 200), Color.White);
-                    }
-                }
-
-            }
-                spriteBatch.End();
-                
-
-            //Points -> Move to right space
+            GraphicsDevice.Clear(Color.CornflowerBlue);     
+       
+            spriteBatch.Begin();                            
+            level.Draw(spriteBatch);                        // Draw Level
+            Menu.Draw(spriteBatch);                         // Draw Menu
+            spriteBatch.End();                              
             
-            
-            
-            base.Draw(gameTime);
+            base.Draw(gameTime);                            
         }
     }
 }
