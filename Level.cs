@@ -58,7 +58,7 @@ namespace ProjectTank
                 // Adding destroyable obstacles
                 obstacles.Add(new Obstacle(new Vector2(480, 416), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(512, 448)));
                 obstacles.Add(new Obstacle(new Vector2(416, 448), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(448, 480)));
-                obstacles.Add(new Obstacle(new Vector2(352, 480), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(684, 512)));
+                obstacles.Add(new Obstacle(new Vector2(352, 480), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(384, 512)));
                 obstacles.Add(new Obstacle(new Vector2(288, 512), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(320, 544)));
                 obstacles.Add(new Obstacle(new Vector2(224, 544), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(256, 576)));
                 obstacles.Add(new Obstacle(new Vector2(672, 320), dBrick, dBrickHalf, dBrickDestroyed, true, 60, 64, 64, new Vector2(704, 352)));

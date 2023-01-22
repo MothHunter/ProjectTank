@@ -13,13 +13,15 @@ namespace ProjectTank
         private SpriteBatch spriteBatch;
         public static ContentManager contentManager;
 
-        public static int points = 0;   // current Points
-        PlayerTank Tank;                // Playable Tank
+        // Textures for Player Tank
         Texture2D turretSprite;
         Texture2D tankSprite;
+
+        public static int points = 0;   // current Points
+        PlayerTank Tank;                // Playable Tank
         Level level;                    // Level Instance
         int levelcount = 1;             // changing the level if won or lost
-        float seconds = 0;                // used Time for calculation points
+        float seconds = 0;              // used Time for calculation points
         int enemyCurrHP = 0;            // for calculating points
         int enemyMaxHP = 0;             // for calculating points
 
@@ -41,13 +43,11 @@ namespace ProjectTank
 
         protected override void Initialize()
         {
-            Menu.arial24 = Content.Load<SpriteFont>(@"fonts/arial24");                                              // initializing the font
-            tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);         // initializng graphics for Tank
+            Menu.arial24 = Content.Load<SpriteFont>(@"fonts/arial24");                                          // initializing the font
+            tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);               // initializng graphics for Tank
             turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
-            Tank = new PlayerTank(new Vector2(100, 100), tankSprite, turretSprite);                                 // creating Tank
-            if(levelcount <= 3) { 
-                level = new Level(levelcount, Tank);                                                                // creating Level based on counter                     
-            }
+            Tank = new PlayerTank(new Vector2(100, 100), tankSprite, turretSprite);                             // creating Tank
+            level = new Level(levelcount, Tank);                                                                // creating Level                   
            
             base.Initialize();
         }
@@ -79,7 +79,7 @@ namespace ProjectTank
                     if (levelcount == 1) { points = 0; }                                // if you start playing - points are set to 0
                     
                     
-                    foreach (Tank aitank in Level.aitanks)                              
+                    foreach (Tank aitank in Level.aitanks)                              // Stats used for calculating points
                     {
                         enemyCurrHP += aitank.GetCurrentHP();
                         enemyMaxHP += aitank.GetMaxHP();
@@ -113,8 +113,11 @@ namespace ProjectTank
                     }
 
                     Tank = new PlayerTank(new Vector2(100, 100), tankSprite, turretSprite);
-                    level = new Level(levelcount, Tank);
-
+                    
+                    if( levelcount <= 3)        // new level based on counter
+                    {
+                        level = new Level(levelcount, Tank);
+                    }
                 }
                 
                 level.Update(gameTime);     // update Level
