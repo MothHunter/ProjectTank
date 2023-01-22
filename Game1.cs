@@ -16,9 +16,8 @@ namespace ProjectTank
         public static int points = 0;   // current Points
         PlayerTank Tank;                // Playable Tank
         Level level;                    // Level Instance
-        TimeSpan timeSum;               // TimeSum for measuring the time
-        float seconds;                  // Timsum converted in float used for calculating the Points
         int levelcount = 1;             // changing the level if won or lost
+        int seconds = 0;                // used Time for calculation points
         int enemyCurrHP = 0;            // for calculating points
         int enemyMaxHP = 0;             // for calculating points
 
@@ -76,9 +75,7 @@ namespace ProjectTank
 
                     if (levelcount == 1) { points = 0; }                                // if you start playing - points are set to 0
                     
-                    timeSum = gameTime.TotalGameTime;                                   
-                    seconds = timeSum.Seconds;
-                    
+                    seconds = gameTime.TotalGameTime.Seconds; 
                     
                     foreach (Tank aitank in Level.aitanks)                              
                     {
@@ -86,9 +83,9 @@ namespace ProjectTank
                         enemyMaxHP += aitank.GetMaxHP();
                     }
                     
-                    points += Math.Max(Math.Max((Level.tank.GetCurrentHP() * 10), 0) - (int)(seconds) + (enemyMaxHP - enemyCurrHP * 20), 0); // points formula
+                    points += Math.Max(Math.Max((Level.tank.GetCurrentHP() * 10), 0) - seconds + (enemyMaxHP - enemyCurrHP * 20), 0); // points formula
 
-                    Level.Clear();
+                    Level.Clear();      // Clearing the Lists for next Level
                     
                     if (levelcount == 3 && Level.tank.isAlive) // if last level is won
                     {
