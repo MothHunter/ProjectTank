@@ -90,25 +90,25 @@ namespace ProjectTank
 
                     Level.Clear();
                     
-                    if (levelcount == 3 && Level.tank.isAlive) // if last level is won
+                    if (levelcount == 3 && Level.tank.isAlive) // if last level is beaten
                     {
                         
-                        Menu.end = true;
-                        Menu.won = true;
-                        levelcount = 1;
+                        Menu.end = true;        //show end menu
+                        Menu.won = true;        //show winscreen
+                        levelcount = 1;         //set level to 1 in case the player wants to play again
                     }
                     
-                    else if (Level.tank.isAlive)
+                    else if (Level.tank.isAlive)    //if other two levels are beaten
                     {
-                        levelcount += 1;
-                        Menu.beaten = true;
+                        levelcount += 1;            //increase level
+                        Menu.beaten = true;         //show level win menu
                     }
                     
-                    else
+                    else                            //if player dies
                     {
-                        Menu.finished = true;
+                        Menu.finished = true;       //show losescreen
                         Menu.beaten = false;
-                        levelcount = 1;
+                        levelcount = 1;             //set level to 1
                     }
                     
                     Initialize();              
