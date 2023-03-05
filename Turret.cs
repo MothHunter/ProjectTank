@@ -13,6 +13,7 @@ namespace ProjectTank
     internal class Turret
     {
         Texture2D sprite;       // the graphic of the turret
+        Texture2D destroyedSprite;
         Vector2 drawOffset;     // drawoffset for drawing
         Vector2 position;       // center of the turret
         float rotation = 0f;    // direction turret is pointing in
@@ -25,6 +26,7 @@ namespace ProjectTank
             this.sprite = sprite;
             this.rotation = rotation;
             this.drawOffset = new Vector2(sprite.Width / 2, sprite.Height / 2);
+            destroyedSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.TankDestroyed);
         }
 
         /// <summary>
@@ -38,11 +40,12 @@ namespace ProjectTank
                 .getTexture2D(graphicsAssets.Explosion),
                                     position, 0.8f, 1.03f, new Vector2(16, 16));
             Level.graphicsEffects.Add(graphicsEffect);
+            sprite = destroyedSprite;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             // dead turrets are drawn in black
-            spriteBatch.Draw(sprite, position, null, isAlive ? Color.White : Color.Black, 
+            spriteBatch.Draw(sprite, position, null, Color.White, 
                 rotation, drawOffset, new Vector2(1, 1), SpriteEffects.None, 1.0f);
         }
 

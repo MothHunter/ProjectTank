@@ -26,6 +26,7 @@ namespace ProjectTank
         protected float fireCooldown = 0.8f; // firecooldown the time it takes to reload the tank so it can not shoot for this amount of time
         protected float fireCooldownCountdown = 0f; // firecooldown remaining since the last shot; the tank can fire if firecooldowncountdown is 0
         protected Texture2D sprite; // graphics
+        protected Texture2D destroyedSprite;
         protected Vector2 drawOffset; // offset
         protected Vector2 position; // position of the tank
 
@@ -48,7 +49,7 @@ namespace ProjectTank
             drawOffset = new Vector2(sprite.Width / 2, sprite.Height / 2);
             this.tankCollision = new CollisionBox(position, rotation, widthTank, hightTank);
             this.turret = new Turret(position, turretSprite, rotation);
-
+            destroyedSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.TankDestroyed);
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace ProjectTank
         /// <param name="spriteBatch"></param>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(sprite, position, null, isAlive?Color.White:Color.Black, rotation, drawOffset, new Vector2(1,1), SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(sprite, position, null, Color.White, rotation, drawOffset, new Vector2(1,1), SpriteEffects.None, 1.0f);
             turret.Draw(spriteBatch);
         }
 
@@ -70,6 +71,7 @@ namespace ProjectTank
         {
             if (!isAlive) // checks if the tank is alive if not return
             {
+                sprite = destroyedSprite;
                 return;
             }
             if (fireCooldownCountdown > 0) //if the firecooldownCountdown is bigger than 0 it is reduced

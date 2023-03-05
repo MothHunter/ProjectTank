@@ -14,6 +14,7 @@ namespace ProjectTank
     /// </summary>
     public enum graphicsAssets { Tank1Chassis, Tank1Turret, Tank2Chassis, Tank2Turret, 
                                 Tank3Chassis, Tank3Turret, Tank4Chassis, Tank4Turret, 
+                                TankTurretDestroyed, TankDestroyed, 
                                 StandardProjectile, SpecialShot, Explosion,
                                 Grass, GrassBorder, Brick, Castle, Dirt, dBrick,
                                 Brick64, dBrickHalf, dBrickDestroyed, Pixel, menuBackground, DarkGrey, 
@@ -50,6 +51,8 @@ namespace ProjectTank
             graphics.Add(graphicsAssets.Tank3Turret, Game1.contentManager.Load<Texture2D>(@"graphics/turret3"));
             graphics.Add(graphicsAssets.Tank4Chassis, Game1.contentManager.Load<Texture2D>(@"graphics/tank4"));
             graphics.Add(graphicsAssets.Tank4Turret, Game1.contentManager.Load<Texture2D>(@"graphics/turret4"));
+            graphics.Add(graphicsAssets.TankTurretDestroyed, Game1.contentManager.Load<Texture2D>(@"graphics/turret_destroyed"));
+            graphics.Add(graphicsAssets.TankDestroyed, Game1.contentManager.Load<Texture2D>(@"graphics/tank_destroyed"));
             graphics.Add(graphicsAssets.StandardProjectile, Game1.contentManager.Load<Texture2D>(@"graphics/projectile1"));
             graphics.Add(graphicsAssets.SpecialShot, Game1.contentManager.Load<Texture2D>(@"graphics/specialShot"));
             graphics.Add(graphicsAssets.Explosion, Game1.contentManager.Load<Texture2D>(@"graphics/explosion"));
