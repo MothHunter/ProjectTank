@@ -71,52 +71,57 @@ namespace ProjectTank
                 seconds += gameTime.ElapsedGameTime.Milliseconds / 1000f;
                 if (Level.aitanks.Count == Level.dead || !Level.tank.isAlive)           // if all enemy tanks are dead or the player tank is dead
                 {
-                    if (levelcount != 3)                                                // if you beat level 1 or 2
-                    {
-                        Menu.finished = true;                                           // set finished for pausing and displaying menu
-                    }
+                    level.endLevelCountdown -= gameTime.ElapsedGameTime.Milliseconds / 1000f;
 
-                    if (levelcount == 1) { points = 0; }                                // if you start playing - points are set to 0
-                    
-                    
-                    foreach (Tank aitank in Level.aitanks)                              // Stats used for calculating points
+                    if (level.endLevelCountdown <= 0)
                     {
-                        enemyCurrHP += aitank.GetCurrentHP();
-                        enemyMaxHP += aitank.GetMaxHP();
-                    }
-                    
-                    points += Math.Max(Math.Max((Level.tank.GetCurrentHP() * 10), 0) - (int)seconds + ((enemyMaxHP - enemyCurrHP) * 20), 0); // points formula
-                    seconds = 0;
-                    enemyMaxHP= 0;
-                    enemyCurrHP= 0;
-                    Level.Clear();      // Clearing the Lists for next Level
-                    
-                    if (levelcount == 3 && Level.tank.isAlive) // if last level is beaten
-                    {
-                        
-                        Menu.end = true;        //show end menu
-                        Menu.won = true;        //show winscreen
-                        levelcount = 1;         //set level to 1 in case the player wants to play again
-                    }
-                    
-                    else if (Level.tank.isAlive)    //if other two levels are beaten
-                    {
-                        levelcount += 1;            //increase level
-                        Menu.beaten = true;         //show level win menu
-                    }
-                    
-                    else                            //if player dies
-                    {
-                        Menu.finished = true;       //show losescreen
-                        Menu.beaten = false;
-                        levelcount = 1;             //set level to 1
-                    }
+                        if (levelcount != 3)                                                // if you beat level 1 or 2
+                        {
+                            Menu.finished = true;                                           // set finished for pausing and displaying menu
+                        }
 
-                    Tank = new PlayerTank(new Vector2(100, 100), tankSprite, turretSprite);
-                    
-                    if( levelcount <= 3)        // new level based on counter
-                    {
-                        level = new Level(levelcount, Tank);
+                        if (levelcount == 1) { points = 0; }                                // if you start playing - points are set to 0
+
+
+                        foreach (Tank aitank in Level.aitanks)                              // Stats used for calculating points
+                        {
+                            enemyCurrHP += aitank.GetCurrentHP();
+                            enemyMaxHP += aitank.GetMaxHP();
+                        }
+
+                        points += Math.Max(Math.Max((Level.tank.GetCurrentHP() * 10), 0) - (int)seconds + ((enemyMaxHP - enemyCurrHP) * 20), 0); // points formula
+                        seconds = 0;
+                        enemyMaxHP = 0;
+                        enemyCurrHP = 0;
+                        Level.Clear();      // Clearing the Lists for next Level
+
+                        if (levelcount == 3 && Level.tank.isAlive) // if last level is beaten
+                        {
+
+                            Menu.end = true;        //show end menu
+                            Menu.won = true;        //show winscreen
+                            levelcount = 1;         //set level to 1 in case the player wants to play again
+                        }
+
+                        else if (Level.tank.isAlive)    //if other two levels are beaten
+                        {
+                            levelcount += 1;            //increase level
+                            Menu.beaten = true;         //show level win menu
+                        }
+
+                        else                            //if player dies
+                        {
+                            Menu.finished = true;       //show losescreen
+                            Menu.beaten = false;
+                            levelcount = 1;             //set level to 1
+                        }
+
+                        Tank = new PlayerTank(new Vector2(100, 100), tankSprite, turretSprite);
+
+                        if (levelcount <= 3)        // new level based on counter
+                        {
+                            level = new Level(levelcount, Tank);
+                        }
                     }
                 }
                 

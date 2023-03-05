@@ -15,6 +15,7 @@ namespace ProjectTank
         public static SpecialShot specialShot;                                              // only one can exist at a time 
         public static Tank tank;                                                            // Player Tank
 
+        public float endLevelCountdown = 1.0f;
         bool done;                                                                          // Shows if the level was successfully done
         public static int dead = 0;                                                         // counts dead ai tanks
 
