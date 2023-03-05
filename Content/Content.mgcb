@@ -356,3 +356,15 @@
 /processorParam:TextureFormat=Color
 /build:graphics/whitePixel.png
 
+#begin sound/8bit_bomb_explosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/8bit_bomb_explosion.wav
+
+#begin sound/flaunch.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/flaunch.wav
+

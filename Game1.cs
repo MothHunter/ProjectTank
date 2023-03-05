@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System;
 
 namespace ProjectTank
@@ -16,6 +18,10 @@ namespace ProjectTank
         // Textures for Player Tank
         Texture2D turretSprite;
         Texture2D tankSprite;
+
+        // sounds
+        public static SoundEffect shotSound;
+        public static SoundEffect explosionSound;
 
         public static int points = 0;   // current Points
         PlayerTank Tank;                // Playable Tank
@@ -46,6 +52,10 @@ namespace ProjectTank
             Menu.arial24 = Content.Load<SpriteFont>(@"fonts/arial24");                                          // initializing the font
             tankSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Chassis);               // initializng graphics for Tank
             turretSprite = AssetController.GetInstance().getTexture2D(graphicsAssets.Tank1Turret);
+
+            shotSound = Content.Load<SoundEffect>(@"sound/flaunch");
+            explosionSound = Content.Load<SoundEffect>(@"sound/8bit_bomb_explosion");
+            
             Tank = new PlayerTank(new Vector2(100, 100), tankSprite, turretSprite);                             // creating Tank
             level = new Level(levelcount, Tank);                                                                // creating Level                   
            

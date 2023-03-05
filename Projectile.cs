@@ -61,7 +61,7 @@ namespace ProjectTank
         /// </summary>
         public void update()
         {
-            position += Utility.radToV2(rotation) * speed;
+            position += Utility.radToV2(rotation) * speed;            
         }
         /// <summary>
         /// draws the projectile

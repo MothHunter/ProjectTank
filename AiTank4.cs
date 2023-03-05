@@ -38,6 +38,7 @@ namespace ProjectTank
             Level.projectiles.Add(new Projectile(position + offset, projectileSprite, turret.GetRotation(), 10f, 0, 35));
             Level.projectiles.Add(new Projectile(position + offset, projectileSprite, turret.GetRotation() + 0.2f, 10f, 0, 35));
             Level.projectiles.Add(new Projectile(position + offset, projectileSprite, turret.GetRotation() - 0.2f, 10f, 0, 35));
+            Game1.shotSound.Play();
         }
     }
 }

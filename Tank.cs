@@ -188,6 +188,8 @@ namespace ProjectTank
             // add shot to list of projectiles managed by the Level class
             Level.projectiles.Add(new Projectile(position + offset, projectileSprite, 
                 turret.GetRotation()));
+
+            Game1.shotSound.Play();
         }
 
         /// <summary>

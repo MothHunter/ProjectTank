@@ -184,6 +184,7 @@ namespace ProjectTank
                 Level.dead += 1;    // add 1 to the targets killed for this level
                 isAlive = false;
                 turret.Die();       // also disable the turret
+                Game1.explosionSound.Play();
             }
         }
     }
